@@ -1,4 +1,4 @@
-package trello
+package rest
 
 import (
 	"time"

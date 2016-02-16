@@ -21,13 +21,13 @@ import (
 	"os"
 	"time"
 
-	gotrello "github.com/VojtechVitek/go-trello"
-	"github.com/klauern/trackello/trello"
+	"github.com/VojtechVitek/go-trello"
+	"github.com/klauern/trackello/rest"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
 
-var boardActions map[string][]gotrello.Action
+var boardActions map[string][]trello.Action
 
 // listCmd represents the list command
 var listCmd = &cobra.Command{
@@ -60,22 +60,22 @@ func init() {
 }
 
 func Track() {
-	token := viper.GetString(trello.API_TOKEN)
-	appKey := viper.GetString(trello.API_APPKEY)
+	token := viper.GetString(rest.API_TOKEN)
+	appKey := viper.GetString(rest.API_APPKEY)
 
 	// New Trello Client
-	tr, err := gotrello.NewAuthClient(appKey, &token)
+	tr, err := trello.NewAuthClient(appKey, &token)
 	if err != nil {
 		log.Fatal(err)
 		os.Exit(1)
 	}
 
-	board, err := tr.Board(viper.GetString(trello.PREFERRED_BOARD))
+	board, err := tr.Board(viper.GetString(rest.PREFERRED_BOARD))
 	if err != nil {
 		log.Fatal(err)
 		os.Exit(1)
 	}
-	args := trello.CreateArgsForBoardActions()
+	args := rest.CreateArgsForBoardActions()
 	actions, err := board.Actions(args...)
 	if err != nil {
 		log.Fatal(err)
@@ -84,16 +84,16 @@ func Track() {
 
 	var cardsWorkedOn map[string]time.Time = make(map[string]time.Time)
 	var oldestDate time.Time = time.Now()
-	boardActions = make(map[string][]gotrello.Action)
+	boardActions = make(map[string][]trello.Action)
 
 	for _, action := range actions {
 		switch boardActions[action.Data.Card.Name] {
 		case nil:
-			boardActions[action.Data.Card.Name] = []gotrello.Action{action}
+			boardActions[action.Data.Card.Name] = []trello.Action{action}
 		default:
 			boardActions[action.Data.Card.Name] = append(boardActions[action.Data.Card.Name], action)
 		}
-		actionDate, err := time.Parse(trello.DateLayout, action.Date)
+		actionDate, err := time.Parse(rest.DateLayout, action.Date)
 		if err != nil {
 			continue // skip this one
 		}
