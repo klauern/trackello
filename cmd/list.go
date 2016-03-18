@@ -46,8 +46,8 @@ func init() {
 }
 
 func Track() {
-	token := viper.GetString(rest.API_TOKEN)
-	appKey := viper.GetString(rest.API_APPKEY)
+	token := viper.GetString("token")
+	appKey := viper.GetString("appkey")
 
 	// New Trello Client
 	tr, err := trello.NewAuthClient(appKey, &token)
@@ -56,7 +56,7 @@ func Track() {
 		os.Exit(1)
 	}
 
-	board, err := tr.Board(viper.GetString(rest.PREFERRED_BOARD))
+	board, err := tr.Board(viper.GetString("board"))
 	if err != nil {
 		log.Fatal(err)
 		os.Exit(1)
