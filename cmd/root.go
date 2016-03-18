@@ -32,11 +32,6 @@ var RootCmd = &cobra.Command{
 information on your Trello boards.  This tool provides a list
 of the previous 14 days of information on a board defined in
 your 'config' file (see '--config' flag for info`,
-	// Uncomment the following line if your bare application
-	// has an action associated with it:
-	//Run: func(cmd *cobra.Command, args []string) {
-	//	Track()
-	//},
 }
 
 // Execute adds all child commands to the root command sets flags appropriately.
@@ -51,13 +46,8 @@ func Execute() {
 func init() {
 	cobra.OnInitialize(initConfig)
 
-	// Here you will define your flags and configuration settings.
-	// Cobra supports Persistent Flags, which, if defined here,
-	// will be global for your application.
-
 	RootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.trackello.yaml)")
-	// Cobra also supports local flags, which will only run
-	// when this action is called directly.
+
 	RootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
 
