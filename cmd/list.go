@@ -74,7 +74,7 @@ func newTrelloConnection() (*trelloConnection, error) {
 
 // Track pulls all the latest activity from your Trello board given you've set the token, appkey, and preferred board
 // ID to use.
-// TODO: cmd\list.go:51::warning: cyclomatic complexity 13 of function Track() is high (> 10) (gocyclo)
+// TODO: cmd\list.go:78::warning: cyclomatic complexity 12 of function Track() is high (> 10) (gocyclo)
 func Track() {
 
 	conn, err := newTrelloConnection()
