@@ -43,6 +43,12 @@ func init() {
 	RootCmd.AddCommand(listCmd)
 }
 
+type trelloActivity struct {
+	cardsWorkedOn map[string]time.Time
+	oldestDate time.Time
+	boardActions map[string][]trello.Action
+}
+
 // trelloConnection repesents the connection to Trello and your preferred Board.
 type trelloConnection struct {
 	token string
@@ -74,7 +80,6 @@ func newTrelloConnection() (*trelloConnection, error) {
 
 // Track pulls all the latest activity from your Trello board given you've set the token, appkey, and preferred board
 // ID to use.
-// TODO: cmd\list.go:78::warning: cyclomatic complexity 12 of function Track() is high (> 10) (gocyclo)
 func Track() {
 
 	conn, err := newTrelloConnection()
@@ -90,32 +95,47 @@ func Track() {
 		os.Exit(1)
 	}
 
-	cardsWorkedOn := make(map[string]time.Time)
-	oldestDate := time.Now()
-	boardActions := make(map[string][]trello.Action)
+	allActivity := newTrelloActivity()
 
+
+	mapActionsAndDates(actions, allActivity)
+
+	printBoardActions(actions, allActivity)
+}
+
+func newTrelloActivity() *trelloActivity {
+	return &trelloActivity{
+		cardsWorkedOn: make(map[string]time.Time),
+		oldestDate: time.Now(),
+		boardActions: make(map[string][]trello.Action),
+	}
+}
+
+func mapActionsAndDates(actions []trello.Action, activities *trelloActivity) {
 	for _, action := range actions {
-		switch boardActions[action.Data.Card.Name] {
+		switch activities.boardActions[action.Data.Card.Name] {
 		case nil:
-			boardActions[action.Data.Card.Name] = []trello.Action{action}
+			activities.boardActions[action.Data.Card.Name] = []trello.Action{action}
 		default:
-			boardActions[action.Data.Card.Name] = append(boardActions[action.Data.Card.Name], action)
+			activities.boardActions[action.Data.Card.Name] = append(activities.boardActions[action.Data.Card.Name], action)
 		}
 		actionDate, err := time.Parse(rest.DateLayout, action.Date)
 		if err != nil {
 			continue // skip this one
 		}
-		if actionDate.Before(oldestDate) {
-			oldestDate = actionDate
+		if actionDate.Before(activities.oldestDate) {
+			activities.oldestDate = actionDate
 		}
-		cardDate := cardsWorkedOn[action.Data.Card.Name]
+		cardDate := activities.cardsWorkedOn[action.Data.Card.Name]
 		if cardDate.IsZero() || cardDate.After(actionDate) {
-			cardsWorkedOn[action.Data.Card.Name] = actionDate
+			activities.cardsWorkedOn[action.Data.Card.Name] = actionDate
 		}
 	}
+}
 
-	fmt.Printf("Cards Worked from %s to now:\n", oldestDate.Format(time.ANSIC))
-	for k, v := range boardActions {
+func printBoardActions(actions []trello.Action, activities *trelloActivity) {
+	fmt.Printf("Cards Worked from %s to now:\n", activities.oldestDate.Format(time.ANSIC))
+	for k, v := range activities.boardActions {
 		fmt.Printf("* %s\n", k)
 		for _, vv := range v {
 			fmt.Printf("  - %-24s %ss\n", vv.Date, vv.Type)
