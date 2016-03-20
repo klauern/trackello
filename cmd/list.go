@@ -27,7 +27,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-var boardActions map[string][]trello.Action
+//var boardActions map[string][]trello.Action
 
 // listCmd represents the list command
 var listCmd = &cobra.Command{
@@ -45,6 +45,9 @@ func init() {
 	RootCmd.AddCommand(listCmd)
 }
 
+// Track pulls all the latest activity from your Trello board given you've set the token, appkey, and preferred board
+// ID to use.
+// TODO: cmd\list.go:51::warning: cyclomatic complexity 13 of function Track() is high (> 10) (gocyclo)
 func Track() {
 	token := viper.GetString("token")
 	appKey := viper.GetString("appkey")
@@ -68,9 +71,9 @@ func Track() {
 		os.Exit(1)
 	}
 
-	var cardsWorkedOn map[string]time.Time = make(map[string]time.Time)
-	var oldestDate time.Time = time.Now()
-	boardActions = make(map[string][]trello.Action)
+	cardsWorkedOn := make(map[string]time.Time)
+	oldestDate := time.Now()
+	boardActions := make(map[string][]trello.Action)
 
 	for _, action := range actions {
 		switch boardActions[action.Data.Card.Name] {

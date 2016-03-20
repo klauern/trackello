@@ -21,7 +21,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// This represents the base command when called without any subcommands
+// RootCmd represents the base command when called without any subcommands
 var RootCmd = &cobra.Command{
 	Use:   "trackello",
 	Short: "Track your Trello Boards",

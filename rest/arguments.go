@@ -21,12 +21,14 @@ import (
 )
 
 const (
-	DateLayout      string = "2006-01-02T15:04:05Z"
-	API_APPKEY      string = "TRELLO_APPKEY"
-	API_TOKEN       string = "TRELLO_TOKEN"
-	PREFERRED_BOARD string = "preferredBoard"
+	// DateLayout is the layout of the date string that Trello uses in it's API.
+	DateLayout           string = "2006-01-02T15:04:05Z"
+	//TrelloAppKey         string = "TRELLO_APPKEY"
+	//TrelloToken          string = "TRELLO_TOKEN"
+	//TrelloPreferredBoard string = "preferredBoard"
 )
 
+// CreateArgsForBoardActions will create the argument list used in making the call to the Trello through it's API.
 func CreateArgsForBoardActions() []*trello.Argument {
 	var args []*trello.Argument
 	twoWeeksAgo := time.Now().Add(-1 * time.Hour * 24 * 14).Format(DateLayout)
