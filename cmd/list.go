@@ -27,8 +27,6 @@ import (
 	"github.com/spf13/viper"
 )
 
-//var boardActions map[string][]trello.Action
-
 // listCmd represents the list command
 var listCmd = &cobra.Command{
 	Use:   "list",
@@ -45,27 +43,48 @@ func init() {
 	RootCmd.AddCommand(listCmd)
 }
 
-// Track pulls all the latest activity from your Trello board given you've set the token, appkey, and preferred board
-// ID to use.
-// TODO: cmd\list.go:51::warning: cyclomatic complexity 13 of function Track() is high (> 10) (gocyclo)
-func Track() {
+// trelloConnection repesents the connection to Trello and your preferred Board.
+type trelloConnection struct {
+	token string
+	appKey string
+	board trello.Board
+}
+
+func newTrelloConnection() (*trelloConnection, error) {
 	token := viper.GetString("token")
 	appKey := viper.GetString("appkey")
-
 	// New Trello Client
 	tr, err := trello.NewAuthClient(appKey, &token)
 	if err != nil {
 		log.Fatal(err)
-		os.Exit(1)
+		return nil, err
+	}
+	board, err := tr.Board(viper.GetString("board"))
+	if err != nil {
+		log.Fatal(err)
+		return nil, err
 	}
 
-	board, err := tr.Board(viper.GetString("board"))
+	return &trelloConnection{
+		token:token,
+		appKey:appKey,
+		board:*board,
+	}, nil
+}
+
+// Track pulls all the latest activity from your Trello board given you've set the token, appkey, and preferred board
+// ID to use.
+// TODO: cmd\list.go:51::warning: cyclomatic complexity 13 of function Track() is high (> 10) (gocyclo)
+func Track() {
+
+	conn, err := newTrelloConnection()
 	if err != nil {
 		log.Fatal(err)
 		os.Exit(1)
 	}
+
 	args := rest.CreateArgsForBoardActions()
-	actions, err := board.Actions(args...)
+	actions, err := conn.board.Actions(args...)
 	if err != nil {
 		log.Fatal(err)
 		os.Exit(1)
