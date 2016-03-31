@@ -22,7 +22,7 @@ import (
 
 const (
 	// DateLayout is the layout of the date string that Trello uses in it's API.
-	DateLayout           string = "2006-01-02T15:04:05Z"
+	DateLayout string = "2006-01-02T15:04:05Z"
 	//TrelloAppKey         string = "TRELLO_APPKEY"
 	//TrelloToken          string = "TRELLO_TOKEN"
 	//TrelloPreferredBoard string = "preferredBoard"

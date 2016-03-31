@@ -60,7 +60,7 @@ func init() {
 	viper.BindEnv("appkey", "TRACKELLO_TRELLO_APPKEY")
 	viper.BindEnv("token", "TRACKELLO_TRELLO_TOKEN")
 	viper.BindEnv("board", "TRACKELLO_TRELLO_PREFERREDBOARD")
-	viper.AutomaticEnv()         // read in environment variables that match every time Get() is called
+	viper.AutomaticEnv() // read in environment variables that match every time Get() is called
 
 	// Add Configuration Paths
 	if cwd, err := os.Getwd(); err == nil {

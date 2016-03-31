@@ -45,15 +45,15 @@ func init() {
 
 type trelloActivity struct {
 	cardsWorkedOn map[string]time.Time
-	oldestDate time.Time
-	boardActions map[string][]trello.Action
+	oldestDate    time.Time
+	boardActions  map[string][]trello.Action
 }
 
 // trelloConnection repesents the connection to Trello and your preferred Board.
 type trelloConnection struct {
-	token string
+	token  string
 	appKey string
-	board trello.Board
+	board  trello.Board
 }
 
 func newTrelloConnection() (*trelloConnection, error) {
@@ -72,9 +72,9 @@ func newTrelloConnection() (*trelloConnection, error) {
 	}
 
 	return &trelloConnection{
-		token:token,
-		appKey:appKey,
-		board:*board,
+		token:  token,
+		appKey: appKey,
+		board:  *board,
 	}, nil
 }
 
@@ -97,7 +97,6 @@ func Track() {
 
 	allActivity := newTrelloActivity()
 
-
 	mapActionsAndDates(actions, allActivity)
 
 	printBoardActions(actions, allActivity)
@@ -106,8 +105,8 @@ func Track() {
 func newTrelloActivity() *trelloActivity {
 	return &trelloActivity{
 		cardsWorkedOn: make(map[string]time.Time),
-		oldestDate: time.Now(),
-		boardActions: make(map[string][]trello.Action),
+		oldestDate:    time.Now(),
+		boardActions:  make(map[string][]trello.Action),
 	}
 }
 
