@@ -81,7 +81,6 @@ func newTrelloConnection() (*trelloConnection, error) {
 // Track pulls all the latest activity from your Trello board given you've set the token, appkey, and preferred board
 // ID to use.
 func Track() {
-
 	conn, err := newTrelloConnection()
 	if err != nil {
 		log.Fatal(err)
@@ -96,9 +95,7 @@ func Track() {
 	}
 
 	allActivity := newTrelloActivity()
-
 	mapActionsAndDates(actions, allActivity)
-
 	printBoardActions(actions, allActivity)
 }
 
