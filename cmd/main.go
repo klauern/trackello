@@ -14,7 +14,9 @@
 
 package main
 
-import "github.com/klauern/trackello/cmd"
+import (
+	"github.com/klauern/trackello/cmd/cmds"
+)
 
 func main() {
 	cmd.Execute()
