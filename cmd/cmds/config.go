@@ -86,7 +86,6 @@ func init() {
 }
 
 func runConfigCmd(cmd *cobra.Command, args []string) {
-	// TODO: Work your own magic here
 	fmt.Println("config called")
 
 	fmt.Printf("Token is %s\n", viper.GetString("token"))
