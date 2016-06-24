@@ -21,20 +21,20 @@ type trelloActivity struct {
 type trelloConnection struct {
 	token  string
 	appKey string
-	board  trello.Board
+	Board  trello.Board
 }
 
 // Track pulls all the latest activity from your Trello board given you've set the token, appkey, and preferred board
 // ID to use.
 func Track() {
-	conn, err := newTrelloConnection()
+	conn, err := NewTrelloConnection()
 	if err != nil {
 		log.Fatal(err)
 		os.Exit(1)
 	}
 
 	args := rest.CreateArgsForBoardActions()
-	actions, err := conn.board.Actions(args...)
+	actions, err := conn.Board.Actions(args...)
 	if err != nil {
 		log.Fatal(err)
 		os.Exit(1)
@@ -45,7 +45,7 @@ func Track() {
 	printBoardActions(actions, allActivity)
 }
 
-func newTrelloConnection() (*trelloConnection, error) {
+func NewTrelloConnection() (*trelloConnection, error) {
 	token := viper.GetString("token")
 	appKey := viper.GetString("appkey")
 	// New Trello Client
@@ -63,7 +63,7 @@ func newTrelloConnection() (*trelloConnection, error) {
 	return &trelloConnection{
 		token:  token,
 		appKey: appKey,
-		board:  *board,
+		Board:  *board,
 	}, nil
 }
 

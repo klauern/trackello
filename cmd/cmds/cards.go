@@ -15,20 +15,21 @@
 package cmd
 
 import (
-	"github.com/spf13/cobra"
-	"os"
-	"log"
 	"fmt"
+	"github.com/spf13/cobra"
+	"log"
+	"os"
 
 	"github.com/VojtechVitek/go-trello"
+	"github.com/klauern/trackello"
 )
 
 // cardsCmd represents the cards command
 var cardsCmd = &cobra.Command{
 	Use:   "cards",
 	Short: "List all of the cards on a particular board.",
-	Long: `List all of the cards on a board.`,
-	Run: listCardsOnBoard,
+	Long:  `List all of the cards on a board.`,
+	Run:   listCardsOnBoard,
 }
 
 func init() {
@@ -46,15 +47,14 @@ func init() {
 
 }
 
-
 func listCardsOnBoard(cmd *cobra.Command, args []string) {
-	conn, err := newTrelloConnection()
+	conn, err := trackello.NewTrelloConnection()
 	if err != nil {
 		log.Fatal(err)
 		os.Exit(1)
 	}
-	
-	if lists, err := conn.board.Lists(); err != nil {
+
+	if lists, err := conn.Board.Lists(); err != nil {
 		log.Fatal(err)
 		os.Exit(1)
 	} else {
