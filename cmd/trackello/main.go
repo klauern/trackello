@@ -15,7 +15,7 @@
 package main
 
 import (
-	"github.com/klauern/trackello/cmd/cmds"
+	"github.com/klauern/trackello/cmd"
 )
 
 func main() {
