@@ -16,9 +16,10 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/spf13/cobra"
 	"log"
 	"os"
+
+	"github.com/spf13/cobra"
 
 	"github.com/VojtechVitek/go-trello"
 	"github.com/klauern/trackello"
@@ -54,14 +55,19 @@ func listCardsOnBoard(cmd *cobra.Command, args []string) {
 		os.Exit(1)
 	}
 
-	if lists, err := conn.Board.Lists(); err != nil {
+	if board, err := conn.PrimaryBoard(); err != nil {
 		log.Fatal(err)
 		os.Exit(1)
 	} else {
-		fmt.Println("Lists: ")
-		for _, list := range lists {
-			fmt.Printf("* %s\n", list.Name)
-			printCards(list)
+		if lists, err := board.Lists(); err == nil {
+			fmt.Println("Lists: ")
+			for _, list := range lists {
+				fmt.Printf("* %s\n", list.Name)
+				printCards(list)
+			}
+		} else {
+			log.Fatal(err)
+			os.Exit(1)
 		}
 	}
 }

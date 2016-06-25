@@ -18,10 +18,46 @@ type trelloActivity struct {
 }
 
 // trelloConnection repesents the connection to Trello and your preferred Board.
-type trelloConnection struct {
+type Trackello struct {
 	token  string
 	appKey string
-	Board  trello.Board
+	board  trello.Board
+	client trello.Client
+}
+
+func NewTrelloConnection() (*Trackello, error) {
+	token := viper.GetString("token")
+	appKey := viper.GetString("appkey")
+
+	// New Trello Client
+	tr, err := trello.NewAuthClient(appKey, &token)
+	if err != nil {
+		log.Fatal(err)
+		return nil, err
+	}
+
+	return &Trackello{
+		token:  token,
+		appKey: appKey,
+		client: *tr,
+	}, nil
+}
+
+func (t *Trackello) PrimaryBoard() (trello.Board, error) {
+	board, err := t.client.Board(viper.GetString("board"))
+	if err != nil {
+		log.Fatal(err)
+		return *board, err
+	}
+	return *board, nil
+}
+
+func (t *Trackello) Boards() ([]trello.Board, error) {
+	boards, err := t.client.Boards()
+	if err != nil {
+		return boards, err
+	}
+	return boards, nil
 }
 
 // Track pulls all the latest activity from your Trello board given you've set the token, appkey, and preferred board
@@ -34,7 +70,11 @@ func Track() {
 	}
 
 	args := rest.CreateArgsForBoardActions()
-	actions, err := conn.Board.Actions(args...)
+	board, err := conn.PrimaryBoard()
+	if err != nil {
+		panic(err)
+	}
+	actions, err := board.Actions(args...)
 	if err != nil {
 		log.Fatal(err)
 		os.Exit(1)
@@ -43,28 +83,6 @@ func Track() {
 	allActivity := newTrelloActivity()
 	mapActionsAndDates(actions, allActivity)
 	printBoardActions(actions, allActivity)
-}
-
-func NewTrelloConnection() (*trelloConnection, error) {
-	token := viper.GetString("token")
-	appKey := viper.GetString("appkey")
-	// New Trello Client
-	tr, err := trello.NewAuthClient(appKey, &token)
-	if err != nil {
-		log.Fatal(err)
-		return nil, err
-	}
-	board, err := tr.Board(viper.GetString("board"))
-	if err != nil {
-		log.Fatal(err)
-		return nil, err
-	}
-
-	return &trelloConnection{
-		token:  token,
-		appKey: appKey,
-		Board:  *board,
-	}, nil
 }
 
 func newTrelloActivity() *trelloActivity {

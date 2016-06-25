@@ -15,7 +15,11 @@
 package cmd
 
 import (
+	"fmt"
+	"github.com/klauern/trackello"
 	"github.com/spf13/cobra"
+	"log"
+	"os"
 )
 
 // boardsCmd represents the boards command
@@ -53,5 +57,12 @@ func init() {
 }
 
 func listBoards(cmd *cobra.Command, args []string) {
-
+	trelloConn, err := trackello.NewTrelloConnection()
+	if err != nil {
+		log.Fatal(err)
+		os.Exit(1)
+	}
+	if boards, err := trelloConn.Boards(); err == nil {
+		fmt.Println(boards)
+	}
 }
