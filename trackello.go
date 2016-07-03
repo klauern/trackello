@@ -53,7 +53,11 @@ func (t *Trackello) PrimaryBoard() (trello.Board, error) {
 }
 
 func (t *Trackello) Boards() ([]trello.Board, error) {
-	boards, err := t.client.Boards()
+	member, err := t.client.Member("me")
+	if err != nil {
+		return make([]trello.Board, 0), err
+	}
+	boards, err := member.Boards()
 	if err != nil {
 		return boards, err
 	}

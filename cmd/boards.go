@@ -62,7 +62,16 @@ func listBoards(cmd *cobra.Command, args []string) {
 		log.Fatal(err)
 		os.Exit(1)
 	}
-	if boards, err := trelloConn.Boards(); err == nil {
-		fmt.Println(boards)
+	fmt.Printf("Printing all OPEN Boards\n")
+	boards, err := trelloConn.Boards()
+	if err != nil {
+		log.Fatal(err)
+		os.Exit(1)
+	}
+	fmt.Printf("%-32s\t%-20s\n%-32s\t%-20s\n", "Board Name", "ID", "==========", "==")
+	for _, v := range boards {
+		if !v.Closed {
+			fmt.Printf("%-32s\t%-50s\n", v.Name, v.Id)
+		}
 	}
 }
