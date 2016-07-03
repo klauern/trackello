@@ -17,14 +17,15 @@ type trelloActivity struct {
 	boardActions  map[string][]trello.Action
 }
 
-// trelloConnection repesents the connection to Trello and your preferred Board.
+// Trackello represents the connection to Trello for a specific user.
 type Trackello struct {
 	token  string
 	appKey string
-	board  trello.Board
+	//board  trello.Board
 	client trello.Client
 }
 
+// NewTrelloConnection will create a `Trackello` type using your preferences application token and appkey.
 func NewTrelloConnection() (*Trackello, error) {
 	token := viper.GetString("token")
 	appKey := viper.GetString("appkey")
@@ -43,6 +44,7 @@ func NewTrelloConnection() (*Trackello, error) {
 	}, nil
 }
 
+// PrimaryBoard will return a board based on your settings for a primary board.
 func (t *Trackello) PrimaryBoard() (trello.Board, error) {
 	board, err := t.client.Board(viper.GetString("board"))
 	if err != nil {
@@ -52,16 +54,14 @@ func (t *Trackello) PrimaryBoard() (trello.Board, error) {
 	return *board, nil
 }
 
+// Boards will list all of the boards for the authenticated user (i.e. 'me').
 func (t *Trackello) Boards() ([]trello.Board, error) {
 	member, err := t.client.Member("me")
 	if err != nil {
 		return make([]trello.Board, 0), err
 	}
 	boards, err := member.Boards()
-	if err != nil {
-		return boards, err
-	}
-	return boards, nil
+	return boards, err
 }
 
 // Track pulls all the latest activity from your Trello board given you've set the token, appkey, and preferred board
