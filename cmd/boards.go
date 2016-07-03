@@ -16,10 +16,11 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/klauern/trackello"
-	"github.com/spf13/cobra"
 	"log"
 	"os"
+
+	"github.com/klauern/trackello"
+	"github.com/spf13/cobra"
 )
 
 // boardsCmd represents the boards command
