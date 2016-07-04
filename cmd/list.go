@@ -21,16 +21,24 @@ import (
 
 // listCmd represents the list command
 var listCmd = &cobra.Command{
-	Use:   "list",
+	Use:   "list [board id]",
 	Short: "List activities on a board",
 	Long: `List will pull all the activities for a particular
 Trello board and list them in descending order.  This is useful
 if you find yourself having to see what you've been working on`,
-	Run: func(cmd *cobra.Command, args []string) {
-		trackello.Track()
-	},
+	Run: ListActivity,
 }
+
+var boardId string
 
 func init() {
 	RootCmd.AddCommand(listCmd)
+}
+
+func ListActivity(cmd *cobra.Command, args []string) {
+	if len(args) > 0 {
+		trackello.Track(args[0])
+	} else {
+		trackello.Track(boardId)
+	}
 }

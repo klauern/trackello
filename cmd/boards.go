@@ -72,7 +72,7 @@ func listBoards(cmd *cobra.Command, args []string) {
 	fmt.Printf("%-32s\t%-20s\n%-32s\t%-20s\n", "Board Name", "ID", "==========", "==")
 	for _, v := range boards {
 		if !v.Closed {
-			fmt.Printf("%-32s\t%-50s\n", v.Name, v.Id)
+			fmt.Printf("%-32s\t%-30s\n", v.Name, v.Id)
 		}
 	}
 }

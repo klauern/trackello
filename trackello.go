@@ -54,6 +54,15 @@ func (t *Trackello) PrimaryBoard() (trello.Board, error) {
 	return *board, nil
 }
 
+func (t *Trackello) BoardWithId(id string) (trello.Board, error) {
+	board, err := t.client.Board(id)
+	if err != nil {
+		log.Fatal(err)
+		return *board, err
+	}
+	return *board, nil
+}
+
 // Boards will list all of the boards for the authenticated user (i.e. 'me').
 func (t *Trackello) Boards() ([]trello.Board, error) {
 	member, err := t.client.Member("me")
@@ -66,7 +75,7 @@ func (t *Trackello) Boards() ([]trello.Board, error) {
 
 // Track pulls all the latest activity from your Trello board given you've set the token, appkey, and preferred board
 // ID to use.
-func Track() {
+func Track(id string) {
 	conn, err := NewTrelloConnection()
 	if err != nil {
 		log.Fatal(err)
@@ -74,7 +83,13 @@ func Track() {
 	}
 
 	args := rest.CreateArgsForBoardActions()
-	board, err := conn.PrimaryBoard()
+	var board trello.Board
+	if id == "" {
+		board, err = conn.PrimaryBoard()
+	} else {
+		board, err = conn.BoardWithId(id)
+	}
+
 	if err != nil {
 		panic(err)
 	}
@@ -86,6 +101,7 @@ func Track() {
 
 	allActivity := newTrelloActivity()
 	mapActionsAndDates(actions, allActivity)
+	fmt.Printf("Listing cards worked on \"%s\" for from %s to now:\n", board.Name, allActivity.oldestDate.Format(time.ANSIC))
 	printBoardActions(actions, allActivity)
 }
 
@@ -120,7 +136,6 @@ func mapActionsAndDates(actions []trello.Action, activities *trelloActivity) {
 }
 
 func printBoardActions(actions []trello.Action, activities *trelloActivity) {
-	fmt.Printf("Cards Worked from %s to now:\n", activities.oldestDate.Format(time.ANSIC))
 	for k, v := range activities.boardActions {
 		fmt.Printf("* %s\n", k)
 		for _, vv := range v {
