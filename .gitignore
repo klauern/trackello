@@ -72,3 +72,6 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 
+# Golang IDEA
+.idea/dbnavigator.xml
+.idea/
