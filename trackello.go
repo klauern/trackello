@@ -15,13 +15,24 @@ type trelloActivity struct {
 	cardsWorkedOn map[string]time.Time
 	oldestDate    time.Time
 	boardActions  map[string][]trello.Action
+	stats         map[string]cardStatistics
+}
+
+type boardActions struct {
+}
+
+// cardStatistics provides a way to show various pieces of
+type cardStatistics struct {
+	comments, // represented by a horizontal ellepsis ⋯ 0x22EF
+	updates, // represented by a keyboard 0x2328
+	checklistsCreated, // represented by plus +
+	checklistItemsChecked int // represented by check mark ✓ 0x2713
 }
 
 // Trackello represents the connection to Trello for a specific user.
 type Trackello struct {
 	token  string
 	appKey string
-	//board  trello.Board
 	client trello.Client
 }
 
@@ -76,23 +87,13 @@ func (t *Trackello) Boards() ([]trello.Board, error) {
 // Track pulls all the latest activity from your Trello board given you've set the token, appkey, and preferred board
 // ID to use.
 func Track(id string) {
-	conn, err := NewTrelloConnection()
+	board, err := createTrelloBoardConnection(id)
 	if err != nil {
 		log.Fatal(err)
 		os.Exit(1)
 	}
 
 	args := rest.CreateArgsForBoardActions()
-	var board trello.Board
-	if id == "" {
-		board, err = conn.PrimaryBoard()
-	} else {
-		board, err = conn.BoardWithId(id)
-	}
-
-	if err != nil {
-		panic(err)
-	}
 	actions, err := board.Actions(args...)
 	if err != nil {
 		log.Fatal(err)
@@ -136,10 +137,79 @@ func mapActionsAndDates(actions []trello.Action, activities *trelloActivity) {
 }
 
 func printBoardActions(actions []trello.Action, activities *trelloActivity) {
+	listActions := make(map[string][]string)
 	for k, v := range activities.boardActions {
-		fmt.Printf("* %s\n", k)
+		 for _, vv := range v {
+			 if listActions[vv.Data.List.Name] == nil {
+				 listActions[vv.Data.List.Name] = []string{k}
+			 } else {
+				 listActions[vv.Data.List.Name] = append(listActions[vv.Data.List.Name], k)
+			 }
+		 }
+	}
+
+	for k, v := range listActions {
+		fmt.Printf("-- %s\n", k)
 		for _, vv := range v {
-			fmt.Printf("  - %-24s %ss\n", vv.Date, vv.Type)
+			fmt.Printf("   * %s\n", vv)
 		}
 	}
+	//for k, v := range activities.boardActions {
+	//	fmt.Printf("* %s\n", k)
+	//	for _, vv := range v {
+	//		fmt.Printf("  - %-24s %ss\n", vv.Date, vv.Type)
+	//	}
+	//}
+}
+
+func createTrelloBoardConnection(id string) (trello.Board, error) {
+	conn, err := NewTrelloConnection()
+	if err != nil {
+		log.Fatal(err)
+		os.Exit(1)
+	}
+
+	var board trello.Board
+	if id == "" {
+		board, err = conn.PrimaryBoard()
+	} else {
+		board, err = conn.BoardWithId(id)
+	}
+
+	return board, err
+}
+
+func ListBoardActions(id string) error {
+	board, err := createTrelloBoardConnection(id)
+	if err != nil {
+		return err
+	}
+
+	lists, err := board.Lists()
+	if err != nil {
+		return err
+	}
+	listMap := make(map[string]string)
+	for _, v := range lists {
+		listMap[v.Id] = v.Name
+	}
+
+	//actions, err := board.Actions(rest.CreateArgsForBoardActions()[0])
+	//if err != nil {
+	//	return err
+	//}
+	//for _, v := range actions {
+	//	v.Data.Card.Id
+	//	v.Data.Card.Name
+	//
+	//}
+
+	//cards, err := board.Cards()
+	//if err != nil {
+	//	return err
+	//}
+	//for _, v := range cards {
+	//}
+
+	return nil
 }

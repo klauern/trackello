@@ -36,9 +36,22 @@ func init() {
 }
 
 func ListActivity(cmd *cobra.Command, args []string) {
-	if len(args) > 0 {
+	switch {
+	case len(args) > 0:
 		trackello.Track(args[0])
-	} else {
+	case boardId != "":
 		trackello.Track(boardId)
+	default:
+		panic("No board id specified in either boardId or on command-line.")
 	}
+
+	// pseudocode for listing things
+	//
+	// 1. create connection
+	// 2. get board
+	// 3. get lists on board
+	// 6. map cards to lists
+	// 4. get actions on board
+	// 5. map actions to cards
+	// 7. add statistics to card
 }
