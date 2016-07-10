@@ -123,11 +123,6 @@ func newTrelloActivity() *trelloActivity {
 
 func (t *Trackello) mapActionsAndDates(actions []trello.Action, activities *trelloActivity) {
 	for _, action := range actions {
-		//fmt.Printf("Card Name: %s\n", action.Data.Card.Name)
-		//if action.Data.Card.Name == "Restart all clusters for Censum JVM GC Changes" {
-		//	fmt.Printf("%+v", action)
-		//}
-
 		switch activities.boardActions[action.Data.Card.Name] {
 		case nil:
 			activities.boardActions[action.Data.Card.Name] = []trello.Action{action}
@@ -136,17 +131,7 @@ func (t *Trackello) mapActionsAndDates(actions []trello.Action, activities *trel
 		}
 		if action.Data.List.Name == "" {
 			action.Data.List.Name = t.getListForAction(action)
-		} //actionDate, err := time.Parse(rest.DateLayout, action.Date)
-		//if err != nil {
-		//	continue // skip this one
-		//}
-		//if actionDate.Before(activities.oldestDate) {
-		//	activities.oldestDate = actionDate
-		//}
-		//cardDate := activities.cardsWorkedOn[action.Data.Card.Name]
-		//if cardDate.IsZero() || cardDate.After(actionDate) {
-		//	activities.cardsWorkedOn[action.Data.Card.Name] = actionDate
-		//}
+		}
 	}
 }
 
