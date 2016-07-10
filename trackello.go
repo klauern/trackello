@@ -21,19 +21,23 @@ type trelloActivity struct {
 type boardActions struct {
 }
 
-// cardStatistics provides a way to show various pieces of
-type cardStatistics struct {
-	comments, // represented by a horizontal ellepsis ⋯ 0x22EF
-	updates, // represented by a keyboard 0x2328
-	checklistsCreated, // represented by plus +
-	checklistItemsChecked int // represented by check mark ✓ 0x2713
-}
-
 // Trackello represents the connection to Trello for a specific user.
 type Trackello struct {
 	token  string
 	appKey string
 	client trello.Client
+}
+
+// Card is both the Trello Card + other stats on the actions in it.
+type Card struct {
+	card  trello.Card
+	stats cardStatistics
+}
+
+// List is both the Trello List + other stats on the actions in it.
+type List struct {
+	cards []Card
+	stats listStatistics
 }
 
 // NewTrelloConnection will create a `Trackello` type using your preferences application token and appkey.
@@ -65,6 +69,7 @@ func (t *Trackello) PrimaryBoard() (trello.Board, error) {
 	return *board, nil
 }
 
+// BoardWithId will return the Trello Board given it's ID string.
 func (t *Trackello) BoardWithId(id string) (trello.Board, error) {
 	board, err := t.client.Board(id)
 	if err != nil {
@@ -93,7 +98,7 @@ func Track(id string) {
 		os.Exit(1)
 	}
 
-	board, err := t.createTrelloBoardConnection(id)
+	board, err := t.Board(id)
 	if err != nil {
 		log.Fatal(err)
 		os.Exit(1)
@@ -135,7 +140,7 @@ func (t *Trackello) mapActionsAndDates(actions []trello.Action, activities *trel
 		}
 		if action.Data.List.Name == "" {
 			action.Data.List.Name = t.getListForAction(action)
-		}		//actionDate, err := time.Parse(rest.DateLayout, action.Date)
+		} //actionDate, err := time.Parse(rest.DateLayout, action.Date)
 		//if err != nil {
 		//	continue // skip this one
 		//}
@@ -179,24 +184,21 @@ func printBoardActions(actions []trello.Action, activities *trelloActivity) {
 		for _, vv := range v {
 			fmt.Printf("  * %s\n", vv)
 		}
+
 	}
-	//for k, v := range activities.boardActions {
-	//	fmt.Printf("* %s\n", k)
-	//	for _, vv := range v {
-	//		fmt.Printf("  - %-24s %ss\n", vv.Date, vv.Type)
-	//	}
-	//}
 }
 
-func (t *Trackello) createTrelloBoardConnection(id string) (trello.Board, error) {
+// Board will pull the Trello Board with an ID.  If id is "", it will pull it from the PrimaryBoard configuration setting.
+func (t *Trackello) Board(id string) (trello.Board, error) {
 	if id == "" {
 		return t.PrimaryBoard()
 	}
 	return t.BoardWithId(id)
 }
 
+// ListBoardActions will list all of the actions that occurred on a given Board.
 func (t *Trackello) ListBoardActions(id string) error {
-	board, err := t.createTrelloBoardConnection(id)
+	board, err := t.Board(id)
 	if err != nil {
 		return err
 	}
