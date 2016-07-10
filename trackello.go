@@ -15,7 +15,6 @@ type trelloActivity struct {
 	cardsWorkedOn map[string]time.Time
 	oldestDate    time.Time
 	boardActions  map[string][]trello.Action
-	stats         map[string]cardStatistics
 }
 
 // Trackello represents the connection to Trello for a specific user.
@@ -28,13 +27,13 @@ type Trackello struct {
 // Card is both the Trello Card + other stats on the actions in it.
 type Card struct {
 	card  trello.Card
-	stats cardStatistics
+	stats statistics
 }
 
 // List is both the Trello List + other stats on the actions in it.
 type List struct {
 	cards []Card
-	stats listStatistics
+	stats statistics
 }
 
 // NewTrelloConnection will create a `Trackello` type using your preferences application token and appkey.

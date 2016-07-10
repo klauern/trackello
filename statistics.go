@@ -1,28 +1,30 @@
 package trackello
 
-// cardStatistics provides a way to show various pieces of
-type cardStatistics struct {
+import "github.com/VojtechVitek/go-trello"
+
+// statistics provides a way to show statistical information about a list, card or whatnot by aggregating the updates,
+// comments, checklists, and other actions under a specific item.
+type statistics struct {
 	comments, // represented by a horizontal ellepsis ⋯ 0x22EF
 	updates, // represented by a keyboard 0x2328
 	checklistsCreated, // represented by plus +
 	checklistItemsChecked int // represented by check mark ✓ 0x2713
 }
 
-type listStatistics cardStatistics
-
+// Statistics represents the statistics for all the actions generated for a list, card, etc.
 type Statistics interface {
-	Calculate()
-	Print() string
+	Calculate(trello.Action)
+	PrintStatistics() string
 }
 
-func (s *listStatistics) Calculate() {}
+func (c *Card) Calculate(a trello.Action) {}
 
-func (s *listStatistics) Print() string {
+func (c *Card) PrintStatistics() string {
 	return ""
 }
 
-func (s *cardStatistics) Calculate() {}
+func (l *List) Calculate(a trello.Action) {}
 
-func (s *cardStatistics) Print() string {
+func (l *List) PrintStatistics() string {
 	return ""
 }
