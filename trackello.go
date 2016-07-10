@@ -18,9 +18,6 @@ type trelloActivity struct {
 	stats         map[string]cardStatistics
 }
 
-type boardActions struct {
-}
-
 // Trackello represents the connection to Trello for a specific user.
 type Trackello struct {
 	token  string
@@ -194,40 +191,4 @@ func (t *Trackello) Board(id string) (trello.Board, error) {
 		return t.PrimaryBoard()
 	}
 	return t.BoardWithId(id)
-}
-
-// ListBoardActions will list all of the actions that occurred on a given Board.
-func (t *Trackello) ListBoardActions(id string) error {
-	board, err := t.Board(id)
-	if err != nil {
-		return err
-	}
-
-	lists, err := board.Lists()
-	if err != nil {
-		return err
-	}
-	listMap := make(map[string]string)
-	for _, v := range lists {
-		listMap[v.Id] = v.Name
-	}
-
-	//actions, err := board.Actions(rest.CreateArgsForBoardActions()[0])
-	//if err != nil {
-	//	return err
-	//}
-	//for _, v := range actions {
-	//	v.Data.Card.Id
-	//	v.Data.Card.Name
-	//
-	//}
-
-	//cards, err := board.Cards()
-	//if err != nil {
-	//	return err
-	//}
-	//for _, v := range cards {
-	//}
-
-	return nil
 }
