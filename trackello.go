@@ -149,9 +149,9 @@ func printBoardActions(actions []trello.Action, activities *trelloActivity) {
 	}
 
 	for k, v := range listActions {
-		fmt.Printf("-- %s\n", k)
+		fmt.Printf("%s\n", k)
 		for _, vv := range v {
-			fmt.Printf("   * %s\n", vv)
+			fmt.Printf("  * %s\n", vv)
 		}
 	}
 	//for k, v := range activities.boardActions {
