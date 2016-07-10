@@ -87,7 +87,13 @@ func (t *Trackello) Boards() ([]trello.Board, error) {
 // Track pulls all the latest activity from your Trello board given you've set the token, appkey, and preferred board
 // ID to use.
 func Track(id string) {
-	board, err := createTrelloBoardConnection(id)
+	t, err := NewTrelloConnection()
+	if err != nil {
+		log.Fatal(err)
+		os.Exit(1)
+	}
+
+	board, err := t.createTrelloBoardConnection(id)
 	if err != nil {
 		log.Fatal(err)
 		os.Exit(1)
@@ -101,7 +107,7 @@ func Track(id string) {
 	}
 
 	allActivity := newTrelloActivity()
-	mapActionsAndDates(actions, allActivity)
+	t.mapActionsAndDates(actions, allActivity)
 	fmt.Printf("Listing cards worked on \"%s\" for from %s to now:\n", board.Name, allActivity.oldestDate.Format(time.ANSIC))
 	printBoardActions(actions, allActivity)
 }
@@ -114,38 +120,58 @@ func newTrelloActivity() *trelloActivity {
 	}
 }
 
-func mapActionsAndDates(actions []trello.Action, activities *trelloActivity) {
+func (t *Trackello) mapActionsAndDates(actions []trello.Action, activities *trelloActivity) {
 	for _, action := range actions {
+		//fmt.Printf("Card Name: %s\n", action.Data.Card.Name)
+		//if action.Data.Card.Name == "Restart all clusters for Censum JVM GC Changes" {
+		//	fmt.Printf("%+v", action)
+		//}
+
 		switch activities.boardActions[action.Data.Card.Name] {
 		case nil:
 			activities.boardActions[action.Data.Card.Name] = []trello.Action{action}
 		default:
 			activities.boardActions[action.Data.Card.Name] = append(activities.boardActions[action.Data.Card.Name], action)
 		}
-		actionDate, err := time.Parse(rest.DateLayout, action.Date)
-		if err != nil {
-			continue // skip this one
-		}
-		if actionDate.Before(activities.oldestDate) {
-			activities.oldestDate = actionDate
-		}
-		cardDate := activities.cardsWorkedOn[action.Data.Card.Name]
-		if cardDate.IsZero() || cardDate.After(actionDate) {
-			activities.cardsWorkedOn[action.Data.Card.Name] = actionDate
-		}
+		if action.Data.List.Name == "" {
+			action.Data.List.Name = t.getListForAction(action)
+		}		//actionDate, err := time.Parse(rest.DateLayout, action.Date)
+		//if err != nil {
+		//	continue // skip this one
+		//}
+		//if actionDate.Before(activities.oldestDate) {
+		//	activities.oldestDate = actionDate
+		//}
+		//cardDate := activities.cardsWorkedOn[action.Data.Card.Name]
+		//if cardDate.IsZero() || cardDate.After(actionDate) {
+		//	activities.cardsWorkedOn[action.Data.Card.Name] = actionDate
+		//}
 	}
+}
+
+func (t *Trackello) getListForAction(a trello.Action) string {
+	card, err := t.client.Card(a.Data.Card.Id)
+	if err != nil {
+		return ""
+	}
+	list, err := t.client.List(card.IdList)
+	if err != nil {
+		return ""
+	}
+	return list.Name
 }
 
 func printBoardActions(actions []trello.Action, activities *trelloActivity) {
 	listActions := make(map[string][]string)
 	for k, v := range activities.boardActions {
-		 for _, vv := range v {
-			 if listActions[vv.Data.List.Name] == nil {
-				 listActions[vv.Data.List.Name] = []string{k}
-			 } else {
-				 listActions[vv.Data.List.Name] = append(listActions[vv.Data.List.Name], k)
-			 }
-		 }
+		for _, vv := range v {
+			switch {
+			case listActions[vv.Data.List.Name] == nil:
+				listActions[vv.Data.List.Name] = []string{k}
+			default:
+				listActions[vv.Data.List.Name] = append(listActions[vv.Data.List.Name], k)
+			}
+		}
 	}
 
 	for k, v := range listActions {
@@ -162,25 +188,15 @@ func printBoardActions(actions []trello.Action, activities *trelloActivity) {
 	//}
 }
 
-func createTrelloBoardConnection(id string) (trello.Board, error) {
-	conn, err := NewTrelloConnection()
-	if err != nil {
-		log.Fatal(err)
-		os.Exit(1)
-	}
-
-	var board trello.Board
+func (t *Trackello) createTrelloBoardConnection(id string) (trello.Board, error) {
 	if id == "" {
-		board, err = conn.PrimaryBoard()
-	} else {
-		board, err = conn.BoardWithId(id)
+		return t.PrimaryBoard()
 	}
-
-	return board, err
+	return t.BoardWithId(id)
 }
 
-func ListBoardActions(id string) error {
-	board, err := createTrelloBoardConnection(id)
+func (t *Trackello) ListBoardActions(id string) error {
+	board, err := t.createTrelloBoardConnection(id)
 	if err != nil {
 		return err
 	}
