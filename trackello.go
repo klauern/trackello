@@ -36,8 +36,8 @@ type List struct {
 	stats statistics
 }
 
-// NewTrelloConnection will create a `Trackello` type using your preferences application token and appkey.
-func NewTrelloConnection() (*Trackello, error) {
+// NewTrackello will create a `Trackello` type using your preferences application token and appkey.
+func NewTrackello() (*Trackello, error) {
 	token := viper.GetString("token")
 	appKey := viper.GetString("appkey")
 
@@ -88,7 +88,7 @@ func (t *Trackello) Boards() ([]trello.Board, error) {
 // Track pulls all the latest activity from your Trello board given you've set the token, appkey, and preferred board
 // ID to use.
 func Track(id string) {
-	t, err := NewTrelloConnection()
+	t, err := NewTrackello()
 	if err != nil {
 		log.Fatal(err)
 		os.Exit(1)

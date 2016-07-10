@@ -58,7 +58,7 @@ func init() {
 }
 
 func listBoards(cmd *cobra.Command, args []string) {
-	trelloConn, err := trackello.NewTrelloConnection()
+	trelloConn, err := trackello.NewTrackello()
 	if err != nil {
 		log.Fatal(err)
 		os.Exit(1)

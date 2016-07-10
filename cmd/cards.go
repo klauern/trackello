@@ -49,7 +49,7 @@ func init() {
 }
 
 func listCardsOnBoard(cmd *cobra.Command, args []string) {
-	conn, err := trackello.NewTrelloConnection()
+	conn, err := trackello.NewTrackello()
 	if err != nil {
 		log.Fatal(err)
 		os.Exit(1)
