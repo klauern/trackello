@@ -49,9 +49,11 @@ func ListActivity(cmd *cobra.Command, args []string) {
 	//
 	// 1. create connection
 	// 2. get board
-	// 3. get lists on board
-	// 6. map cards to lists
 	// 4. get actions on board
-	// 5. map actions to cards
-	// 7. add statistics to card
+	// -- in parallel
+	//    #. map action to card
+	//		 - add calculation to statistics
+	//    #. map action to list
+	//		 - add calculation to statistics
+	// 6. map cards to lists
 }
