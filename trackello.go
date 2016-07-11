@@ -136,6 +136,11 @@ func (t *Trackello) mapActionsAndDates(actions []trello.Action, activities *trel
 }
 
 func (t *Trackello) getListForAction(a trello.Action) string {
+	if len(a.Data.List.Id) > 0 {
+		if list, err := t.client.List(a.Data.List.Id); err == nil {
+			return list.Name
+		}
+	}
 	card, err := t.client.Card(a.Data.Card.Id)
 	if err != nil {
 		return ""
