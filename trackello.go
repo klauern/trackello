@@ -166,11 +166,16 @@ func printBoardActions(actions []trello.Action, activities *trelloActivity) {
 	}
 
 	for k, v := range listActions {
-		fmt.Printf("%s\n", k)
-		for _, vv := range v {
-			fmt.Printf("  * %s\n", vv)
+		if len(k) > 0 {
+			printList(k, v)
 		}
+	}
+}
 
+func printList(list string, actions []string) {
+	fmt.Printf("%s\n", list)
+	for _, action := range actions {
+		fmt.Printf("  * %s\n", action)
 	}
 }
 
