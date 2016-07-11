@@ -32,6 +32,7 @@ type Card struct {
 
 // List is both the Trello List + other stats on the actions in it.
 type List struct {
+	name  string
 	cards []Card
 	stats statistics
 }
