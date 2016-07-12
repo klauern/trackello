@@ -172,33 +172,30 @@ func printBoardActions(actions []trello.Action, activities *trelloActivity) {
 			}
 		}
 	}
-	//for k, v := range listActions {
-	//	if len(k) > 0 {
-	//		printList(k, v)
-	//	}
-	//}
 }
 
 func (t *Trackello) MapBoardActions(actions []trello.Action) ([]List, error) {
 	listCards := make(map[string]List)
 	for _, v := range actions {
-		card, err := t.getCardForAction(v)
-		if err != nil {
-			fmt.Printf("error in getting Cards for Action")
-			return nil, err
-		}
-		list, err := t.client.List(card.IdList)
-		if err != nil {
-			return nil, err
-		}
-		lc, ok := listCards[list.Name]
-		if !ok {
-			listCards[list.Name] = List{
-				name:  list.Name,
-				cards: []Card{{card:card}},
+		if len(v.Data.Card.Id) > 0 {
+			card, err := t.getCardForAction(v)
+			if err != nil {
+				fmt.Printf("error in getting Cards for Action")
+				return nil, err
 			}
-		} else {
-			lc.cards = append(lc.cards, Card{card:card})
+			list, err := t.client.List(card.IdList)
+			if err != nil {
+				return nil, err
+			}
+			lc, ok := listCards[list.Name]
+			if !ok {
+				listCards[list.Name] = List{
+					name:  list.Name,
+					cards: []Card{{card: card}},
+				}
+			} else {
+				lc.cards = append(lc.cards, Card{card: card})
+			}
 		}
 	}
 	list := make([]List, len(listCards))
