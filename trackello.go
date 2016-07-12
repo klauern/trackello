@@ -80,6 +80,7 @@ func (t *Trackello) BoardWithId(id string) (trello.Board, error) {
 func (t *Trackello) Boards() ([]trello.Board, error) {
 	member, err := t.client.Member("me")
 	if err != nil {
+		log.Fatalf("Error getting 'me' Member: %v", err)
 		return make([]trello.Board, 0), err
 	}
 	boards, err := member.Boards()
@@ -143,20 +144,9 @@ func (t *Trackello) getListForAction(a trello.Action) string {
 		}
 	}
 	return ""
-	//card, err := t.client.Card(a.Data.Card.Id)
-	//if err != nil {
-	//	return ""
-	//}
-	//list, err := t.client.List(card.IdList)
-	//if err != nil {
-	//	return ""
-	//}
-	//return list.Name
 }
 
 func (t *Trackello) getCardForAction(a trello.Action) (*trello.Card, error) {
-	fmt.Printf("%+v\n", a)
-	//fmt.Printf("action ID is %s\n", a.Data.Card.Id)
 	return t.client.Card(a.Data.Card.Id)
 }
 

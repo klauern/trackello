@@ -55,15 +55,11 @@ func ListActivity(cmd *cobra.Command, args []string) {
 		for _, v := range list {
 			v.Print()
 		}
-		//fmt.Printf("Listing cards worked on \"%s\" for from %s to now:\n", board.Name, allActivity.oldestDate.Format(time.ANSIC))
-
-		//trackello.Track(args[0])
 	case boardId != "":
 		_, err := trackello.BoardActions(boardId)
 		if err != nil {
 			panic(err)
 		}
-		//trackello.Track(boardId)
 	default:
 		panic("No board id specified in either boardId or on command-line.")
 	}
