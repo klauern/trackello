@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/VojtechVitek/go-trello"
+	"github.com/fatih/color"
 )
 
 // statistics provides a way to show statistical information about a list, card or whatnot by aggregating the updates,
@@ -18,7 +19,6 @@ type statistics struct {
 // Statistics represents the statistics for all the actions generated for a list, card, etc.
 type Statistics interface {
 	AddCalculation(trello.Action)
-	PrintStatistics() string
 }
 
 func (c *Card) AddCalculation(a trello.Action) {
@@ -29,12 +29,15 @@ func (c *Card) AddCalculation(a trello.Action) {
 	}
 }
 
-func (c *Card) PrintStatistics() string {
-	return ""
+// PrintStatistics will print the statistics information out.
+// Example format: [ 3 ⋯  2 +  0 ✓  1 … ]
+func (s *statistics) PrintStatistics() string {
+	stats := "[" + color.CyanString(" %i ⋯", s.updates)
+	stats = stats+color.RedString(" %i +", s.comments)
+	stats = stats+color.GreenString(" %i ✓", s.checklistItemsChecked)
+	stats = stats+color.MagentaString(" %i …", s.checklistsCreated)
+	stats = stats+" ]"
+	return stats
 }
 
 func (l *List) AddCalculation(a trello.Action) {}
-
-func (l *List) PrintStatistics() string {
-	return ""
-}

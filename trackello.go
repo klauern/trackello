@@ -26,7 +26,7 @@ type Trackello struct {
 
 // Card is both the Trello Card + other stats on the actions in it.
 type Card struct {
-	card  trello.Card
+	card  *trello.Card
 	stats statistics
 }
 
@@ -142,15 +142,22 @@ func (t *Trackello) getListForAction(a trello.Action) string {
 			return list.Name
 		}
 	}
-	card, err := t.client.Card(a.Data.Card.Id)
-	if err != nil {
-		return ""
-	}
-	list, err := t.client.List(card.IdList)
-	if err != nil {
-		return ""
-	}
-	return list.Name
+	return ""
+	//card, err := t.client.Card(a.Data.Card.Id)
+	//if err != nil {
+	//	return ""
+	//}
+	//list, err := t.client.List(card.IdList)
+	//if err != nil {
+	//	return ""
+	//}
+	//return list.Name
+}
+
+func (t *Trackello) getCardForAction(a trello.Action) (*trello.Card, error) {
+	fmt.Printf("%+v\n", a)
+	//fmt.Printf("action ID is %s\n", a.Data.Card.Id)
+	return t.client.Card(a.Data.Card.Id)
 }
 
 func printBoardActions(actions []trello.Action, activities *trelloActivity) {
@@ -165,18 +172,46 @@ func printBoardActions(actions []trello.Action, activities *trelloActivity) {
 			}
 		}
 	}
-
-	for k, v := range listActions {
-		if len(k) > 0 {
-			printList(k, v)
-		}
-	}
+	//for k, v := range listActions {
+	//	if len(k) > 0 {
+	//		printList(k, v)
+	//	}
+	//}
 }
 
-func printList(list string, actions []string) {
-	fmt.Printf("%s\n", list)
-	for _, action := range actions {
-		fmt.Printf("  * %s\n", action)
+func (t *Trackello) MapBoardActions(actions []trello.Action) ([]List, error) {
+	listCards := make(map[string]List)
+	for _, v := range actions {
+		card, err := t.getCardForAction(v)
+		if err != nil {
+			fmt.Printf("error in getting Cards for Action")
+			return nil, err
+		}
+		list, err := t.client.List(card.IdList)
+		if err != nil {
+			return nil, err
+		}
+		lc, ok := listCards[list.Name]
+		if !ok {
+			listCards[list.Name] = List{
+				name:  list.Name,
+				cards: []Card{{card:card}},
+			}
+		} else {
+			lc.cards = append(lc.cards, Card{card:card})
+		}
+	}
+	list := make([]List, len(listCards))
+	for _, v := range listCards {
+		list = append(list, v)
+	}
+	return list, nil
+}
+
+func (l *List) Print() {
+	fmt.Printf("%s\n", l.name)
+	for _, card := range l.cards {
+		fmt.Printf("  * %s\n", card.card.Name)
 	}
 }
 
@@ -186,4 +221,26 @@ func (t *Trackello) Board(id string) (trello.Board, error) {
 		return t.PrimaryBoard()
 	}
 	return t.BoardWithId(id)
+}
+
+func BoardActions(id string) ([]trello.Action, error) {
+	t, err := NewTrackello()
+	if err != nil {
+		log.Fatal(err)
+		os.Exit(1)
+	}
+
+	board, err := t.Board(id)
+	if err != nil {
+		log.Fatal(err)
+		os.Exit(1)
+	}
+
+	args := rest.CreateArgsForBoardActions()
+	actions, err := board.Actions(args...)
+	if err != nil {
+		log.Fatal(err)
+		os.Exit(1)
+	}
+	return actions, err
 }
