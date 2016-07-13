@@ -87,42 +87,6 @@ func (t *Trackello) Boards() ([]trello.Board, error) {
 	return boards, err
 }
 
-// Track pulls all the latest activity from your Trello board given you've set the token, appkey, and preferred board
-// ID to use.
-func Track(id string) {
-	t, err := NewTrackello()
-	if err != nil {
-		log.Fatal(err)
-		os.Exit(1)
-	}
-
-	board, err := t.Board(id)
-	if err != nil {
-		log.Fatal(err)
-		os.Exit(1)
-	}
-
-	args := rest.CreateArgsForBoardActions()
-	actions, err := board.Actions(args...)
-	if err != nil {
-		log.Fatal(err)
-		os.Exit(1)
-	}
-
-	allActivity := newTrelloActivity()
-	t.mapActionsAndDates(actions, allActivity)
-	fmt.Printf("Listing cards worked on \"%s\" for from %s to now:\n", board.Name, allActivity.oldestDate.Format(time.ANSIC))
-	printBoardActions(actions, allActivity)
-}
-
-func newTrelloActivity() *trelloActivity {
-	return &trelloActivity{
-		cardsWorkedOn: make(map[string]time.Time),
-		oldestDate:    time.Now(),
-		boardActions:  make(map[string][]trello.Action),
-	}
-}
-
 func (t *Trackello) mapActionsAndDates(actions []trello.Action, activities *trelloActivity) {
 	for _, action := range actions {
 		switch activities.boardActions[action.Data.Card.Name] {
@@ -150,20 +114,7 @@ func (t *Trackello) getCardForAction(a trello.Action) (*trello.Card, error) {
 	return t.client.Card(a.Data.Card.Id)
 }
 
-func printBoardActions(actions []trello.Action, activities *trelloActivity) {
-	listActions := make(map[string][]string)
-	for k, v := range activities.boardActions {
-		for _, vv := range v {
-			switch {
-			case listActions[vv.Data.List.Name] == nil:
-				listActions[vv.Data.List.Name] = []string{k}
-			default:
-				listActions[vv.Data.List.Name] = append(listActions[vv.Data.List.Name], k)
-			}
-		}
-	}
-}
-
+// MapBoardActions takes the slice of []trello.Action and maps it to a Card and it's associated List.
 func (t *Trackello) MapBoardActions(actions []trello.Action) ([]List, error) {
 	listCards := make(map[string]List)
 	for _, v := range actions {
@@ -178,13 +129,15 @@ func (t *Trackello) MapBoardActions(actions []trello.Action) ([]List, error) {
 				return nil, err
 			}
 			lc, ok := listCards[list.Name]
-			if !ok {
+			if ok {
+				fmt.Printf("Length of %s before append is %d \n", lc.name, len(lc.cards))
+				lc.cards = append(lc.cards, Card{card: card})
+				fmt.Printf("Length of %s after append  is %d \n", lc.name, len(lc.cards))
+			} else {
 				listCards[list.Name] = List{
 					name:  list.Name,
 					cards: []Card{{card: card}},
 				}
-			} else {
-				lc.cards = append(lc.cards, Card{card: card})
 			}
 		}
 	}
@@ -195,10 +148,13 @@ func (t *Trackello) MapBoardActions(actions []trello.Action) ([]List, error) {
 	return list, nil
 }
 
+// Print will print out a list and all of the cards to the command-line.
 func (l *List) Print() {
-	fmt.Printf("%s\n", l.name)
-	for _, card := range l.cards {
-		fmt.Printf("  * %s\n", card.card.Name)
+	if len(l.name) > 0 {
+		fmt.Printf("%s\n", l.name)
+		for _, card := range l.cards {
+			fmt.Printf("  * %s\n", card.card.Name)
+		}
 	}
 }
 
@@ -210,6 +166,7 @@ func (t *Trackello) Board(id string) (trello.Board, error) {
 	return t.BoardWithId(id)
 }
 
+// BoardActions will retrieve a slice of trello.Action based on the Board ID.
 func BoardActions(id string) ([]trello.Action, error) {
 	t, err := NewTrackello()
 	if err != nil {

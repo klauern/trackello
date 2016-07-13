@@ -33,10 +33,10 @@ func (c *Card) AddCalculation(a trello.Action) {
 // Example format: [ 3 ⋯  2 +  0 ✓  1 … ]
 func (s *statistics) PrintStatistics() string {
 	stats := "[" + color.CyanString(" %i ⋯", s.updates)
-	stats = stats+color.RedString(" %i +", s.comments)
-	stats = stats+color.GreenString(" %i ✓", s.checklistItemsChecked)
-	stats = stats+color.MagentaString(" %i …", s.checklistsCreated)
-	stats = stats+" ]"
+	stats = stats + color.RedString(" %i +", s.comments)
+	stats = stats + color.GreenString(" %i ✓", s.checklistItemsChecked)
+	stats = stats + color.MagentaString(" %i …", s.checklistsCreated)
+	stats = stats + " ]"
 	return stats
 }
 
