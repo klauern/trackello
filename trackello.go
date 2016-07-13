@@ -130,9 +130,10 @@ func (t *Trackello) MapBoardActions(actions []trello.Action) ([]List, error) {
 			}
 			lc, ok := listCards[list.Name]
 			if ok {
-				fmt.Printf("Length of %s before append is %d \n", lc.name, len(lc.cards))
-				lc.cards = append(lc.cards, Card{card: card})
-				fmt.Printf("Length of %s after append  is %d \n", lc.name, len(lc.cards))
+				lc.cards = append(lc.cards, Card{
+					card: card,
+				})
+				listCards[list.Name] = lc
 			} else {
 				cards := make([]Card, 1)
 				cards = append(cards, Card{card: card})
