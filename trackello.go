@@ -21,20 +21,20 @@ type trelloActivity struct {
 type Trackello struct {
 	token  string
 	appKey string
-	client trello.Client
+	client *trello.Client
 }
 
 // Card is both the Trello Card + other stats on the actions in it.
 type Card struct {
-	card  trello.Card
-	stats statistics
+	card  *trello.Card
+	stats *statistics
 }
 
 // List is both the Trello List + other stats on the actions in it.
 type List struct {
 	name  string
 	cards []Card
-	stats statistics
+	stats *statistics
 }
 
 // NewTrackello will create a `Trackello` type using your preferences application token and appkey.
@@ -52,7 +52,7 @@ func NewTrackello() (*Trackello, error) {
 	return &Trackello{
 		token:  token,
 		appKey: appKey,
-		client: *tr,
+		client: tr,
 	}, nil
 }
 
@@ -131,11 +131,11 @@ func (t *Trackello) MapBoardActions(actions []trello.Action) ([]List, error) {
 			lc, ok := listCards[list.Name]
 			if ok {
 				fmt.Printf("Length of %s before append is %d \n", lc.name, len(lc.cards))
-				lc.cards = append(lc.cards, *Card{card: card})
+				lc.cards = append(lc.cards, Card{card: card})
 				fmt.Printf("Length of %s after append  is %d \n", lc.name, len(lc.cards))
 			} else {
 				cards := make([]Card, 1)
-				cards = append(cards, &Card{card: card})
+				cards = append(cards, Card{card: card})
 				listCards[list.Name] = List{
 					name:  list.Name,
 					cards: []Card{{card: card}},
