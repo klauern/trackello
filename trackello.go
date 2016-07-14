@@ -46,7 +46,7 @@ func NewTrackello(token, appKey string) (*Trackello, error) {
 	}, nil
 }
 
-// BoardWithId will return the Trello Board given it's ID string.
+// Board will return the Trello Board given it's ID string.
 func (t *Trackello) Board(id string) (trello.Board, error) {
 	board, err := t.client.Board(id)
 	if err != nil {
