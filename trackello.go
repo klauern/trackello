@@ -99,7 +99,12 @@ func (t *Trackello) MapBoardActions(actions []trello.Action) ([]List, error) {
 			}
 			lc, ok := listCards[list.Name]
 			if !ok {
-				lc = newCardMap(card, listCards, list.Name)
+				cards := make(map[string]Card)
+				cards[card.Name] = Card{card: card}
+				listCards[list.Name] = List{
+					name:  list.Name,
+					cards: cards,
+				}
 				lc = listCards[list.Name]
 			}
 			if _, cok := lc.cards[card.Name]; !cok {
@@ -115,16 +120,6 @@ func (t *Trackello) MapBoardActions(actions []trello.Action) ([]List, error) {
 		}
 	}
 	return makeList(listCards), nil
-}
-
-func newCardMap(card trello.Card, listCards map[string]List, listName string) map[string]Card {
-	cards := make(map[string]Card)
-	cards[card.Name] = Card{card: card}
-	listCards[listName] = List{
-		name:  listName,
-		cards: cards,
-	}
-	return cards
 }
 
 func makeList(listMap map[string]List) []List {
