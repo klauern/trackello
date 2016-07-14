@@ -4,18 +4,11 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"time"
 
 	"github.com/VojtechVitek/go-trello"
 	"github.com/klauern/trackello/rest"
 	"github.com/spf13/viper"
 )
-
-type trelloActivity struct {
-	cardsWorkedOn map[string]time.Time
-	oldestDate    time.Time
-	boardActions  map[string][]trello.Action
-}
 
 // Trackello represents the connection to Trello for a specific user.
 type Trackello struct {
