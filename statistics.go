@@ -12,8 +12,8 @@ import (
 type statistics struct {
 	comments, // represented by a horizontal ellepsis ⋯ 0x22EF
 	updates, // represented by a keyboard 0x2328
-	createdThing, // represented by plus +
-	checklistItemsChecked int // represented by check mark ✓ 0x2713
+	creates, // represented by plus +
+	checkListItemUpdates int // represented by check mark ✓ 0x2713
 }
 
 // Statistics represents the statistics for all the actions generated for a list, card, etc.
@@ -26,16 +26,14 @@ func (c *Card) AddCalculation(a trello.Action) {
 		c.stats = &statistics{}
 	}
 	switch a.Type {
-	case "updateCard", "updateCheckItemStateOnCard":
-		c.stats.updates++
-	case "createCard":
-		c.stats.createdThing++
 	case "commentCard":
 		c.stats.comments++
-	case "addAttachmentToCard":
+	case "updateCard":
 		c.stats.updates++
-	case "addChecklistToCard":
-		c.stats.checklistItemsChecked++
+	case "createCard", "addChecklistToCard", "addAttachmentToCard":
+		c.stats.creates++
+	case "updateCheckItemStateOnCard":
+		c.stats.checkListItemUpdates++
 	default:
 		fmt.Printf("Unmapped action type: %s.  Defaulting to update\n", a.Type)
 		c.stats.updates++
@@ -50,8 +48,8 @@ func (s *statistics) PrintStatistics() string {
 	}
 	stats := "[" + color.CyanString("%d +", s.updates)
 	stats = stats + color.RedString(" %d ≡", s.comments)
-	stats = stats + color.GreenString(" %d ✓", s.checklistItemsChecked)
-	stats = stats + color.MagentaString(" %d …", s.createdThing)
+	stats = stats + color.GreenString(" %d ✓", s.checkListItemUpdates)
+	stats = stats + color.MagentaString(" %d …", s.creates)
 	stats = stats + "]"
 	return stats
 }
