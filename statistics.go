@@ -22,9 +22,6 @@ type Statistics interface {
 }
 
 func (c *Card) AddCalculation(a trello.Action) {
-	if c.stats == nil {
-		c.stats = &statistics{}
-	}
 	switch a.Type {
 	case "commentCard":
 		c.stats.comments++

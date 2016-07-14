@@ -100,7 +100,10 @@ func (t *Trackello) MapBoardActions(actions []trello.Action) ([]List, error) {
 			lc, ok := listCards[list.Name]
 			if !ok {
 				cards := make(map[string]Card)
-				cards[card.Name] = Card{card: card}
+				cards[card.Name] = Card{
+					card: card,
+					stats: &statistics{},
+				}
 				listCards[list.Name] = List{
 					name:  list.Name,
 					cards: cards,
@@ -110,6 +113,7 @@ func (t *Trackello) MapBoardActions(actions []trello.Action) ([]List, error) {
 			if _, cok := lc.cards[card.Name]; !cok {
 				newCard := Card{
 					card: card,
+					stats: &statistics{},
 				}
 				lc.cards[card.Name] = newCard
 			}
