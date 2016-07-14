@@ -1,7 +1,6 @@
 package trackello
 
 import (
-	"fmt"
 	"log"
 	"os"
 
@@ -15,19 +14,6 @@ type Trackello struct {
 	token  string
 	appKey string
 	client *trello.Client
-}
-
-// Card is both the Trello Card + other stats on the actions in it.
-type Card struct {
-	card  *trello.Card
-	stats *statistics
-}
-
-// List is both the Trello List + other stats on the actions in it.
-type List struct {
-	name  string
-	cards map[string]Card
-	stats *statistics
 }
 
 // NewTrackello will create a `Trackello` type using your preferences application token and appkey.
@@ -101,7 +87,7 @@ func (t *Trackello) MapBoardActions(actions []trello.Action) ([]List, error) {
 			if !ok {
 				cards := make(map[string]Card)
 				cards[card.Name] = Card{
-					card: card,
+					card:  card,
 					stats: &statistics{},
 				}
 				listCards[list.Name] = List{
@@ -112,7 +98,7 @@ func (t *Trackello) MapBoardActions(actions []trello.Action) ([]List, error) {
 			}
 			if _, cok := lc.cards[card.Name]; !cok {
 				newCard := Card{
-					card: card,
+					card:  card,
 					stats: &statistics{},
 				}
 				lc.cards[card.Name] = newCard
@@ -124,28 +110,6 @@ func (t *Trackello) MapBoardActions(actions []trello.Action) ([]List, error) {
 		}
 	}
 	return makeList(listCards), nil
-}
-
-func makeList(listMap map[string]List) []List {
-	list := make([]List, len(listMap))
-	for _, v := range listMap {
-		list = append(list, v)
-	}
-	return list
-}
-
-// Print will print out a list and all of the cards to the command-line.
-func (l *List) Print() {
-	if len(l.name) > 0 {
-		fmt.Printf("%s\n", l.name)
-		for _, card := range l.cards {
-			fmt.Printf("  * %s\n", card.String())
-		}
-	}
-}
-
-func (c *Card) String() string {
-	return fmt.Sprintf("%s %s", c.stats.PrintStatistics(), c.card.Name)
 }
 
 // Board will pull the Trello Board with an ID.  If id is "", it will pull it from the PrimaryBoard configuration setting.
