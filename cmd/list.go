@@ -38,31 +38,11 @@ func init() {
 func ListActivity(cmd *cobra.Command, args []string) {
 	switch {
 	case len(args) > 0:
-
-		actions, err := trackello.BoardActions(args[0])
-		if err != nil {
-			panic(err)
-		}
-		t, err := trackello.NewTrackello()
-		if err != nil {
-			panic(err)
-		}
-		lists, err := t.MapBoardActions(actions)
-		if err != nil {
-			panic(err)
-		}
-
-		for _, list := range lists {
-			list.Print()
-		}
-	case viper.GetString("board") != "":
-		_, err := trackello.BoardActions(viper.GetString("board"))
-		if err != nil {
-			panic(err)
-		}
-		// TODO: fix the missing components here
+		PrintBoardActivity(args[0])
+	case len(viper.GetString("board")) > 0:
+		PrintBoardActivity(viper.GetString("board"))
 	default:
-		panic("No board id specified in either boardId or on command-line.")
+		panic("No board id specified in either .trackello.yaml or on command-line.")
 	}
 
 	// pseudocode for listing things
@@ -76,4 +56,23 @@ func ListActivity(cmd *cobra.Command, args []string) {
 	//    #. map action to list
 	//		 - add calculation to statistics
 	// 6. map cards to lists
+}
+
+func PrintBoardActivity(id string) {
+	actions, err := trackello.BoardActions(id)
+	if err != nil {
+		panic(err)
+	}
+	t, err := trackello.NewTrackello()
+	if err != nil {
+		panic(err)
+	}
+	lists, err := t.MapBoardActions(actions)
+	if err != nil {
+		panic(err)
+	}
+
+	for _, list := range lists {
+		list.Print()
+	}
 }
