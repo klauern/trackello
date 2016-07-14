@@ -21,6 +21,7 @@ import (
 
 	"github.com/klauern/trackello"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 // boardsCmd represents the boards command
@@ -58,7 +59,10 @@ func init() {
 }
 
 func listBoards(cmd *cobra.Command, args []string) {
-	trelloConn, err := trackello.NewTrackello()
+	token := viper.GetString("token")
+	appKey := viper.GetString("appkey")
+
+	trelloConn, err := trackello.NewTrackello(token, appKey)
 	if err != nil {
 		log.Fatal(err)
 		os.Exit(1)

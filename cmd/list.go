@@ -59,7 +59,10 @@ func ListActivity(cmd *cobra.Command, args []string) {
 }
 
 func PrintBoardActivity(id string) {
-	t, err := trackello.NewTrackello()
+	token := viper.GetString("token")
+	appKey := viper.GetString("appkey")
+
+	t, err := trackello.NewTrackello(token, appKey)
 	if err != nil {
 		panic(err)
 	}

@@ -6,7 +6,6 @@ import (
 
 	"github.com/VojtechVitek/go-trello"
 	"github.com/klauern/trackello/rest"
-	"github.com/spf13/viper"
 )
 
 // Trackello represents the connection to Trello for a specific user.
@@ -17,9 +16,7 @@ type Trackello struct {
 }
 
 // NewTrackello will create a `Trackello` type using your preferences application token and appkey.
-func NewTrackello() (*Trackello, error) {
-	token := viper.GetString("token")
-	appKey := viper.GetString("appkey")
+func NewTrackello(token, appKey string) (*Trackello, error) {
 
 	// New Trello Client
 	tr, err := trello.NewAuthClient(appKey, &token)
@@ -35,18 +32,8 @@ func NewTrackello() (*Trackello, error) {
 	}, nil
 }
 
-// PrimaryBoard will return a board based on your settings for a primary board.
-func (t *Trackello) PrimaryBoard() (trello.Board, error) {
-	board, err := t.client.Board(viper.GetString("board"))
-	if err != nil {
-		log.Fatal(err)
-		return *board, err
-	}
-	return *board, nil
-}
-
 // BoardWithId will return the Trello Board given it's ID string.
-func (t *Trackello) BoardWithId(id string) (trello.Board, error) {
+func (t *Trackello) Board(id string) (trello.Board, error) {
 	board, err := t.client.Board(id)
 	if err != nil {
 		log.Fatal(err)
@@ -110,14 +97,6 @@ func (t *Trackello) MapBoardActions(actions []trello.Action) ([]List, error) {
 		}
 	}
 	return makeList(listCards), nil
-}
-
-// Board will pull the Trello Board with an ID.  If id is "", it will pull it from the PrimaryBoard configuration setting.
-func (t *Trackello) Board(id string) (trello.Board, error) {
-	if id == "" {
-		return t.PrimaryBoard()
-	}
-	return t.BoardWithId(id)
 }
 
 // BoardActions will retrieve a slice of trello.Action based on the Board ID.
