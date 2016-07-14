@@ -31,7 +31,6 @@ type Trackello struct {
 
 // NewTrackello will create a `Trackello` type using your preferences application token and appkey.
 func NewTrackello(token, appKey string) (*Trackello, error) {
-
 	// New Trello Client
 	tr, err := trello.NewAuthClient(appKey, &token)
 	if err != nil {
@@ -76,6 +75,10 @@ func (t *Trackello) MapBoardActions(actions []trello.Action) ([]List, error) {
 	listCards := make(map[string]List)
 	for _, action := range actions {
 		if len(action.Data.Card.Id) > 0 {
+			// TODO: restructure this into a map of mapped Cards
+			// We can parallelize the calls, AND reduce making redundant calls.
+			// trackello.List should have a map[cardID]Card instead of just a slice of []Card
+			//
 			card, err := t.getCardForAction(action)
 			if err != nil {
 				return nil, err
@@ -86,8 +89,8 @@ func (t *Trackello) MapBoardActions(actions []trello.Action) ([]List, error) {
 			}
 			lc, ok := listCards[list.Name]
 			if !ok {
-				cards := make(map[string]Card)
-				cards[card.Name] = Card{
+				cards := make(map[cardId]Card)
+				cards[cardId(card.Id)] = Card{
 					card:  card,
 					stats: &statistics{},
 				}
@@ -97,16 +100,16 @@ func (t *Trackello) MapBoardActions(actions []trello.Action) ([]List, error) {
 				}
 				lc = listCards[list.Name]
 			}
-			if _, cok := lc.cards[card.Name]; !cok {
+			if _, cok := lc.cards[cardId(card.Id)]; !cok {
 				newCard := Card{
 					card:  card,
 					stats: &statistics{},
 				}
-				lc.cards[card.Name] = newCard
+				lc.cards[cardId(card.Id)] = newCard
 			}
-			c, _ := lc.cards[card.Name]
+			c, _ := lc.cards[cardId(card.Id)]
 			c.AddCalculation(action)
-			lc.cards[card.Name] = c
+			lc.cards[cardId(card.Id)] = c
 			listCards[list.Name] = lc
 		}
 	}

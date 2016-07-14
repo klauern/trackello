@@ -22,7 +22,7 @@ import (
 // List is both the Trello List + other stats on the actions in it.
 type List struct {
 	name  string
-	cards map[string]Card
+	cards map[cardId]Card
 	stats *statistics
 }
 

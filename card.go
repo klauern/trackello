@@ -26,6 +26,8 @@ type Card struct {
 	stats *statistics
 }
 
+type cardId string
+
 func (c *Card) String() string {
 	return fmt.Sprintf("%s %s", c.stats.PrintStatistics(), c.card.Name)
 }
