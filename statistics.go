@@ -16,11 +16,7 @@ type statistics struct {
 	checkListItemUpdates int // represented by check mark ✓ 0x2713
 }
 
-// Statistics represents the statistics for all the actions generated for a list, card, etc.
-type Statistics interface {
-	AddCalculation(trello.Action)
-}
-
+// AddCalculation will the new action to the Card's statistics.
 func (c *Card) AddCalculation(a trello.Action) {
 	switch a.Type {
 	case "commentCard":
@@ -50,5 +46,3 @@ func (s *statistics) PrintStatistics() string {
 	stats = stats + "]"
 	return stats
 }
-
-func (l *List) AddCalculation(a trello.Action) {}
