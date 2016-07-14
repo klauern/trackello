@@ -33,7 +33,7 @@ type Card struct {
 // List is both the Trello List + other stats on the actions in it.
 type List struct {
 	name  string
-	cards []Card
+	cards map[string]Card
 	stats *statistics
 }
 
@@ -87,29 +87,6 @@ func (t *Trackello) Boards() ([]trello.Board, error) {
 	return boards, err
 }
 
-func (t *Trackello) mapActionsAndDates(actions []trello.Action, activities *trelloActivity) {
-	for _, action := range actions {
-		switch activities.boardActions[action.Data.Card.Name] {
-		case nil:
-			activities.boardActions[action.Data.Card.Name] = []trello.Action{action}
-		default:
-			activities.boardActions[action.Data.Card.Name] = append(activities.boardActions[action.Data.Card.Name], action)
-		}
-		if action.Data.List.Name == "" {
-			action.Data.List.Name = t.getListForAction(action)
-		}
-	}
-}
-
-func (t *Trackello) getListForAction(a trello.Action) string {
-	if len(a.Data.List.Id) > 0 {
-		if list, err := t.client.List(a.Data.List.Id); err == nil {
-			return list.Name
-		}
-	}
-	return ""
-}
-
 func (t *Trackello) getCardForAction(a trello.Action) (*trello.Card, error) {
 	return t.client.Card(a.Data.Card.Id)
 }
@@ -117,11 +94,10 @@ func (t *Trackello) getCardForAction(a trello.Action) (*trello.Card, error) {
 // MapBoardActions takes the slice of []trello.Action and maps it to a Card and it's associated List.
 func (t *Trackello) MapBoardActions(actions []trello.Action) ([]List, error) {
 	listCards := make(map[string]List)
-	for _, v := range actions {
-		if len(v.Data.Card.Id) > 0 {
-			card, err := t.getCardForAction(v)
+	for _, action := range actions {
+		if len(action.Data.Card.Id) > 0 {
+			card, err := t.getCardForAction(action)
 			if err != nil {
-				fmt.Printf("error in getting Cards for Action")
 				return nil, err
 			}
 			list, err := t.client.List(card.IdList)
@@ -129,19 +105,25 @@ func (t *Trackello) MapBoardActions(actions []trello.Action) ([]List, error) {
 				return nil, err
 			}
 			lc, ok := listCards[list.Name]
-			if ok {
-				lc.cards = append(lc.cards, Card{
-					card: card,
-				})
-				listCards[list.Name] = lc
-			} else {
-				cards := make([]Card, 1)
-				cards = append(cards, Card{card: card})
+			if !ok {
+				cards := make(map[string]Card)
+				cards[card.Name] = Card{card: card}
 				listCards[list.Name] = List{
 					name:  list.Name,
-					cards: []Card{{card: card}},
+					cards: cards,
 				}
+				lc = listCards[list.Name]
 			}
+			if _, cok := lc.cards[card.Name]; !cok {
+				newCard := Card{
+					card: card,
+				}
+				lc.cards[card.Name] = newCard
+			}
+			c, _ := lc.cards[card.Name]
+			c.AddCalculation(action)
+			lc.cards[card.Name] = c
+			listCards[list.Name] = lc
 		}
 	}
 	list := make([]List, len(listCards))
@@ -156,9 +138,13 @@ func (l *List) Print() {
 	if len(l.name) > 0 {
 		fmt.Printf("%s\n", l.name)
 		for _, card := range l.cards {
-			fmt.Printf("  * %s\n", card.card.Name)
+			fmt.Printf("  * %s\n", card.String())
 		}
 	}
+}
+
+func (c *Card) String() string {
+	return fmt.Sprintf("%s %s", c.card.Name, c.stats.PrintStatistics())
 }
 
 // Board will pull the Trello Board with an ID.  If id is "", it will pull it from the PrimaryBoard configuration setting.
