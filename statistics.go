@@ -21,7 +21,7 @@ func (c *Card) AddCalculation(a trello.Action) {
 	switch a.Type {
 	case "commentCard":
 		c.stats.comments++
-	case "updateCard":
+	case "updateCard", "deleteAttachmentFromCard":
 		c.stats.updates++
 	case "createCard", "addChecklistToCard", "addAttachmentToCard":
 		c.stats.creates++
