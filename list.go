@@ -26,3 +26,15 @@ func makeList(listMap map[string]List) []List {
 	}
 	return list
 }
+
+type ByListName []List
+
+func (l ByListName) Len() int {
+	return len(l)
+}
+func (l ByListName) Swap(i, j int) {
+	l[i], l[j] = l[j], l[i]
+}
+func (l ByListName) Less(i, j int) bool {
+	return l[i].name < l[j].name
+}

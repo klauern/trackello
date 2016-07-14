@@ -18,6 +18,7 @@ import (
 	"github.com/klauern/trackello"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+	"sort"
 )
 
 // listCmd represents the list command
@@ -76,6 +77,7 @@ func PrintBoardActivity(id string) {
 		panic(err)
 	}
 
+	sort.Sort(trackello.ByListName(lists))
 	for _, list := range lists {
 		list.Print()
 	}
