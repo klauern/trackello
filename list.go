@@ -27,14 +27,20 @@ func makeList(listMap map[string]List) []List {
 	return list
 }
 
+// ByListName is a super type of a List[], with functions that implement the sort interface.
 type ByListName []List
 
+// Len returns the length of the ByListName slice.
 func (l ByListName) Len() int {
 	return len(l)
 }
+
+// Swap will swap the positions of two trackello.List items in the ByListName slice.
 func (l ByListName) Swap(i, j int) {
 	l[i], l[j] = l[j], l[i]
 }
+
+// Less determines which of the two trackello.List items is before other based on the List Name.
 func (l ByListName) Less(i, j int) bool {
 	return l[i].name < l[j].name
 }
