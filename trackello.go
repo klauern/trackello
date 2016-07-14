@@ -99,12 +99,7 @@ func (t *Trackello) MapBoardActions(actions []trello.Action) ([]List, error) {
 			}
 			lc, ok := listCards[list.Name]
 			if !ok {
-				cards := make(map[string]Card)
-				cards[card.Name] = Card{card: card}
-				listCards[list.Name] = List{
-					name:  list.Name,
-					cards: cards,
-				}
+				lc = newCardMap(card, listCards, list.Name)
 				lc = listCards[list.Name]
 			}
 			if _, cok := lc.cards[card.Name]; !cok {
@@ -119,11 +114,25 @@ func (t *Trackello) MapBoardActions(actions []trello.Action) ([]List, error) {
 			listCards[list.Name] = lc
 		}
 	}
-	list := make([]List, len(listCards))
-	for _, v := range listCards {
+	return makeList(listCards), nil
+}
+
+func newCardMap(card trello.Card, listCards map[string]List, listName string) map[string]Card {
+	cards := make(map[string]Card)
+	cards[card.Name] = Card{card: card}
+	listCards[listName] = List{
+		name:  listName,
+		cards: cards,
+	}
+	return cards
+}
+
+func makeList(listMap map[string]List) []List {
+	list := make([]List, len(listMap))
+	for _, v := range listMap {
 		list = append(list, v)
 	}
-	return list, nil
+	return list
 }
 
 // Print will print out a list and all of the cards to the command-line.
