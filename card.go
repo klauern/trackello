@@ -29,3 +29,23 @@ type Card struct {
 func (c *Card) String() string {
 	return fmt.Sprintf("%s %s", c.stats.PrintStatistics(), c.card.Name)
 }
+
+// ByStatisticsCountRev is a sortable type for the Card slice, sorting by the number of actions performed in descending order.
+type ByStatisticsCountRev []Card
+
+// Len returns the length of the underlying []Card slice.
+func (c ByStatisticsCountRev) Len() int {
+	return len(c)
+}
+
+// Swap swaps the positions of two Card items in the underlying []Card slice.
+func (c ByStatisticsCountRev) Swap(i, j int) {
+	c[i], c[j] = c[j], c[i]
+}
+
+// Less returns whether the [i] position has MORE actions on it's underlying Card than the [j] element.
+func (c ByStatisticsCountRev) Less(i, j int) bool {
+	iTot := c[i].stats.updates + c[i].stats.checkListItemUpdates + c[i].stats.comments + c[i].stats.creates
+	jTot := c[j].stats.updates + c[j].stats.checkListItemUpdates + c[j].stats.comments + c[j].stats.creates
+	return iTot > jTot
+}

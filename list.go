@@ -14,7 +14,10 @@
 
 package trackello
 
-import "fmt"
+import (
+	"fmt"
+	"sort"
+)
 
 // List is both the Trello List + other stats on the actions in it.
 type List struct {
@@ -27,7 +30,12 @@ type List struct {
 func (l *List) Print() {
 	if len(l.name) > 0 {
 		fmt.Printf("%s\n", l.name)
+		cardSlice := make([]Card, 0, len(l.cards))
 		for _, card := range l.cards {
+			cardSlice = append(cardSlice, card)
+		}
+		sort.Sort(ByStatisticsCountRev(cardSlice))
+		for _, card := range cardSlice {
 			fmt.Printf("  * %s\n", card.String())
 		}
 	}
