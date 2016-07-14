@@ -67,7 +67,7 @@ func listBoards(cmd *cobra.Command, args []string) {
 		log.Fatal(err)
 		os.Exit(1)
 	}
-	fmt.Printf("Printing all OPEN Boards\n")
+	fmt.Println("Printing all OPEN Boards")
 	boards, err := trelloConn.Boards()
 	if err != nil {
 		log.Fatal(err)

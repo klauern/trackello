@@ -58,6 +58,7 @@ func ListActivity(cmd *cobra.Command, args []string) {
 	// 6. map cards to lists
 }
 
+// PrintBoardActivity will print all of the activity on a particular Board given the board id.
 func PrintBoardActivity(id string) {
 	token := viper.GetString("token")
 	appKey := viper.GetString("appkey")
