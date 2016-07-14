@@ -153,13 +153,7 @@ func (t *Trackello) Board(id string) (trello.Board, error) {
 }
 
 // BoardActions will retrieve a slice of trello.Action based on the Board ID.
-func BoardActions(id string) ([]trello.Action, error) {
-	t, err := NewTrackello()
-	if err != nil {
-		log.Fatal(err)
-		os.Exit(1)
-	}
-
+func (t *Trackello) BoardActions(id string) ([]trello.Action, error) {
 	board, err := t.Board(id)
 	if err != nil {
 		log.Fatal(err)

@@ -59,11 +59,11 @@ func ListActivity(cmd *cobra.Command, args []string) {
 }
 
 func PrintBoardActivity(id string) {
-	actions, err := trackello.BoardActions(id)
+	t, err := trackello.NewTrackello()
 	if err != nil {
 		panic(err)
 	}
-	t, err := trackello.NewTrackello()
+	actions, err := t.BoardActions(id)
 	if err != nil {
 		panic(err)
 	}
