@@ -17,6 +17,7 @@ package cmd
 import (
 	"github.com/klauern/trackello"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 // listCmd represents the list command
@@ -29,12 +30,11 @@ if you find yourself having to see what you've been working on`,
 	Run: ListActivity,
 }
 
-var boardId string
-
 func init() {
 	RootCmd.AddCommand(listCmd)
 }
 
+// ListActivity will list all the card actions for a board, sorting by List.
 func ListActivity(cmd *cobra.Command, args []string) {
 	switch {
 	case len(args) > 0:
@@ -47,19 +47,20 @@ func ListActivity(cmd *cobra.Command, args []string) {
 		if err != nil {
 			panic(err)
 		}
-		list, err := t.MapBoardActions(actions)
+		lists, err := t.MapBoardActions(actions)
 		if err != nil {
 			panic(err)
 		}
 
-		for _, v := range list {
-			v.Print()
+		for _, list := range lists {
+			list.Print()
 		}
-	case boardId != "":
-		_, err := trackello.BoardActions(boardId)
+	case viper.GetString("board") != "":
+		_, err := trackello.BoardActions(viper.GetString("board"))
 		if err != nil {
 			panic(err)
 		}
+		// TODO: fix the missing components here
 	default:
 		panic("No board id specified in either boardId or on command-line.")
 	}

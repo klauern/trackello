@@ -141,7 +141,7 @@ func (l *List) Print() {
 }
 
 func (c *Card) String() string {
-	return fmt.Sprintf("%s %s", c.card.Name, c.stats.PrintStatistics())
+	return fmt.Sprintf("%s %s", c.stats.PrintStatistics(), c.card.Name)
 }
 
 // Board will pull the Trello Board with an ID.  If id is "", it will pull it from the PrimaryBoard configuration setting.
