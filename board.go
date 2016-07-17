@@ -4,6 +4,7 @@ import (
 	"sync"
 
 	"github.com/VojtechVitek/go-trello"
+	"github.com/klauern/trackello/rest"
 	"github.com/pkg/errors"
 )
 
@@ -18,12 +19,12 @@ type Board struct {
 
 func NewBoard(b *trello.Board) *Board {
 	return &Board{
-		id:             b.Id,
-		board:          b,
-		listMux:        &sync.RWMutex{},
-		lists:          make(map[string]*List),
-		cardIdMux:      &sync.RWMutex{},
-		cardIdToListId: make(map[string]string),
+		id:      b.Id,
+		board:   b,
+		listMux: &sync.RWMutex{},
+		lists:   make(map[string]*List),
+		//cardIdMux:      &sync.RWMutex{},
+		//cardIdToListId: make(map[string]string),
 	}
 }
 
@@ -34,33 +35,50 @@ func (b *Board) Populate() error {
 	}
 	wg := sync.WaitGroup{}
 	for _, list := range lists {
+		list := list
 		wg.Add(1)
-		go func(list *trello.List) {
+		go func(list trello.List) {
 			defer wg.Done()
 			// 1. calculate the actions for the list
-			listActions := NewList(list)
-			if err = listActions.MapCards(); err != nil {
-				return
-			}
-			_, err := listActions.MapActions()
-			if err != nil {
+			trackList := NewList(&list)
+			if err = trackList.MapCards(); err != nil {
 				return
 			}
 			// 2. return the list actions to return to the board
 			b.listMux.Lock()
-			b.lists[listActions.list.Id] = listActions
+			b.lists[trackList.list.Id] = trackList
 			b.listMux.Unlock()
-		}(&list)
+		}(list)
 	}
 	wg.Wait()
+
+	return nil
+}
+
+func (b *Board) MapActions() error {
+	actions, err := b.board.Actions(rest.CreateArgsForBoardActions()...)
+	if err != nil {
+		return err
+	}
+	wg := sync.WaitGroup{}
+	for _, action := range actions {
+		action := action
+		wg.Add(1)
+		go func(a trello.Action) {
+			defer wg.Done()
+
+			b.listMux.RLock()
+			//b.lists[]
+		}(action)
+	}
 	return nil
 }
 
 // Print will print the board actions out
 func (b *Board) PrintActions() {
-	b.listMux.RLock()
 	for _, list := range b.lists {
+		b.listMux.RLock()
 		list.Print()
+		b.listMux.RUnlock()
 	}
-	b.listMux.RUnlock()
 }

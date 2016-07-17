@@ -19,6 +19,7 @@ import (
 	"sort"
 
 	"github.com/VojtechVitek/go-trello"
+	"github.com/klauern/trackello/rest"
 	"github.com/pkg/errors"
 )
 
@@ -54,14 +55,20 @@ func NewList(l *trello.List) *List {
 	}
 }
 
+func (l *List) MapAction(a *trello.Action, tr *Trackello) error {
+	return nil
+}
+
 func (l *List) MapActions() (bool, error) {
-	actions, err := l.list.Actions()
+	actions, err := l.list.Actions(rest.CreateArgsForBoardActions()...)
 	if err != nil {
+		fmt.Println("error in MapActions")
 		return false, errors.Wrapf(err, "Error getting List \"%s\" Actions: ", l.name)
 	}
 	for _, action := range actions {
 		card, ok := l.cards[cardId(action.Data.Card.Id)]
 		if !ok {
+			fmt.Printf("Card info is %+v\n", card)
 			switch action.Type {
 			case "updateList", "createList":
 				continue
@@ -73,6 +80,8 @@ func (l *List) MapActions() (bool, error) {
 			}
 		}
 		card, ok = l.cards[cardId(action.Data.Card.Id)]
+		// maybe an action doesn't exist on this card anymore, but it did at some time?  Need to RE-investigate what
+		// card this action belongs to in order to determine whether we're dealing with missing cards in the map
 		if !ok {
 			panic("Still not ok")
 		}
@@ -85,7 +94,7 @@ func (l *List) MapActions() (bool, error) {
 func (l *List) MapCards() error {
 	cards, err := l.list.Cards()
 	if err != nil {
-		fmt.Println("Error MapCards")
+		fmt.Printf("Error MapCards %s\n", err)
 		return err
 	}
 	for _, card := range cards {

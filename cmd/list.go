@@ -18,6 +18,7 @@ import (
 	"sort"
 
 	"fmt"
+
 	"github.com/klauern/trackello"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -43,9 +44,9 @@ func ListActivity(cmd *cobra.Command, args []string) {
 	case len(args) > 0:
 		PrintBoardActivity(args[0])
 	case len(viper.GetString("board")) > 0:
-		fmt.Printf("Printing Board activity for Board ID %s", viper.GetString("board"))
-		PrintBoardActivity(viper.GetString("board"))
-	//PrintParallelBoardActivity(viper.GetString("board"))
+		fmt.Printf("Printing Board activity for Board ID %s\n", viper.GetString("board"))
+		//PrintBoardActivity(viper.GetString("board"))
+		PrintParallelBoardActivity(viper.GetString("board"))
 	default:
 		panic("No board id specified in either .trackello.yaml or on command-line.")
 	}
