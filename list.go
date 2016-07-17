@@ -17,6 +17,9 @@ package trackello
 import (
 	"fmt"
 	"sort"
+
+	"github.com/VojtechVitek/go-trello"
+	"github.com/pkg/errors"
 )
 
 // List is both the Trello List + other stats on the actions in it.
@@ -24,6 +27,7 @@ type List struct {
 	name  string
 	cards map[cardId]Card
 	stats *statistics
+	list  *trello.List
 }
 
 // Print will print out a list and all of the cards to the command-line.
@@ -39,6 +43,55 @@ func (l *List) Print() {
 			fmt.Printf("  * %s\n", card.String())
 		}
 	}
+}
+
+func NewList(l *trello.List) *List {
+	return &List{
+		name:  l.Name,
+		cards: make(map[cardId]Card),
+		stats: &statistics{},
+		list:  l,
+	}
+}
+
+func (l *List) MapActions() (bool, error) {
+	actions, err := l.list.Actions()
+	if err != nil {
+		return false, errors.Wrapf(err, "Error getting List \"%s\" Actions: ", l.name)
+	}
+	for _, action := range actions {
+		card, ok := l.cards[cardId(action.Data.Card.Id)]
+		if !ok {
+			switch action.Type {
+			case "updateList", "createList":
+				continue
+			}
+
+			fmt.Printf("Not Ok for id %s, action information is %+v\n", action.Data.Card.Id, action)
+			if len(action.Data.Card.Id) == 0 {
+				continue
+			}
+		}
+		card, ok = l.cards[cardId(action.Data.Card.Id)]
+		if !ok {
+			panic("Still not ok")
+		}
+		card.AddCalculation(action)
+		l.cards[cardId(action.Data.Card.Id)] = card
+	}
+	return true, nil
+}
+
+func (l *List) MapCards() error {
+	cards, err := l.list.Cards()
+	if err != nil {
+		fmt.Println("Error MapCards")
+		return err
+	}
+	for _, card := range cards {
+		l.cards[cardId(card.Id)] = NewCard(&card)
+	}
+	return nil
 }
 
 func makeList(listMap map[string]List) []List {

@@ -15,10 +15,12 @@
 package cmd
 
 import (
+	"sort"
+
+	"fmt"
 	"github.com/klauern/trackello"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"sort"
 )
 
 // listCmd represents the list command
@@ -41,7 +43,9 @@ func ListActivity(cmd *cobra.Command, args []string) {
 	case len(args) > 0:
 		PrintBoardActivity(args[0])
 	case len(viper.GetString("board")) > 0:
+		fmt.Printf("Printing Board activity for Board ID %s", viper.GetString("board"))
 		PrintBoardActivity(viper.GetString("board"))
+	//PrintParallelBoardActivity(viper.GetString("board"))
 	default:
 		panic("No board id specified in either .trackello.yaml or on command-line.")
 	}
@@ -81,4 +85,24 @@ func PrintBoardActivity(id string) {
 	for _, list := range lists {
 		list.Print()
 	}
+}
+
+func PrintParallelBoardActivity(id string) {
+	token := viper.GetString("token")
+	appKey := viper.GetString("appkey")
+
+	t, err := trackello.NewTrackello(token, appKey)
+	if err != nil {
+		panic(err)
+	}
+	b, err := t.Board(id)
+	if err != nil {
+		panic(err)
+	}
+	board := trackello.NewBoard(&b)
+	err = board.Populate()
+	if err != nil {
+		panic(err)
+	}
+	board.PrintActions()
 }

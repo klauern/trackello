@@ -32,6 +32,13 @@ func (c *Card) String() string {
 	return fmt.Sprintf("%s %s", c.stats.PrintStatistics(), c.card.Name)
 }
 
+func NewCard(c *trello.Card) Card {
+	return Card{
+		card:  c,
+		stats: &statistics{},
+	}
+}
+
 // ByStatisticsCountRev is a sortable type for the Card slice, sorting by the number of actions performed in descending order.
 type ByStatisticsCountRev []Card
 
