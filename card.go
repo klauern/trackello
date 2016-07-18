@@ -26,12 +26,13 @@ type Card struct {
 	stats *statistics
 }
 
-type cardId string
+type cardID string
 
 func (c *Card) String() string {
 	return fmt.Sprintf("%s %s", c.stats.PrintStatistics(), c.card.Name)
 }
 
+// NewCard will construct a new Card element using a trello.Card as a base type.
 func NewCard(c *trello.Card) Card {
 	return Card{
 		card:  c,

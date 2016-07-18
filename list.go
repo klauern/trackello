@@ -26,7 +26,7 @@ import (
 // List is both the Trello List + other stats on the actions in it.
 type List struct {
 	name  string
-	cards map[cardId]Card
+	cards map[cardID]Card
 	stats *statistics
 	list  *trello.List
 }
@@ -46,27 +46,26 @@ func (l *List) Print() {
 	}
 }
 
+// NewList constructs a new *List based off of a go-trello *List.
 func NewList(l *trello.List) *List {
 	return &List{
 		name:  l.Name,
-		cards: make(map[cardId]Card),
+		cards: make(map[cardID]Card),
 		stats: &statistics{},
 		list:  l,
 	}
 }
 
-func (l *List) MapAction(a *trello.Action, tr *Trackello) error {
-	return nil
-}
-
+// MapActions will map all of the Actions that occurred on a List.
 func (l *List) MapActions() (bool, error) {
-	actions, err := l.list.Actions(rest.CreateArgsForBoardActions()...)
+	args := rest.CreateArgsForBoardActions()
+	actions, err := l.list.Actions(args...)
 	if err != nil {
 		fmt.Println("error in MapActions")
 		return false, errors.Wrapf(err, "Error getting List \"%s\" Actions: ", l.name)
 	}
 	for _, action := range actions {
-		card, ok := l.cards[cardId(action.Data.Card.Id)]
+		card, ok := l.cards[cardID(action.Data.Card.Id)]
 		if !ok {
 			fmt.Printf("Card info is %+v\n", card)
 			switch action.Type {
@@ -79,18 +78,19 @@ func (l *List) MapActions() (bool, error) {
 				continue
 			}
 		}
-		card, ok = l.cards[cardId(action.Data.Card.Id)]
+		card, ok = l.cards[cardID(action.Data.Card.Id)]
 		// maybe an action doesn't exist on this card anymore, but it did at some time?  Need to RE-investigate what
 		// card this action belongs to in order to determine whether we're dealing with missing cards in the map
 		if !ok {
 			panic("Still not ok")
 		}
 		card.AddCalculation(action)
-		l.cards[cardId(action.Data.Card.Id)] = card
+		l.cards[cardID(action.Data.Card.Id)] = card
 	}
 	return true, nil
 }
 
+// MapCards maps all of the cards for a list into the List.cards map[string]Card based on the cardID.
 func (l *List) MapCards() error {
 	cards, err := l.list.Cards()
 	if err != nil {
@@ -98,7 +98,7 @@ func (l *List) MapCards() error {
 		return err
 	}
 	for _, card := range cards {
-		l.cards[cardId(card.Id)] = NewCard(&card)
+		l.cards[cardID(card.Id)] = NewCard(&card)
 	}
 	return nil
 }

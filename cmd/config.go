@@ -58,9 +58,15 @@ func init() {
 	// Set Environment Variables
 	viper.SetEnvPrefix("trackello")
 	viper.SetEnvKeyReplacer(strings.NewReplacer("-", "_")) // replace environment variables to underscore (_) from hyphen (-)
-	viper.BindEnv("appkey", "TRACKELLO_TRELLO_APPKEY")
-	viper.BindEnv("token", "TRACKELLO_TRELLO_TOKEN")
-	viper.BindEnv("board", "TRACKELLO_TRELLO_PREFERREDBOARD")
+	if err := viper.BindEnv("appkey", "TRACKELLO_TRELLO_APPKEY"); err != nil {
+		panic(err)
+	}
+	if err := viper.BindEnv("token", "TRACKELLO_TRELLO_TOKEN"); err != nil {
+		panic(err)
+	}
+	if err := viper.BindEnv("board", "TRACKELLO_TRELLO_PREFERREDBOARD"); err != nil {
+		panic(err)
+	}
 	viper.AutomaticEnv() // read in environment variables that match every time Get() is called
 
 	// Add Configuration Paths
@@ -77,11 +83,17 @@ func init() {
 	RootCmd.AddCommand(configCmd)
 
 	RootCmd.PersistentFlags().StringVar(&trelloAppKey, "appkey", "", "Trello Application Key")
-	viper.BindPFlag("appkey", RootCmd.PersistentFlags().Lookup("appkey"))
+	if err := viper.BindPFlag("appkey", RootCmd.PersistentFlags().Lookup("appkey")); err != nil {
+		panic(err)
+	}
 	RootCmd.PersistentFlags().StringVar(&trelloToken, "token", "", "Trello Token")
-	viper.BindPFlag("token", RootCmd.PersistentFlags().Lookup("token"))
+	if err := viper.BindPFlag("token", RootCmd.PersistentFlags().Lookup("token")); err != nil {
+		panic(err)
+	}
 	RootCmd.PersistentFlags().StringVar(&preferredBoard, "board", "", "Preferred Board ID")
-	viper.BindPFlag("board", RootCmd.PersistentFlags().Lookup("board"))
+	if err := viper.BindPFlag("board", RootCmd.PersistentFlags().Lookup("board")); err != nil {
+		panic(err)
+	}
 	viper.RegisterAlias("preferredBoard", "board")
 }
 

@@ -8,26 +8,25 @@ import (
 	"github.com/pkg/errors"
 )
 
+// Board is a super-type for a Trello board.  Board also contains a mutex and map of a List ID to a List.
 type Board struct {
 	id             string
 	board          *trello.Board
 	listMux        *sync.RWMutex
 	lists          map[string]*List
-	cardIdMux      *sync.RWMutex
-	cardIdToListId map[string]string
 }
 
+// NewBoard will create a new Board type, using a trello.Board as a starting point.
 func NewBoard(b *trello.Board) *Board {
 	return &Board{
 		id:      b.Id,
 		board:   b,
 		listMux: &sync.RWMutex{},
 		lists:   make(map[string]*List),
-		//cardIdMux:      &sync.RWMutex{},
-		//cardIdToListId: make(map[string]string),
 	}
 }
 
+// Populate will Populate the board's actions and missing data.
 func (b *Board) Populate() error {
 	lists, err := b.board.Lists()
 	if err != nil {
@@ -55,6 +54,8 @@ func (b *Board) Populate() error {
 	return nil
 }
 
+// MapActions queries Trello's API for all of the recent actions performed on a Board, and maps that to the
+// board itself, into a list and card.
 func (b *Board) MapActions() error {
 	actions, err := b.board.Actions(rest.CreateArgsForBoardActions()...)
 	if err != nil {
@@ -74,7 +75,7 @@ func (b *Board) MapActions() error {
 	return nil
 }
 
-// Print will print the board actions out
+// PrintActions will print the board actions out
 func (b *Board) PrintActions() {
 	for _, list := range b.lists {
 		b.listMux.RLock()
