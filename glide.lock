@@ -1,5 +1,5 @@
-hash: c22d1b50ef42e8beb91e7eed9a33835b1bc409fa9c0c8f080c3c4540ddaa1997
-updated: 2016-07-17T19:40:14.338307143-05:00
+hash: 3616499ce1d2ef744cb767a8c02f374601364ddd02e823d18ec9b38431905609
+updated: 2016-07-18T07:43:30.3597526-05:00
 imports:
 - name: github.com/BurntSushi/toml
   version: 99064174e013895bbd9b025c31100bd1d9b590ca
@@ -42,7 +42,7 @@ imports:
   version: c1ccc378a054ea8d4e38d8c67f6938d4760b53dd
 - name: github.com/VojtechVitek/go-trello
   version: 94f5c29e9a474e5baab46fb32f41c53f9f1e4663
-  repo: git@github.com:klauern/go-trello.git
+  repo: https://github.com/klauern/go-trello.git
   vcs: git
 - name: golang.org/x/sys
   version: a646d33e2ee3172a661fc09bca23bb4889a41bc8

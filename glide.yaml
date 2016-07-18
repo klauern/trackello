@@ -2,6 +2,6 @@ package: github.com/klauern/trackello
 import:
 - package: github.com/VojtechVitek/go-trello
   vcs: git
-  repo: git@github.com:klauern/go-trello.git
+  repo: https://github.com/klauern/go-trello.git
 - package: github.com/spf13/cobra
 - package: github.com/spf13/viper
