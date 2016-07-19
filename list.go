@@ -99,7 +99,7 @@ func (l *List) MapCards() error {
 		return err
 	}
 	for _, card := range cards {
-		l.cards[cardID(card.Id)] = NewCard(&card)
+		l.cards[cardID(card.Id)] = NewCard(card)
 	}
 	return nil
 }

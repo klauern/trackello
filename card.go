@@ -34,9 +34,9 @@ func (c *Card) String() string {
 }
 
 // NewCard will construct a new Card element using a trello.Card as a base type.
-func NewCard(c *trello.Card) Card {
+func NewCard(c trello.Card) Card {
 	return Card{
-		card:  c,
+		card:  &c,
 		stats: &statistics{},
 	}
 }

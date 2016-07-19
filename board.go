@@ -3,10 +3,10 @@ package trackello
 import (
 	"sync"
 
-	"github.com/VojtechVitek/go-trello"
-	"github.com/klauern/trackello/rest"
-	"github.com/pkg/errors"
 	"sort"
+
+	"github.com/VojtechVitek/go-trello"
+	"github.com/pkg/errors"
 )
 
 // Board is a super-type for a Trello board.  Board also contains a mutex and map of a List ID to a List.
@@ -58,20 +58,17 @@ func (b *Board) Populate() error {
 // MapActions queries Trello's API for all of the recent actions performed on a Board, and maps that to the
 // board itself, into a list and card.
 func (b *Board) MapActions() error {
-	actions, err := b.board.Actions(rest.CreateArgsForBoardActions()...)
-	if err != nil {
-		return err
-	}
 	wg := sync.WaitGroup{}
-	for _, action := range actions {
-		action := action
+	for _, list := range b.lists {
 		wg.Add(1)
-		go func(a trello.Action) {
+		go func(l List) {
 			defer wg.Done()
-
-			b.listMux.RLock()
-			//b.lists[]
-		}(action)
+			b.listMux.Lock()
+			if _, err := l.MapActions(); err != nil {
+				panic(err)
+			}
+			b.listMux.Unlock()
+		}(list)
 	}
 	return nil
 }

@@ -105,5 +105,6 @@ func PrintParallelBoardActivity(id string) {
 	if err != nil {
 		panic(err)
 	}
+
 	board.PrintActions()
 }
