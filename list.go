@@ -21,6 +21,7 @@ import (
 	"github.com/VojtechVitek/go-trello"
 	"github.com/klauern/trackello/rest"
 	"github.com/pkg/errors"
+	"strings"
 )
 
 // List is both the Trello List + other stats on the actions in it.
@@ -126,5 +127,5 @@ func (l ByListName) Swap(i, j int) {
 
 // Less determines which of the two trackello.List items is before other based on the List Name.
 func (l ByListName) Less(i, j int) bool {
-	return l[i].name < l[j].name
+	return strings.Compare(strings.ToLower(l[i].name), strings.ToLower(l[j].name)) == -1
 }
