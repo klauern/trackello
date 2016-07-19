@@ -6,14 +6,15 @@ import (
 	"github.com/VojtechVitek/go-trello"
 	"github.com/klauern/trackello/rest"
 	"github.com/pkg/errors"
+	"sort"
 )
 
 // Board is a super-type for a Trello board.  Board also contains a mutex and map of a List ID to a List.
 type Board struct {
-	id             string
-	board          *trello.Board
-	listMux        *sync.RWMutex
-	lists          map[string]*List
+	id      string
+	board   *trello.Board
+	listMux *sync.RWMutex
+	lists   map[string]List
 }
 
 // NewBoard will create a new Board type, using a trello.Board as a starting point.
@@ -22,7 +23,7 @@ func NewBoard(b *trello.Board) *Board {
 		id:      b.Id,
 		board:   b,
 		listMux: &sync.RWMutex{},
-		lists:   make(map[string]*List),
+		lists:   make(map[string]List),
 	}
 }
 
@@ -45,7 +46,7 @@ func (b *Board) Populate() error {
 			}
 			// 2. return the list actions to return to the board
 			b.listMux.Lock()
-			b.lists[trackList.list.Id] = trackList
+			b.lists[trackList.list.Id] = *trackList
 			b.listMux.Unlock()
 		}(list)
 	}
@@ -77,7 +78,14 @@ func (b *Board) MapActions() error {
 
 // PrintActions will print the board actions out
 func (b *Board) PrintActions() {
+	lists := make([]List, len(b.lists))
 	for _, list := range b.lists {
+		lists = append(lists, list)
+	}
+	b.listMux.Lock()
+	sort.Sort(ByListName(lists))
+	b.listMux.Unlock()
+	for _, list := range lists {
 		b.listMux.RLock()
 		list.Print()
 		b.listMux.RUnlock()
