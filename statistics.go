@@ -35,7 +35,7 @@ func (c *Card) AddCalculation(a trello.Action) {
 	switch a.Type {
 	case "commentCard":
 		c.stats.comments++
-	case "updateCard", "deleteAttachmentFromCard":
+	case "updateCard", "deleteAttachmentFromCard", "updateList":
 		c.stats.updates++
 	case "createCard", "addChecklistToCard", "addAttachmentToCard":
 		c.stats.creates++
@@ -59,4 +59,8 @@ func (s *statistics) PrintStatistics() string {
 	stats = stats + color.MagentaString(" %-2d …", s.creates)
 	stats = stats + "]"
 	return stats
+}
+
+func (s *statistics) Total() int {
+	return s.checkListItemUpdates + s.comments + s.creates + s.updates
 }

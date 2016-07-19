@@ -1,18 +1,8 @@
-hash: f466f36de8636d4ad394944f69266995d2f2753bf206dde1155366b9c5789088
-updated: 2016-07-13T18:16:23.886252516-05:00
+hash: 3616499ce1d2ef744cb767a8c02f374601364ddd02e823d18ec9b38431905609
+updated: 2016-07-18T07:43:30.3597526-05:00
 imports:
-- name: github.com/armon/consul-api
-  version: dcfedd50ed5334f96adee43fc88518a4f095e15c
 - name: github.com/BurntSushi/toml
-  version: bec2dacf4b590d26237cfebff4471e21ce543494
-- name: github.com/coreos/go-etcd
-  version: 003851be7bb0694fe3cc457a49529a19388ee7cf
-  subpackages:
-  - etcd
-- name: github.com/cpuguy83/go-md2man
-  version: 2724a9c9051aa62e9cca11304e7dd518e9e41599
-  subpackages:
-  - md2man
+  version: 99064174e013895bbd9b025c31100bd1d9b590ca
 - name: github.com/fatih/color
   version: 87d4004f2ab62d0d255e0a38f1680aa534549fe3
 - name: github.com/fsnotify/fsnotify
@@ -24,102 +14,40 @@ imports:
   - hcl/parser
   - hcl/token
   - json/parser
-  - hcl/printer
   - hcl/scanner
   - hcl/strconv
   - json/scanner
   - json/token
-  - testhelper
 - name: github.com/inconshreveable/mousetrap
   version: 76626ae9c91c4f2a10f34cad8ce83ea42c93bb75
 - name: github.com/magiconair/properties
-  version: e2f061ecfdaca9f35b2e2c12346ffc526f138137
-  subpackages:
-  - _third_party/gopkg.in/check.v1
+  version: af14024f63beeb153d0048591b39c5788f21cc24
 - name: github.com/mattn/go-colorable
   version: 9056b7a9f2d1f2d96498d6d146acd1f9d5ed3d59
 - name: github.com/mattn/go-isatty
   version: 56b76bdf51f7708750eac80fa38b952bb9f32639
 - name: github.com/mitchellh/mapstructure
   version: 21a35fb16463dfb7c8eee579c65d995d95e64d1e
-- name: github.com/russross/blackfriday
-  version: 1d6b8e9301e720b08a8938b8c25c018285885438
-- name: github.com/shurcooL/sanitized_anchor_name
-  version: 10ef21a441db47d8b13ebcc5fd2310f636973c77
+- name: github.com/pkg/errors
+  version: a2d6902c6d2a2f194eb3fb474981ab7867c81505
 - name: github.com/spf13/cast
   version: 27b586b42e29bec072fe7379259cc719e1289da6
 - name: github.com/spf13/cobra
-  version: a272c3cbd5ff80a5bf5c5603df50183f9f3f7324
-  subpackages:
-  - cobra/cmd
+  version: b24564e919247d7c870fe0ed3738c98d8741aca4
 - name: github.com/spf13/jwalterweatherman
   version: 33c24e77fb80341fe7130ee7c594256ff08ccc46
 - name: github.com/spf13/pflag
   version: 367864438f1b1a3c7db4da06a2f55b144e6784e0
 - name: github.com/spf13/viper
   version: c1ccc378a054ea8d4e38d8c67f6938d4760b53dd
-- name: github.com/ugorji/go
-  version: b94837a2404ab90efe9289e77a70694c355739cb
-  subpackages:
-  - codec
 - name: github.com/VojtechVitek/go-trello
-  version: eca42609dcfd7f49362594ac5d966a010aa3736d
-- name: github.com/xordataexchange/crypt
-  version: 749e360c8f236773f28fc6d3ddfce4a470795227
-  subpackages:
-  - config
-  - backend
-  - backend/consul
-  - backend/etcd
-  - encoding/secconf
-- name: golang.org/x/crypto
-  version: 2c99acdd1e9b90d779ca23f632aad86af9909c62
-  subpackages:
-  - openpgp
-  - openpgp/armor
-  - openpgp/errors
-  - openpgp/packet
-  - openpgp/s2k
-  - cast5
-  - openpgp/elgamal
+  version: 94f5c29e9a474e5baab46fb32f41c53f9f1e4663
+  repo: https://github.com/klauern/go-trello.git
+  vcs: git
 - name: golang.org/x/sys
-  version: b518c298ac9dc94b6ac0757394f50d10c5dfa25a
+  version: a646d33e2ee3172a661fc09bca23bb4889a41bc8
   subpackages:
   - unix
-  - windows
-  - windows/svc
-  - windows/registry
-  - windows/svc/debug
-  - windows/svc/eventlog
-  - windows/svc/mgr
 - name: gopkg.in/yaml.v2
-  version: a83829b6f1293c91addabc89d0571c246397bbf4
-testImports:
-- name: github.com/davecgh/go-spew
-  version: 5215b55f46b2b919f50a1df0eaa5886afe4e3b3d
-  subpackages:
-  - spew
-- name: github.com/franela/goblin
-  version: efa9910a3ea4ccb7ee4b977571318af2e51ba05f
-- name: github.com/onsi/gomega
-  version: 9574b2d94c03faf63bf1b296e21d9db950006ea4
-  subpackages:
-  - internal/assertion
-  - internal/asyncassertion
-  - internal/testingtsupport
-  - matchers
-  - types
-  - internal/oraclematcher
-  - format
-  - matchers/support/goraph/bipartitegraph
-  - matchers/support/goraph/edge
-  - matchers/support/goraph/node
-  - matchers/support/goraph/util
-- name: github.com/pmezard/go-difflib
-  version: 792786c7400a136282c1664665ae0a8db921c6c2
-  subpackages:
-  - difflib
-- name: github.com/stretchr/testify
-  version: d77da356e56a7428ad25149ca77381849a6a5232
-  subpackages:
-  - assert
+  version: e4d366fc3c7938e2958e662b4258c7a89e1f0e3e
+testImports: []
