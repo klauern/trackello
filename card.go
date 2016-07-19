@@ -26,6 +26,7 @@ type Card struct {
 	stats *statistics
 }
 
+// this is a shortcut to mapping to a string since I may forget why it's a s
 type cardID string
 
 func (c *Card) String() string {
