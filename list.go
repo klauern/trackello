@@ -97,21 +97,17 @@ func (l *List) MapActions() (bool, error) {
 			case "updateList", "createList":
 				continue
 			case "updateCard":
+				// if we're moving cards between lists, we just won't map it.  It will likely be either
+				// caught from the other list's actions, or not, but it's not worth digging too deeply
 				if len(action.Data.ListBefore.Id) > 0 && len(action.Data.ListAfter.Id) > 0 {
 					continue
 				}
 			}
-
-			//if len(action.Data.Card.Id) == 0 {
-			//	continue
-			//}
 		}
 		if card, ok = l.cards[cardID(action.Data.Card.Id)]; ok {
 			card.AddCalculation(action)
 			l.cards[cardID(action.Data.Card.Id)] = card
 		}
-		// maybe an action doesn't exist on this card anymore, but it did at some time?  Need to RE-investigate what
-		// card this action belongs to in order to determine whether we're dealing with missing cards in the map
 	}
 	return true, nil
 }
@@ -150,7 +146,7 @@ func (l ByListName) Swap(i, j int) {
 	l[i], l[j] = l[j], l[i]
 }
 
-// Less determines which of the two trackello.List items is before other based on the List Name.
+// Less determines which of the two trackello.List items is before other based on the List Name (lowercased).
 func (l ByListName) Less(i, j int) bool {
 	return strings.Compare(strings.ToLower(l[i].name), strings.ToLower(l[j].name)) == -1
 }

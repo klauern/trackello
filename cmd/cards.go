@@ -58,12 +58,12 @@ func listCardsOnBoard(cmd *cobra.Command, args []string) {
 		log.Fatal(err)
 		os.Exit(1)
 	}
-	boardId := viper.GetString("board")
+	boardID := viper.GetString("board")
 	if len(args[0]) > 0 {
-		boardId = args[0]
+		boardID = args[0]
 	}
 
-	if board, err := conn.Board(boardId); err != nil {
+	if board, err := conn.Board(boardID); err != nil {
 		log.Fatal(err)
 		os.Exit(1)
 	} else {

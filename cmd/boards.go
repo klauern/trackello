@@ -31,14 +31,18 @@ var boardsCmd = &cobra.Command{
 	Long: `If you want to configure a default board, you will likely want to find out the
 board ID for every one of them so you can specify this
 somewhere (such as in your ~/.trackello.yaml).  This is pretty
-easy.  Simply call 'boards' to get a listing of all the boards:
+easy.  Simply call 'boards' to get a listing of all the boards (real ID's omitted):
 
 $ trackello boards
-Your Boards
-===========
-
-
-
+Using config file: ~/.trackello.yaml
+Printing all OPEN Boards
+Board Name                              ID
+==========                              ==
+FunThings                               XXXXXXXXXXXXXXXXXXXXXXXX
+Family                                  XXXXXXXXXXXXXXXXXXXXXXXX
+Personal Projects                       XXXXXXXXXXXXXXXXXXXXXXXX
+Study                                   XXXXXXXXXXXXXXXXXXXXXXXX
+Welcome Board                           XXXXXXXXXXXXXXXXXXXXXXXX
 `,
 	Run: listBoards,
 }

@@ -61,6 +61,7 @@ func (s *statistics) PrintStatistics() string {
 	return stats
 }
 
+// Total will print out the total number of actions that accumulate to make up the statistics information for a Card.
 func (s *statistics) Total() int {
 	return s.checkListItemUpdates + s.comments + s.creates + s.updates
 }
