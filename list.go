@@ -18,10 +18,11 @@ import (
 	"fmt"
 	"sort"
 
+	"strings"
+
 	"github.com/VojtechVitek/go-trello"
 	"github.com/klauern/trackello/rest"
 	"github.com/pkg/errors"
-	"strings"
 )
 
 // List is both the Trello List + other stats on the actions in it.
@@ -47,6 +48,30 @@ func (l *List) Print() {
 	}
 }
 
+// PrintNonZeroActions will print out a list and all of the cards to the command-line that have
+// more than 0 actions associated with them.
+func (l *List) PrintNonZeroActions() {
+	hasActions := false
+	output := ""
+	if len(l.name) > 0 {
+		output += fmt.Sprintf("%s\n", l.name)
+		cardSlice := make([]Card, 0, len(l.cards))
+		for _, card := range l.cards {
+			cardSlice = append(cardSlice, card)
+		}
+		sort.Sort(ByStatisticsCountRev(cardSlice))
+		for _, card := range cardSlice {
+			if card.stats.Total() > 0 {
+				hasActions = true
+				output += fmt.Sprintf("  * %s\n", card.String())
+			}
+		}
+	}
+	if hasActions {
+		fmt.Printf("%s", output)
+	}
+}
+
 // NewList constructs a new *List based off of a go-trello *List.
 func NewList(l *trello.List) *List {
 	return &List{
@@ -68,25 +93,25 @@ func (l *List) MapActions() (bool, error) {
 	for _, action := range actions {
 		card, ok := l.cards[cardID(action.Data.Card.Id)]
 		if !ok {
-			fmt.Printf("Card info is %+v\n", card)
 			switch action.Type {
 			case "updateList", "createList":
 				continue
+			case "updateCard":
+				if len(action.Data.ListBefore.Id) > 0 && len(action.Data.ListAfter.Id) > 0 {
+					continue
+				}
 			}
 
-			fmt.Printf("Not Ok for id %s, action information is %+v\n", action.Data.Card.Id, action)
-			if len(action.Data.Card.Id) == 0 {
-				continue
-			}
+			//if len(action.Data.Card.Id) == 0 {
+			//	continue
+			//}
 		}
-		card, ok = l.cards[cardID(action.Data.Card.Id)]
+		if card, ok = l.cards[cardID(action.Data.Card.Id)]; ok {
+			card.AddCalculation(action)
+			l.cards[cardID(action.Data.Card.Id)] = card
+		}
 		// maybe an action doesn't exist on this card anymore, but it did at some time?  Need to RE-investigate what
 		// card this action belongs to in order to determine whether we're dealing with missing cards in the map
-		if !ok {
-			panic("Still not ok")
-		}
-		card.AddCalculation(action)
-		l.cards[cardID(action.Data.Card.Id)] = card
 	}
 	return true, nil
 }

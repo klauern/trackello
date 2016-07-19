@@ -60,3 +60,7 @@ func (s *statistics) PrintStatistics() string {
 	stats = stats + "]"
 	return stats
 }
+
+func (s *statistics) Total() int {
+	return s.checkListItemUpdates + s.comments + s.creates + s.updates
+}

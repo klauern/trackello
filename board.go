@@ -27,8 +27,8 @@ func NewBoard(b *trello.Board) *Board {
 	}
 }
 
-// Populate will Populate the board's actions and missing data.
-func (b *Board) Populate() error {
+// PopulateLists will Populate the board's lists with cards and missing data.
+func (b *Board) PopulateLists() error {
 	lists, err := b.board.Lists()
 	if err != nil {
 		return errors.Wrapf(err, "Unable to get Lists for Board %s", b.board.Name)
@@ -70,6 +70,7 @@ func (b *Board) MapActions() error {
 			b.listMux.Unlock()
 		}(list)
 	}
+	wg.Wait()
 	return nil
 }
 
@@ -84,7 +85,7 @@ func (b *Board) PrintActions() {
 	b.listMux.Unlock()
 	for _, list := range lists {
 		b.listMux.RLock()
-		list.Print()
+		list.PrintNonZeroActions()
 		b.listMux.RUnlock()
 	}
 }
