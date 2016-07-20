@@ -47,6 +47,7 @@ on this site: https://trello.com/app-key
 	Run: runConfigCmd,
 }
 
+// TODO: Need to look at whether this is just too much going on.
 func init() {
 	// enable ability to specify config file via flag
 	RootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.trackello.yaml)")
@@ -98,10 +99,7 @@ func init() {
 }
 
 func runConfigCmd(cmd *cobra.Command, args []string) {
-	fmt.Println("config called")
-
 	fmt.Printf("Token is %s\n", viper.GetString("token"))
 	fmt.Printf("AppKey is %s\n", viper.GetString("appkey"))
 	fmt.Printf("Board ID is %s\n", viper.GetString("board"))
-
 }
