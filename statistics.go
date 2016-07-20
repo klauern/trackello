@@ -54,10 +54,10 @@ func (s *statistics) PrintStatistics() string {
 	if s == nil {
 		s = &statistics{}
 	}
-	stats := "[" + color.CyanString("%-2d +", s.updates)
-	stats = stats + color.RedString(" %-2d ≡", s.comments)
-	stats = stats + color.GreenString(" %-2d ✓", s.checkListItemUpdates)
-	stats = stats + color.MagentaString(" %-2d …", s.creates)
+	stats := "[" + color.New(color.FgHiCyan).SprintfFunc()("%-2d +", s.updates)
+	stats = stats + color.New(color.FgHiRed).SprintfFunc()(" %-2d ≡", s.comments)
+	stats = stats + color.New(color.FgHiGreen).SprintfFunc()(" %-2d ✓", s.checkListItemUpdates)
+	stats = stats + color.New(color.FgHiMagenta).SprintfFunc()(" %-2d …", s.creates)
 	stats = stats + "]"
 	return stats
 }
