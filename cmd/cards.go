@@ -48,7 +48,7 @@ func listCardsOnBoard(cmd *cobra.Command, args []string) {
 		os.Exit(1)
 	}
 	boardID := viper.GetString("board")
-	if len(args[0]) > 0 {
+	if len(args) > 0 {
 		boardID = args[0]
 	}
 
