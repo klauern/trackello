@@ -16,7 +16,6 @@ package trackello
 
 import (
 	"log"
-	"os"
 
 	"github.com/VojtechVitek/go-trello"
 	"github.com/klauern/trackello/rest"
@@ -29,7 +28,7 @@ type Trackello struct {
 	client *trello.Client
 }
 
-// NewTrackello will create a `Trackello` type using your preferences application token and appkey.
+// NewTrackello will create a Trackello type using your preferences application token and appkey.
 func NewTrackello(token, appKey string) (*Trackello, error) {
 	// New Trello Client
 	tr, err := trello.NewAuthClient(appKey, &token)
@@ -66,6 +65,7 @@ func (t *Trackello) Boards() ([]trello.Board, error) {
 	return boards, err
 }
 
+// getCardForAction returns the underlying trello.Card that may (not always) be associated with the underlying trello.Action
 func (t *Trackello) getCardForAction(a trello.Action) (*trello.Card, error) {
 	return t.client.Card(a.Data.Card.Id)
 }
@@ -74,15 +74,13 @@ func (t *Trackello) getCardForAction(a trello.Action) (*trello.Card, error) {
 func (t *Trackello) BoardActions(id string) ([]trello.Action, error) {
 	board, err := t.Board(id)
 	if err != nil {
-		log.Fatal(err)
-		os.Exit(1)
+		return nil, err
 	}
 
 	args := rest.CreateArgsForBoardActions()
 	actions, err := board.Actions(args...)
 	if err != nil {
-		log.Fatal(err)
-		os.Exit(1)
+		return nil, err
 	}
 	return actions, err
 }

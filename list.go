@@ -33,21 +33,6 @@ type List struct {
 	list  *trello.List
 }
 
-// Print will print out a list and all of the cards to the command-line.
-func (l *List) Print() {
-	if len(l.name) > 0 {
-		fmt.Printf("%s\n", l.name)
-		cardSlice := make([]Card, 0, len(l.cards))
-		for _, card := range l.cards {
-			cardSlice = append(cardSlice, card)
-		}
-		sort.Sort(ByStatisticsCountRev(cardSlice))
-		for _, card := range cardSlice {
-			fmt.Printf("  * %s\n", card.String())
-		}
-	}
-}
-
 // PrintNonZeroActions will print out a list and all of the cards to the command-line that have
 // more than 0 actions associated with them.
 func (l *List) PrintNonZeroActions() {
@@ -87,8 +72,7 @@ func (l *List) MapActions() error {
 	args := rest.CreateArgsForBoardActions()
 	actions, err := l.list.Actions(args...)
 	if err != nil {
-		fmt.Println("error in MapActions")
-		return errors.Wrapf(err, "Error getting List \"%s\" Actions: ", l.name)
+		return errors.Wrapf(err, "Error in MapActions getting List \"%s\" Actions: ", l.name)
 	}
 	for _, action := range actions {
 		card, ok := l.cards[cardID(action.Data.Card.Id)]
@@ -105,7 +89,9 @@ func (l *List) MapActions() error {
 			}
 		}
 		if card, ok = l.cards[cardID(action.Data.Card.Id)]; ok {
-			card.AddCalculation(action)
+			if err := card.AddCalculation(action); err != nil {
+				// TODO? not sure what to do for this
+			}
 			l.cards[cardID(action.Data.Card.Id)] = card
 		}
 	}
@@ -116,8 +102,7 @@ func (l *List) MapActions() error {
 func (l *List) MapCards() error {
 	cards, err := l.list.Cards()
 	if err != nil {
-		fmt.Printf("Error MapCards %s\n", err)
-		return err
+		return errors.Wrapf(err, "Error in listing Cards in MapCards")
 	}
 	for _, card := range cards {
 		l.cards[cardID(card.Id)] = NewCard(card)

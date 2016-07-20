@@ -31,7 +31,7 @@ type statistics struct {
 }
 
 // AddCalculation will the new action to the Card's statistics.
-func (c *Card) AddCalculation(a trello.Action) {
+func (c *Card) AddCalculation(a trello.Action) error {
 	switch a.Type {
 	case "commentCard":
 		c.stats.comments++
@@ -42,9 +42,10 @@ func (c *Card) AddCalculation(a trello.Action) {
 	case "updateCheckItemStateOnCard":
 		c.stats.checkListItemUpdates++
 	default:
-		fmt.Printf("Unmapped action type: %s.  Defaulting to update\n", a.Type)
 		c.stats.updates++
+		return fmt.Errorf("Unmapped action type: %s.  Defaulting to update\n", a.Type)
 	}
+	return nil
 }
 
 // PrintStatistics will print the statistics information out.
