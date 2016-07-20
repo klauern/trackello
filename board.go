@@ -15,9 +15,8 @@
 package trackello
 
 import (
-	"sync"
-
 	"sort"
+	"sync"
 
 	"github.com/VojtechVitek/go-trello"
 	"github.com/pkg/errors"
@@ -78,7 +77,7 @@ func (b *Board) MapActions() error {
 		go func(l List) {
 			defer wg.Done()
 			b.listMux.Lock()
-			if _, err := l.MapActions(); err != nil {
+			if err := l.MapActions(); err != nil {
 				panic(err)
 			}
 			b.listMux.Unlock()

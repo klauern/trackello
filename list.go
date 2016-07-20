@@ -83,12 +83,12 @@ func NewList(l *trello.List) *List {
 }
 
 // MapActions will map all of the Actions that occurred on a List.
-func (l *List) MapActions() (bool, error) {
+func (l *List) MapActions() error {
 	args := rest.CreateArgsForBoardActions()
 	actions, err := l.list.Actions(args...)
 	if err != nil {
 		fmt.Println("error in MapActions")
-		return false, errors.Wrapf(err, "Error getting List \"%s\" Actions: ", l.name)
+		return errors.Wrapf(err, "Error getting List \"%s\" Actions: ", l.name)
 	}
 	for _, action := range actions {
 		card, ok := l.cards[cardID(action.Data.Card.Id)]
@@ -109,7 +109,7 @@ func (l *List) MapActions() (bool, error) {
 			l.cards[cardID(action.Data.Card.Id)] = card
 		}
 	}
-	return true, nil
+	return nil
 }
 
 // MapCards maps all of the cards for a list into the List.cards map[string]Card based on the cardID.
