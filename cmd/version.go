@@ -24,9 +24,10 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// TrackelloVersion is the statically defined version of this project.
 const TrackelloVersion = "0.1-DEV"
 
-var buildDate string = ""
+var buildDate string
 
 var versionCmd = &cobra.Command{
 	Use:   "version",
