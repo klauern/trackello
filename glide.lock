@@ -1,5 +1,5 @@
-hash: 3616499ce1d2ef744cb767a8c02f374601364ddd02e823d18ec9b38431905609
-updated: 2016-07-18T07:43:30.3597526-05:00
+hash: 204bd5ecbcfbfcff9effe2ef6b21988362371d357f785368d2f6341cc38171c4
+updated: 2016-07-20T12:26:55.2630612-05:00
 imports:
 - name: github.com/BurntSushi/toml
   version: 99064174e013895bbd9b025c31100bd1d9b590ca
@@ -20,6 +20,8 @@ imports:
   - json/token
 - name: github.com/inconshreveable/mousetrap
   version: 76626ae9c91c4f2a10f34cad8ce83ea42c93bb75
+- name: github.com/kardianos/osext
+  version: 29ae4ffbc9a6fe9fb2bc5029050ce6996ea1d3bc
 - name: github.com/magiconair/properties
   version: af14024f63beeb153d0048591b39c5788f21cc24
 - name: github.com/mattn/go-colorable
