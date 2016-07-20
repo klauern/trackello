@@ -125,15 +125,7 @@ func (l *List) MapCards() error {
 	return nil
 }
 
-func makeList(listMap map[string]List) []List {
-	list := make([]List, len(listMap))
-	for _, v := range listMap {
-		list = append(list, v)
-	}
-	return list
-}
-
-// ByListName is a super type of a List[], with functions that implement the sort interface.
+// ByListName is a sortable type for []List, allowing sorting by the List Name (case-insensitive).
 type ByListName []List
 
 // Len returns the length of the ByListName slice.

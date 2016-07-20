@@ -70,52 +70,6 @@ func (t *Trackello) getCardForAction(a trello.Action) (*trello.Card, error) {
 	return t.client.Card(a.Data.Card.Id)
 }
 
-// MapBoardActions takes the slice of []trello.Action and maps it to a Card and it's associated List.
-func (t *Trackello) MapBoardActions(actions []trello.Action) ([]List, error) {
-	listCards := make(map[string]List)
-	for _, action := range actions {
-		if len(action.Data.Card.Id) > 0 {
-			// TODO: restructure this into a map of mapped Cards
-			// We can parallelize the calls, AND reduce making redundant calls.
-			// trackello.List should have a map[cardID]Card instead of just a slice of []Card
-			//
-			card, err := t.getCardForAction(action)
-			if err != nil {
-				return nil, err
-			}
-			list, err := t.client.List(card.IdList)
-			if err != nil {
-				return nil, err
-			}
-			lc, ok := listCards[list.Name]
-			if !ok {
-				cards := make(map[cardID]Card)
-				cards[cardID(card.Id)] = Card{
-					card:  card,
-					stats: &statistics{},
-				}
-				listCards[list.Name] = List{
-					name:  list.Name,
-					cards: cards,
-				}
-				lc = listCards[list.Name]
-			}
-			if _, cok := lc.cards[cardID(card.Id)]; !cok {
-				newCard := Card{
-					card:  card,
-					stats: &statistics{},
-				}
-				lc.cards[cardID(card.Id)] = newCard
-			}
-			c, _ := lc.cards[cardID(card.Id)]
-			c.AddCalculation(action)
-			lc.cards[cardID(card.Id)] = c
-			listCards[list.Name] = lc
-		}
-	}
-	return makeList(listCards), nil
-}
-
 // BoardActions will retrieve a slice of trello.Action based on the Board ID.
 func (t *Trackello) BoardActions(id string) ([]trello.Action, error) {
 	board, err := t.Board(id)
