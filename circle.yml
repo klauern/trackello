@@ -17,3 +17,9 @@ dependencies:
 test:
   override:
     - go test -v -race $(go list ./... | grep -v /vendor/)
+
+deployment:
+  staging:
+    commands:
+      - go install github.com/klauern/trackello/cmd/trackello
+      - mv `which trackello` $CIRCLE_ARTIFACTS/
