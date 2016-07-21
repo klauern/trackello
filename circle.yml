@@ -22,5 +22,4 @@ deployment:
   staging:
     branch: master
     commands:
-      - go install github.com/klauern/trackello/cmd/trackello
-      - mv `which trackello` $CIRCLE_ARTIFACTS/trackello
+      - go build -o $CIRCLE_ARTIFACTS/trackello github.com/klauern/trackello/cmd/trackello
