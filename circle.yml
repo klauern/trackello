@@ -13,3 +13,7 @@ dependencies:
     - glide i
   cache_directories:
     - ~/download
+
+test:
+  override:
+    - go test -v -race $(go list ./... | grep -v /vendor/)
