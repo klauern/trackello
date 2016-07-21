@@ -1,10 +1,12 @@
 package: github.com/klauern/trackello
 import:
 - package: github.com/VojtechVitek/go-trello
-  vcs: git
   repo: https://github.com/klauern/go-trello.git
+  vcs: git
 - package: github.com/spf13/cobra
 - package: github.com/spf13/viper
 - package: github.com/fatih/color
+  version: ^1.0.0
 - package: github.com/pkg/errors
+  version: ^0.7.0
 - package: github.com/kardianos/osext

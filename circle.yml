@@ -1,0 +1,5 @@
+## Customize dependencies
+dependencies:
+  pre:
+    - go get -u github.com/Masterminds/glide
+    - glide i
