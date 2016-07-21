@@ -22,4 +22,7 @@ deployment:
   staging:
     branch: master
     commands:
-      - go build -o $CIRCLE_ARTIFACTS/trackello github.com/klauern/trackello/cmd/trackello
+      - go get github.com/mitchellh/gox
+      - cd $CIRCLE_ARTIFACTS
+      - gox github.com/klauern/trackello/cmd/trackello
+      #- go build -o $CIRCLE_ARTIFACTS/trackello github.com/klauern/trackello/cmd/trackello
