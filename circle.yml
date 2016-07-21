@@ -23,7 +23,6 @@ deployment:
     branch: master
     commands:
       - go get github.com/mitchellh/gox
-      - cd $CIRCLE_ARTIFACTS
       - gox github.com/klauern/trackello/cmd/trackello
       - mv trackello_* $CIRCLE_ARTIFACTS/
       #- go build -o $CIRCLE_ARTIFACTS/trackello github.com/klauern/trackello/cmd/trackello
