@@ -23,4 +23,4 @@ deployment:
     branch: master
     commands:
       - go install github.com/klauern/trackello/cmd/trackello
-      - mv `which trackello` $CIRCLE_ARTIFACTS/
+      - mv `which trackello` $CIRCLE_ARTIFACTS
