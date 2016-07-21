@@ -25,4 +25,3 @@ deployment:
       - go get github.com/mitchellh/gox
       - gox github.com/klauern/trackello/cmd/trackello
       - mv trackello_* $CIRCLE_ARTIFACTS/
-      #- go build -o $CIRCLE_ARTIFACTS/trackello github.com/klauern/trackello/cmd/trackello
