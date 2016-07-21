@@ -8,5 +8,8 @@ machine:
     - sudo tar -C /usr/local -xzf download/$GODIST
 
 dependencies:
+  pre:
+    - go get -u github.com/Masterminds/glide
+    - glide i
   cache_directories:
     - ~/download
