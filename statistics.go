@@ -21,9 +21,9 @@ import (
 	"github.com/fatih/color"
 )
 
-// statistics provides a way to show statistical information about a list, card or whatnot by aggregating the updates,
+// Statistics provides a way to show statistical information about a list, card or whatnot by aggregating the updates,
 // comments, checklists, and other actions under a specific item.
-type statistics struct {
+type Statistics struct {
 	comments, // represented by a horizontal ellepsis ⋯ 0x22EF
 	updates, // represented by a keyboard 0x2328
 	creates, // represented by plus +
@@ -50,9 +50,9 @@ func (c *Card) AddCalculation(a trello.Action) error {
 
 // PrintStatistics will print the statistics information out.
 // Example format: [ 3 +  2 ≡  0 ✓  1 … ]
-func (s *statistics) PrintStatistics() string {
+func (s *Statistics) PrintStatistics() string {
 	if s == nil {
-		s = &statistics{}
+		s = &Statistics{}
 	}
 	stats := "[" + color.New(color.FgHiCyan).SprintfFunc()("%-2d +", s.updates)
 	stats = stats + color.New(color.FgHiRed).SprintfFunc()(" %-2d ≡", s.comments)
@@ -63,6 +63,6 @@ func (s *statistics) PrintStatistics() string {
 }
 
 // Total will print out the total number of actions that accumulate to make up the statistics information for a Card.
-func (s *statistics) Total() int {
+func (s *Statistics) Total() int {
 	return s.checkListItemUpdates + s.comments + s.creates + s.updates
 }

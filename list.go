@@ -29,7 +29,7 @@ import (
 type List struct {
 	name  string
 	cards map[cardID]Card
-	stats *statistics
+	stats *Statistics
 	list  *trello.List
 }
 
@@ -62,7 +62,7 @@ func NewList(l *trello.List) *List {
 	return &List{
 		name:  l.Name,
 		cards: make(map[cardID]Card),
-		stats: &statistics{},
+		stats: &Statistics{},
 		list:  l,
 	}
 }
@@ -78,6 +78,7 @@ func (l *List) MapActions() error {
 		card, ok := l.cards[cardID(action.Data.Card.Id)]
 		if !ok {
 			switch action.Type {
+			// Ignore list actions.  We're only interested in actions on Cards themselves.
 			case "updateList", "createList":
 				continue
 			case "updateCard":
@@ -90,7 +91,8 @@ func (l *List) MapActions() error {
 		}
 		if card, ok = l.cards[cardID(action.Data.Card.Id)]; ok {
 			if err := card.AddCalculation(action); err != nil {
-				// TODO? not sure what to do for this
+				// If there's an error, it's probably because it's unmapped.  We may want to output that.
+				fmt.Printf("%s\n", err)
 			}
 			l.cards[cardID(action.Data.Card.Id)] = card
 		}

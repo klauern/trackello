@@ -18,7 +18,6 @@ import (
 	"log"
 
 	"github.com/VojtechVitek/go-trello"
-	"github.com/klauern/trackello/rest"
 )
 
 // Trackello represents the connection to Trello for a specific user.
@@ -63,24 +62,4 @@ func (t *Trackello) Boards() ([]trello.Board, error) {
 	}
 	boards, err := member.Boards()
 	return boards, err
-}
-
-// getCardForAction returns the underlying trello.Card that may (not always) be associated with the underlying trello.Action
-func (t *Trackello) getCardForAction(a trello.Action) (*trello.Card, error) {
-	return t.client.Card(a.Data.Card.Id)
-}
-
-// BoardActions will retrieve a slice of trello.Action based on the Board ID.
-func (t *Trackello) BoardActions(id string) ([]trello.Action, error) {
-	board, err := t.Board(id)
-	if err != nil {
-		return nil, err
-	}
-
-	args := rest.CreateArgsForBoardActions()
-	actions, err := board.Actions(args...)
-	if err != nil {
-		return nil, err
-	}
-	return actions, err
 }

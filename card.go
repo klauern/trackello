@@ -19,7 +19,7 @@ import "github.com/VojtechVitek/go-trello"
 // Card is both the Trello Card + other stats on the actions in it.
 type Card struct {
 	card  *trello.Card
-	stats *statistics
+	stats *Statistics
 }
 
 // cardID is a shortcut mapping from a card.ID string.
@@ -33,7 +33,7 @@ func (c *Card) String() string {
 func NewCard(c trello.Card) Card {
 	return Card{
 		card:  &c,
-		stats: &statistics{},
+		stats: &Statistics{},
 	}
 }
 
