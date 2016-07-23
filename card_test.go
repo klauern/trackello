@@ -20,12 +20,14 @@ func TestSorting(t *testing.T) {
 	if !sort.IsSorted(ByStatisticsCountRev(cards)) {
 		t.Fatal("Not sorted")
 	}
+
 	sorted := map[int]int{
 		0: 10,
 		1: 5,
 		2: 4,
 		3: 0,
 	}
+
 	for i, v := range cards {
 		if v.stats.Total() != sorted[i] {
 			t.Fatalf("Error testing Sort: Expected %d, got %d", sorted[i], v.stats.Total())
