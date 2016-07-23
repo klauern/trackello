@@ -2,6 +2,7 @@ package trackello
 
 import (
 	"github.com/VojtechVitek/go-trello"
+	"reflect"
 	"sort"
 	"testing"
 )
@@ -17,17 +18,13 @@ func TestSortListByName(t *testing.T) {
 	if !sort.IsSorted(ByListName(lists)) {
 		t.Fatal("Error: Not Sorted")
 	}
-
-	if lists[0].name != "A" {
-		t.Fatal("Error: Not Sorted")
+	sortedLists := []List{
+		*NewList(&trello.List{Name: "A"}),
+		*NewList(&trello.List{Name: "B"}),
+		*NewList(&trello.List{Name: "Q"}),
+		*NewList(&trello.List{Name: "Z"}),
 	}
-	if lists[1].name != "B" {
-		t.Fatal("Error: Not Sorted")
-	}
-	if lists[2].name != "Q" {
-		t.Fatal("Error: Not Sorted")
-	}
-	if lists[3].name != "Z" {
-		t.Fatal("Error: Not Sorted")
+	if !reflect.DeepEqual(lists, sortedLists) {
+		t.Fatal("Lists are not equal")
 	}
 }
