@@ -18,6 +18,7 @@ import (
 	"sort"
 	"sync"
 
+	"fmt"
 	"github.com/VojtechVitek/go-trello"
 	"github.com/pkg/errors"
 )
@@ -98,7 +99,7 @@ func (b *Board) PrintActions() {
 	b.listMux.Unlock()
 	for _, list := range lists {
 		b.listMux.RLock()
-		list.PrintNonZeroActions()
+		fmt.Printf("%s", list.PrintNonZeroActions())
 		b.listMux.RUnlock()
 	}
 }

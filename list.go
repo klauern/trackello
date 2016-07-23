@@ -35,7 +35,7 @@ type List struct {
 
 // PrintNonZeroActions will print out a list and all of the cards to the command-line that have
 // more than 0 actions associated with them.
-func (l *List) PrintNonZeroActions() {
+func (l *List) PrintNonZeroActions() string {
 	hasActions := false
 	output := ""
 	if len(l.name) > 0 {
@@ -53,8 +53,9 @@ func (l *List) PrintNonZeroActions() {
 		}
 	}
 	if hasActions {
-		fmt.Printf("%s", output)
+		return output
 	}
+	return ""
 }
 
 // NewList constructs a new *List based off of a go-trello *List.
