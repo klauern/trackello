@@ -55,4 +55,6 @@ release:
     - script:
         name: build releases
         code: |
-          gox -arch="amd64,arm,ppc64,ppc64le" github.com/klauern/trackello/cmd/trackello
+          mkdir -p builds
+          cd builds
+          gox -arch="amd64 arm ppc64 ppc64le" -output=builds github.com/klauern/trackello/cmd/trackello
