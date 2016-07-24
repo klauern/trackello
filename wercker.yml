@@ -24,18 +24,14 @@ build:
   steps:
     # Sets the go workspace and places you package
     # at the right place in the workspace tree
-    - setup-go-workspace
-
-    # Install Glide (our dep manager)
-    - script:
-        name: glide install
-        code: |
-            curl https://glide.sh/get | sh
-
+    - wercker/setup-go-workspace:
+      package-dir: github.com/klauern/trackello
+    
     # Gets the dependencies
     - script:
-        name: glide i
+        name: setup Glide / install deps
         code: |
+            go get -u github.com/Masterminds/glide
             glide i
 
     # Build the project
@@ -48,4 +44,4 @@ build:
     - script:
         name: go test
         code: |
-          go test -v -race $(go list ./... | grep -v /vendor/)
+          go test -v -race $(glide novendor)
