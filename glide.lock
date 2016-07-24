@@ -1,8 +1,12 @@
-hash: a823faef8c858df71f044fd2ce9abdf4b6774736aa3e0f7cb3b86f38631080a2
-updated: 2016-07-21T07:16:25.4073377-05:00
+hash: 99547fa61399799697b94d79e1ff5bce96a288e35c41e3b828a59bf75b24fda0
+updated: 2016-07-24T16:05:13.701101359-05:00
 imports:
 - name: github.com/BurntSushi/toml
   version: 99064174e013895bbd9b025c31100bd1d9b590ca
+- name: github.com/cpuguy83/go-md2man
+  version: 2724a9c9051aa62e9cca11304e7dd518e9e41599
+  subpackages:
+  - md2man
 - name: github.com/fatih/color
   version: 87d4004f2ab62d0d255e0a38f1680aa534549fe3
 - name: github.com/fsnotify/fsnotify
@@ -46,6 +50,10 @@ imports:
   version: 94f5c29e9a474e5baab46fb32f41c53f9f1e4663
   repo: https://github.com/klauern/go-trello.git
   vcs: git
+- name: github.com/xordataexchange/crypt
+  version: 0d6dc8c093c1c191f00effdfc3b2f858973f0271
+  subpackages:
+  - config
 - name: golang.org/x/sys
   version: a646d33e2ee3172a661fc09bca23bb4889a41bc8
   subpackages:
