@@ -38,7 +38,7 @@ build:
     - script:
         name: go build
         code: |
-          go build $(glide novenvor)
+          go build $(glide novendor)
 
     # Test the project
     - script:
