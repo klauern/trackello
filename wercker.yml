@@ -45,3 +45,14 @@ build:
         name: go test
         code: |
           go test -v -race $(glide novendor)
+
+release:
+  steps:
+    - script:
+        name: install Gox
+        code: |
+          go get -u github.com/mitchellh/gox
+    - script:
+        name: build releases
+        code: |
+          gox -arch="amd64,arm,ppc64,ppc64le" github.com/klauern/trackello/cmd/trackello
