@@ -1,5 +1,5 @@
-hash: 99547fa61399799697b94d79e1ff5bce96a288e35c41e3b828a59bf75b24fda0
-updated: 2016-07-24T16:05:13.701101359-05:00
+hash: 957cd6da8cc46d9ecd69ee12aa1660496fdcf24bb0c949d7b7649acecf88137f
+updated: 2016-07-24T16:07:38.976994268-05:00
 imports:
 - name: github.com/BurntSushi/toml
   version: 99064174e013895bbd9b025c31100bd1d9b590ca
@@ -36,6 +36,8 @@ imports:
   version: 21a35fb16463dfb7c8eee579c65d995d95e64d1e
 - name: github.com/pkg/errors
   version: 01fa4104b9c248c8945d14d9f128454d5b28d595
+- name: github.com/russross/blackfriday
+  version: 0b647d0506a698cca42caca173e55559b12a69f2
 - name: github.com/spf13/cast
   version: 27b586b42e29bec072fe7379259cc719e1289da6
 - name: github.com/spf13/cobra

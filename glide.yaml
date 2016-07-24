@@ -18,3 +18,5 @@ import:
   version: ^1.0.5
   subpackages:
   - md2man
+- package: github.com/russross/blackfriday
+  version: ^1.4.0
