@@ -26,12 +26,17 @@ build:
     # at the right place in the workspace tree
     - setup-go-workspace
 
+    # Install Glide (our dep manager)
+    - script:
+        name: glide install
+        code: |
+            curl https://glide.sh/get | sh
 
     # Gets the dependencies
     - script:
-        name: go get
+        name: glide i
         code: |
-          go get
+            glide i
 
     # Build the project
     - script:
