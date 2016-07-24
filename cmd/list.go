@@ -64,7 +64,7 @@ func PrintParallelBoardActivity(id string) {
 	if err != nil {
 		panic(err)
 	}
-	board := trackello.NewBoard(&b)
+	board := trackello.NewBoard(b)
 	err = board.PopulateLists()
 	if err != nil {
 		panic(err)
