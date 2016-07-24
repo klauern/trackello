@@ -21,6 +21,11 @@ import (
 	"github.com/VojtechVitek/go-trello"
 )
 
+const (
+	TRACKELLO_APPKEY = "TRACKELLO_TRELLO_APPKEY"
+	TRACKELLO_TOKEN  = "TRACKELLO_TRELLO_TOKEN"
+)
+
 // Trackello represents the connection to Trello for a specific user.
 type Trackello struct {
 	token  string

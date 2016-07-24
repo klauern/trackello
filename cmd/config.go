@@ -20,6 +20,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/klauern/trackello"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -59,10 +60,10 @@ func init() {
 	// Set Environment Variables
 	viper.SetEnvPrefix("trackello")
 	viper.SetEnvKeyReplacer(strings.NewReplacer("-", "_")) // replace environment variables to underscore (_) from hyphen (-)
-	if err := viper.BindEnv("appkey", "TRACKELLO_TRELLO_APPKEY"); err != nil {
+	if err := viper.BindEnv("appkey", trackello.TRACKELLO_APPKEY); err != nil {
 		panic(err)
 	}
-	if err := viper.BindEnv("token", "TRACKELLO_TRELLO_TOKEN"); err != nil {
+	if err := viper.BindEnv("token", trackello.TRACKELLO_TOKEN); err != nil {
 		panic(err)
 	}
 	if err := viper.BindEnv("board", "TRACKELLO_TRELLO_PREFERREDBOARD"); err != nil {

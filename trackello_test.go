@@ -15,7 +15,7 @@ func TestBoard(t *testing.T) {
 		{"550ce6ae4285507e2c51f661", false},
 		{"550ce6ae4285507e2c", true},
 	}
-	client, err := NewTrackello(os.Getenv("TRACKELLO_TOKEN"), os.Getenv("TRACKELLO_APPKEY"))
+	client, err := NewTrackello(os.Getenv(TRACKELLO_TOKEN), os.Getenv(TRACKELLO_APPKEY))
 	if err != nil {
 		t.Fatal(err)
 	}
