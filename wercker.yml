@@ -32,7 +32,7 @@ build:
         name: setup Glide / install deps
         code: |
             go get -u github.com/Masterminds/glide
-            glide i
+            glide u
 
     # Build the project
     - script:
