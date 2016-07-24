@@ -1,12 +1,8 @@
-hash: 957cd6da8cc46d9ecd69ee12aa1660496fdcf24bb0c949d7b7649acecf88137f
-updated: 2016-07-24T16:07:38.976994268-05:00
+hash: 0eab688c1894237f17ddbb72dbbffad36106d4f0259211c836f4a92243a72a9a
+updated: 2016-07-24T16:18:59.662433604-05:00
 imports:
 - name: github.com/BurntSushi/toml
   version: 99064174e013895bbd9b025c31100bd1d9b590ca
-- name: github.com/cpuguy83/go-md2man
-  version: 2724a9c9051aa62e9cca11304e7dd518e9e41599
-  subpackages:
-  - md2man
 - name: github.com/fatih/color
   version: 87d4004f2ab62d0d255e0a38f1680aa534549fe3
 - name: github.com/fsnotify/fsnotify
@@ -36,8 +32,6 @@ imports:
   version: 21a35fb16463dfb7c8eee579c65d995d95e64d1e
 - name: github.com/pkg/errors
   version: 01fa4104b9c248c8945d14d9f128454d5b28d595
-- name: github.com/russross/blackfriday
-  version: 0b647d0506a698cca42caca173e55559b12a69f2
 - name: github.com/spf13/cast
   version: 27b586b42e29bec072fe7379259cc719e1289da6
 - name: github.com/spf13/cobra
@@ -52,10 +46,6 @@ imports:
   version: 94f5c29e9a474e5baab46fb32f41c53f9f1e4663
   repo: https://github.com/klauern/go-trello.git
   vcs: git
-- name: github.com/xordataexchange/crypt
-  version: 0d6dc8c093c1c191f00effdfc3b2f858973f0271
-  subpackages:
-  - config
 - name: golang.org/x/sys
   version: a646d33e2ee3172a661fc09bca23bb4889a41bc8
   subpackages:

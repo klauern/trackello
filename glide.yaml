@@ -9,14 +9,3 @@ import:
   version: ^1.0.0
 - package: github.com/pkg/errors
   version: ^0.7.0
-- package: github.com/kardianos/osext
-- package: github.com/xordataexchange/crypt
-  version: ^0.0.2
-  subpackages:
-  - config
-- package: github.com/cpuguy83/go-md2man
-  version: ^1.0.5
-  subpackages:
-  - md2man
-- package: github.com/russross/blackfriday
-  version: ^1.4.0
