@@ -1,6 +1,7 @@
 package trackello
 
 import (
+	"fmt"
 	"os"
 	"testing"
 )
@@ -20,10 +21,13 @@ func TestBoard(t *testing.T) {
 		t.Fatal(err)
 	}
 	for _, tt := range boardTests {
-		_, err := client.Board(tt.boardId)
-		hasErr := err != nil
+		_, e := client.Board(tt.boardId)
+		hasErr := (e != nil)
+		if hasErr {
+			fmt.Printf("Error %v\n", e)
+		}
 		if tt.hasError != hasErr {
-			t.Fatalf("Expected %t for board %s, got %t", tt.hasError, tt.boardId, hasErr)
+			t.Fatalf("Expected %t for boardID '%s', got %t", tt.hasError, tt.boardId, hasErr)
 		}
 	}
 }

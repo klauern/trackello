@@ -17,6 +17,7 @@ package trackello
 import (
 	"log"
 
+	"fmt"
 	"github.com/VojtechVitek/go-trello"
 )
 
@@ -44,13 +45,12 @@ func NewTrackello(token, appKey string) (*Trackello, error) {
 }
 
 // Board will return the Trello Board given it's ID string.
-func (t *Trackello) Board(id string) (trello.Board, error) {
+func (t *Trackello) Board(id string) (*trello.Board, error) {
 	board, err := t.client.Board(id)
 	if err != nil {
-		log.Fatal(err)
-		return *board, err
+		return board, fmt.Errorf("Error retrieving Board ID '%s': %v", id, err)
 	}
-	return *board, nil
+	return board, nil
 }
 
 // Boards will list all of the boards for the authenticated user (i.e. 'me').
