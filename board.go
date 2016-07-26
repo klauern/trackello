@@ -55,7 +55,7 @@ func (b *Board) PopulateLists() error {
 			defer wg.Done()
 			// 1. calculate the actions for the list
 			trackList := NewList(&list)
-			if err = trackList.MapCards(); err != nil {
+			if e := trackList.MapCards(); e != nil {
 				return
 			}
 			// 2. return the list actions to return to the board
