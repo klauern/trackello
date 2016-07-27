@@ -46,6 +46,7 @@ build:
         code: |
           go test -v -race $(glide novendor)
 
+# create a coverage report of the tests using 'go cover'
 coverage-report:
   steps:
     - script:
@@ -58,7 +59,7 @@ coverage-report:
 release:
   steps:
     - script:
-        name: install Gox
+        name: install/update Gox
         code: |
           go get -u github.com/mitchellh/gox
     - script:
