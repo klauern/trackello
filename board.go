@@ -77,11 +77,9 @@ func (b *Board) MapActions() error {
 		wg.Add(1)
 		go func(l List) {
 			defer wg.Done()
-			b.listMux.Lock()
 			if err := l.MapActions(); err != nil {
 				panic(err)
 			}
-			b.listMux.Unlock()
 		}(list)
 	}
 	wg.Wait()

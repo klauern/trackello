@@ -23,6 +23,7 @@ import (
 	"github.com/VojtechVitek/go-trello"
 	"github.com/klauern/trackello/rest"
 	"github.com/pkg/errors"
+	"sync"
 )
 
 // List is both the Trello List + other stats on the actions in it.
@@ -31,6 +32,7 @@ type List struct {
 	cards map[cardID]Card
 	stats *Statistics
 	list  *trello.List
+	mux   *sync.RWMutex
 }
 
 // PrintNonZeroActions will print out a list and all of the cards to the command-line that have
@@ -65,6 +67,7 @@ func NewList(l *trello.List) *List {
 		cards: make(map[cardID]Card),
 		stats: &Statistics{},
 		list:  l,
+		mux: &sync.RWMutex{},
 	}
 }
 
@@ -90,6 +93,7 @@ func (l *List) MapActions() error {
 				}
 			}
 		}
+		l.mux.Lock()
 		if card, ok = l.cards[cardID(action.Data.Card.Id)]; ok {
 			if err := card.AddCalculation(action); err != nil {
 				// If there's an error, it's probably because it's unmapped.  We may want to output that.
@@ -97,6 +101,7 @@ func (l *List) MapActions() error {
 			}
 			l.cards[cardID(action.Data.Card.Id)] = card
 		}
+		l.mux.Unlock()
 	}
 	return nil
 }
