@@ -44,6 +44,7 @@ build:
     - script:
         name: go test
         code: |
+          curl https://glide.sh/get | sh
           glide install
           go test -v -race $(glide novendor)
 
