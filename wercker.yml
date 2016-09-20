@@ -44,6 +44,7 @@ build:
     - script:
         name: go test
         code: |
+          glide install
           go test -v -race $(glide novendor)
 
 # create a coverage report of the tests using 'go cover'

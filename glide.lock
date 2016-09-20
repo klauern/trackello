@@ -1,5 +1,5 @@
 hash: 0eab688c1894237f17ddbb72dbbffad36106d4f0259211c836f4a92243a72a9a
-updated: 2016-07-24T16:18:59.662433604-05:00
+updated: 2016-09-20T17:21:17.982291071-05:00
 imports:
 - name: github.com/BurntSushi/toml
   version: 99064174e013895bbd9b025c31100bd1d9b590ca
@@ -31,7 +31,7 @@ imports:
 - name: github.com/mitchellh/mapstructure
   version: 21a35fb16463dfb7c8eee579c65d995d95e64d1e
 - name: github.com/pkg/errors
-  version: 01fa4104b9c248c8945d14d9f128454d5b28d595
+  version: 17b591df37844cde689f4d5813e5cea0927d8dd2
 - name: github.com/spf13/cast
   version: 27b586b42e29bec072fe7379259cc719e1289da6
 - name: github.com/spf13/cobra
