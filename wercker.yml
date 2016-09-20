@@ -44,8 +44,6 @@ build:
     - script:
         name: go test
         code: |
-          curl https://glide.sh/get | sh
-          glide install
           go test -v -race $(glide novendor)
 
 # create a coverage report of the tests using 'go cover'
@@ -54,6 +52,8 @@ coverage-report:
     - script:
         name: run coverage test, saving output
         code: |
+          curl https://glide.sh/get | sh
+          glide install
           export PKGS=$(glide novendor)
           export PKGS_DELIM=$(echo "$PKGS" | paste -sd "," -)
           go list -f '{{if or (len .TestGoFiles) (len .XTestGoFiles)}}go test -covermode count -coverprofile {{.Name}}_{{len .Imports}}_{{len .Deps}}.coverprofile -coverpkg $PKGS_DELIM {{.ImportPath}}{{end}}' $PKGS | xargs -I {} bash -c {}
