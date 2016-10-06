@@ -66,7 +66,7 @@ func init() {
 	if err := viper.BindEnv("token", trackello.TRACKELLO_TOKEN); err != nil {
 		panic(err)
 	}
-	if err := viper.BindEnv("board", "TRACKELLO_TRELLO_PREFERREDBOARD"); err != nil {
+	if err := viper.BindEnv("board", trackello.TRACKELLO_PREFERRED_BOARD); err != nil {
 		panic(err)
 	}
 	viper.AutomaticEnv() // read in environment variables that match every time Get() is called
