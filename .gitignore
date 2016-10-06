@@ -42,3 +42,5 @@ _testmain.go
 
 # Vendored dir
 vendor/
+
+.wercker/
