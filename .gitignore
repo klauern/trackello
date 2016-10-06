@@ -44,3 +44,4 @@ _testmain.go
 vendor/
 
 .wercker/
+set_env.sh
