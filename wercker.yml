@@ -24,7 +24,8 @@ build:
   steps:
     # Sets the go workspace and places you package
     # at the right place in the workspace tree
-    - setup-go-workspace
+    - wercker/setup-go-workspace:
+        package-dir: github.com/klauern/trackello
 
     # Gets the dependencies
     - script:
