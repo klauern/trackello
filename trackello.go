@@ -37,6 +37,10 @@ type Trackello struct {
 
 // NewTrackello will create a Trackello type using your preferences application token and appkey.
 func NewTrackello(token, appKey string) (*Trackello, error) {
+
+	if len(token) == 0 || len(appKey) == 0 {
+		return nil, fmt.Errorf("Token and/or AppKey is nil: Token: %s, AppKey: %s", token, appKey)
+	}
 	// New Trello Client
 	tr, err := trello.NewAuthClient(appKey, &token)
 	if err != nil {
