@@ -16,12 +16,15 @@
         {
             "isTestCommand": true,
             "taskName": "test",
-            "args": [ 
-                "source ./set_env.sh && go test -v -race $(glide novendor)" ]
+            "args": [ "source ./set_env.sh && go test -v -race $(glide novendor)" ]
         },
         {
             "taskName": "vendor",
             "args": [ "glide install" ]
+        },
+        {
+            "taskName": "cover",
+            "args": [ "source ./set_env.sh && go test -coverprofile=c.out && go tool cover -html=c.out" ]
         }
     ]
 }
