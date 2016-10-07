@@ -1,0 +1,26 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "0.1.0",
+    "command": "sh",
+    "isShellCommand": true,
+    "args": ["-c"],
+    "showOutput": "always",
+    "suppressTaskName": true,
+    "tasks": [
+        {
+            "isBuildCommand": true,
+            "taskName": "build",
+            "args": [ "go build $(glide novendor)" ]
+        },
+        {
+            "isTestCommand": true,
+            "taskName": "test",
+            "args": [ "go test -v -race $(glide novendor)" ]
+        },
+        {
+            "taskName": "vendor",
+            "args": [ "glide install" ]
+        }
+    ]
+}
