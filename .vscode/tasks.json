@@ -16,7 +16,8 @@
         {
             "isTestCommand": true,
             "taskName": "test",
-            "args": [ "go test -v -race $(glide novendor)" ]
+            "args": [ 
+                "source ./set_env.sh && go test -v -race $(glide novendor)" ]
         },
         {
             "taskName": "vendor",
