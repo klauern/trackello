@@ -45,3 +45,4 @@ vendor/
 
 .wercker/
 set_env.sh
+wercker.env
