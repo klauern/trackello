@@ -20,10 +20,11 @@ import (
 
 	"strings"
 
+	"sync"
+
 	"github.com/VojtechVitek/go-trello"
 	"github.com/klauern/trackello/rest"
 	"github.com/pkg/errors"
-	"sync"
 )
 
 // List is both the Trello List + other stats on the actions in it.
@@ -67,7 +68,7 @@ func NewList(l *trello.List) *List {
 		cards: make(map[cardID]Card),
 		stats: &Statistics{},
 		list:  l,
-		mux: &sync.RWMutex{},
+		mux:   &sync.RWMutex{},
 	}
 }
 

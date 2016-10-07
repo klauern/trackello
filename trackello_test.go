@@ -7,7 +7,7 @@ import (
 
 func TestBoard(t *testing.T) {
 	var boardTests = []struct {
-		boardId  string
+		boardID  string
 		hasError bool
 	}{
 		{"test", true},
@@ -20,10 +20,10 @@ func TestBoard(t *testing.T) {
 		t.Fatal(err)
 	}
 	for _, tt := range boardTests {
-		_, e := client.Board(tt.boardId)
+		_, e := client.Board(tt.boardID)
 		hasErr := (e != nil)
 		if tt.hasError != hasErr {
-			t.Fatalf("Expected %t for boardID '%s', got %t", tt.hasError, tt.boardId, hasErr)
+			t.Fatalf("Expected %t for boardID '%s', got %t", tt.hasError, tt.boardID, hasErr)
 		}
 	}
 }

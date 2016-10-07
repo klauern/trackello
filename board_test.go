@@ -1,7 +1,6 @@
 package trackello
 
 import (
-	"fmt"
 	"os"
 	"testing"
 )

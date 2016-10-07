@@ -23,8 +23,11 @@ import (
 )
 
 const (
-	TRACKELLO_APPKEY          = "TRACKELLO_TRELLO_APPKEY"
-	TRACKELLO_TOKEN           = "TRACKELLO_TRELLO_TOKEN"
+	// TRACKELLO_APPKEY represents the underlying environment variable for Trello's AppKey
+	TRACKELLO_APPKEY = "TRACKELLO_TRELLO_APPKEY"
+	// TRACKELLO_TOKEN represents the underlying environment variables for the Trello Token
+	TRACKELLO_TOKEN = "TRACKELLO_TRELLO_TOKEN"
+	// TRACKELLO_PREFERRED_BOARD represents the underlying environment variable for the preferred Board ID to retrieve
 	TRACKELLO_PREFERRED_BOARD = "TRACKELLO_TRELLO_PREFERREDBOARD"
 )
 
