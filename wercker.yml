@@ -46,14 +46,42 @@ build:
         code: |
           go test -v -race $(glide novendor)
 
+    - internal/shell:
+        cmd: /bin/sh
+
 # create a coverage report of the tests using 'go cover'
 coverage-report:
   steps:
+    - wercker/setup-go-workspace:
+        package-dir: github.com/klauern/trackello
+
+    - script:
+        name: download glide
+        code: |
+          go get -u github.com/Masterminds/glide
+
+    - script:
+        name: install dependencies
+        code: |
+          glide install
+
+    # Build the project
+    - script:
+        name: go build
+        code: |
+          go build $(glide novendor)
+
+    - script:
+        name: run coverage report
+        code: |
+          go test -v -coverprofile=c.out $(glide novendor) && go tool cover -html=c.out
+
+    - internal/shell:
+        cmd: /bin/sh
+
     - script:
         name: run coverage test, saving output
         code: |
-          go get -u github.com/Masterminds/glide
-          glide install
           export PKGS=$(glide novendor)
           export PKGS_DELIM=$(echo "$PKGS" | paste -sd "," -)
           go list -f '{{if or (len .TestGoFiles) (len .XTestGoFiles)}}go test -covermode count -coverprofile {{.Name}}_{{len .Imports}}_{{len .Deps}}.coverprofile -coverpkg $PKGS_DELIM {{.ImportPath}}{{end}}' $PKGS | xargs -I {} bash -c {}
