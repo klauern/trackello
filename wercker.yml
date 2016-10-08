@@ -74,7 +74,7 @@ coverage-report:
     - script:
         name: run coverage report
         code: |
-          go test -v -coverprofile=c.out -covermode=atomic bash <(curl -s https://codecov.io/bash)
+          go test -v -coverprofile=c.out -covermode=atomic <(curl -s https://codecov.io/bash)
 
 #    - script:
 #        name: upload results to codecov.io
