@@ -74,17 +74,14 @@ coverage-report:
     - script:
         name: run coverage report
         code: |
-          go test -v -coverprofile=c.out $(glide novendor) && go tool cover -html=c.out
+          go test -v -coverprofile=c.out && go tool cover -html=c.out
 
-    - internal/shell:
-        cmd: /bin/sh
-
-    - script:
-        name: run coverage test, saving output
-        code: |
-          export PKGS=$(glide novendor)
-          export PKGS_DELIM=$(echo "$PKGS" | paste -sd "," -)
-          go list -f '{{if or (len .TestGoFiles) (len .XTestGoFiles)}}go test -covermode count -coverprofile {{.Name}}_{{len .Imports}}_{{len .Deps}}.coverprofile -coverpkg $PKGS_DELIM {{.ImportPath}}{{end}}' $PKGS | xargs -I {} bash -c {}
+#    - script:
+#        name: run coverage test, saving output
+#        code: |
+#          export PKGS=$(glide novendor)
+#          export PKGS_DELIM=$(echo "$PKGS" | paste -sd "," -)
+#          go list -f '{{if or (len .TestGoFiles) (len .XTestGoFiles)}}go test -covermode count -coverprofile {{.Name}}_{{len .Imports}}_{{len .Deps}}.coverprofile -coverpkg $PKGS_DELIM {{.ImportPath}}{{end}}' $PKGS | xargs -I {} bash -c {}
 
 release:
   steps:
