@@ -74,7 +74,7 @@ coverage-report:
     - script:
         name: run coverage report
         code: |
-          go test -v -coverprofile=c.out && go tool cover -html=c.out
+          go test -v -coverprofile=c.out && go tool cover -html=c.out -o=$WERCKER_REPORT_ARTIFACTS_DIR/coverage.html
 
 #    - script:
 #        name: run coverage test, saving output
