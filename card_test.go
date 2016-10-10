@@ -1,9 +1,10 @@
 package trackello
 
 import (
-	"github.com/VojtechVitek/go-trello"
 	"sort"
 	"testing"
+
+	"github.com/VojtechVitek/go-trello"
 )
 
 func TestSorting(t *testing.T) {

@@ -17,9 +17,7 @@ package trackello
 import (
 	"fmt"
 	"sort"
-
 	"strings"
-
 	"sync"
 
 	"github.com/VojtechVitek/go-trello"

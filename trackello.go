@@ -15,9 +15,8 @@
 package trackello
 
 import (
-	"log"
-
 	"fmt"
+	"log"
 
 	"github.com/VojtechVitek/go-trello"
 )

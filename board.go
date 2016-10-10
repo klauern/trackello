@@ -15,10 +15,10 @@
 package trackello
 
 import (
+	"fmt"
 	"sort"
 	"sync"
 
-	"fmt"
 	"github.com/VojtechVitek/go-trello"
 	"github.com/pkg/errors"
 )
