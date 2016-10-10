@@ -74,12 +74,12 @@ coverage-report:
     - script:
         name: run coverage report
         code: |
-          go test -v -coverprofile=c.out -covermode=atomic <(curl -s https://codecov.io/bash)
+          go test -v -coverprofile=coverage.txt -covermode=atomic
 
-#    - script:
-#        name: upload results to codecov.io
-#        code: |
-#          bash <(curl -s https://codecov.io/bash)
+    - script:
+        name: upload results to codecov.io
+        code: |
+          bash <(curl -s https://codecov.io/bash)
 
 #    - script:
 #        name: run coverage test, saving output
