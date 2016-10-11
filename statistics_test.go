@@ -31,3 +31,12 @@ func TestPrintStatistics(t *testing.T) {
 		t.Fatalf("Printed output doesn't match expected: got %s, wanted %s", printed, expected)
 	}
 }
+
+func TestPrintEmptyStatistics(t *testing.T) {
+	stats := &Statistics{}
+	printed := stats.PrintStatistics()
+	expected := "[0  + 0  ≡ 0  ✓ 0  …]"
+	if printed != expected {
+		t.Fatalf("TestPrintEmptyStatistics Failed: expected %s, got %s", expected, printed)
+	}
+}
