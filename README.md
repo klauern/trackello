@@ -15,3 +15,4 @@ There's a decent set of blog posts that I have been working on to explain the ra
 - [ ] Display Key identifying summary fields
 - [ ] Add color-coding for labels
 - [ ] lots more tests
+- [ ] create helper to configure the Trello API/Token/Board settings on first run
