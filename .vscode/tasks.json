@@ -24,7 +24,7 @@
         },
         {
             "taskName": "cover",
-            "args": [ "source ./set_env.sh && go test -coverprofile=c.out && go tool cover -html=c.out && rm c.out" ]
+            "args": [ "source ./set_env.sh && go test -coverprofile=coverage.txt && go tool cover -html=coverage.txt ; rm coverage.txt" ]
         }
     ]
 }
