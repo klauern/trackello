@@ -3,6 +3,8 @@ codecov:
   bot: klauern
   notify:
     require_ci_to_pass: true
+  ci:
+    - !appveyor
 comment:
   behavior: default
   layout: header, diff
