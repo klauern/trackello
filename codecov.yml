@@ -1,6 +1,5 @@
 codecov:
   branch: master
-  ci: app.wercker.com
   bot: klauern
   notify:
     require_ci_to_pass: true
