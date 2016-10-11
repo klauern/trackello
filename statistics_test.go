@@ -14,3 +14,20 @@ func TestTotalStatisticsCount(t *testing.T) {
 		t.Fatalf("Expected %d, got %d", 40, stats.Total())
 	}
 }
+
+
+func TestPrintStatistics(t *testing.T) {
+	stats := &Statistics{
+		comments:             10,
+		checkListItemUpdates: 10,
+		creates:              10,
+		updates:              10,
+	}
+
+	printed := stats.PrintStatistics()
+
+	expected := "[\x1b[96m10 +\x1b[0m\x1b[91m 10 ≡\x1b[0m\x1b[92m 10 ✓\x1b[0m\x1b[95m 10 …\x1b[0m]"
+	if printed != expected {
+		t.Fatalf("Printed output doesn't match expected: got %s, wanted %s", printed, expected)
+	}
+}
