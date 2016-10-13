@@ -6,6 +6,7 @@ codecov:
   ci:
     - !appveyor
     - wercker
+  token: 0ce09c8c-a6f8-491e-92ba-ed1f6fa8ea5e
 comment:
   behavior: default
   layout: header, diff
