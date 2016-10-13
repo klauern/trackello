@@ -35,3 +35,17 @@ func TestSorting(t *testing.T) {
 		}
 	}
 }
+
+func TestPrintCardStats(t *testing.T) {
+	c := NewCard(trello.Card{})
+	c.stats.checkListItemUpdates = 2
+	c.stats.comments = 5
+	c.stats.creates = 130
+	c.stats.updates = 1500
+	c.card.Name = "Bob"
+	str := c.String()
+	expected := "[1500 + 5  ≡ 2  ✓ 130 …] Bob"
+	if str != expected {
+		t.Fatalf("Expected %s, but got %s", expected, str)
+	}
+}
