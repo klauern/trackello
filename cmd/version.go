@@ -46,7 +46,10 @@ func init() {
 }
 
 func setBuildDate() {
-	fname, _ := osext.Executable()
+	fname, err := osext.Executable()
+	if err != nil {
+		fname = "trackello"
+	}
 	dir, err := filepath.Abs(filepath.Dir(fname))
 	if err != nil {
 		fmt.Println(err)
@@ -62,6 +65,9 @@ func setBuildDate() {
 }
 
 func formatBuildDate() {
-	t, _ := time.Parse("2006-01-02T15:04:05-0700", buildDate)
+	t, err := time.Parse("2006-01-02T15:04:05-0700", buildDate)
+	if err != nil {
+		t = time.Now()
+	}
 	buildDate = t.Format(time.RFC3339)
 }
