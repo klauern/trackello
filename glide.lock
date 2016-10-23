@@ -1,12 +1,12 @@
 hash: 9877e0abe7581d8352d8e618bd2d748c59d91d3cc028c939548da4aa9d66f4b3
-updated: 2016-10-10T19:32:13.401806879-05:00
+updated: 2016-10-23T12:51:52.148439954-05:00
 imports:
 - name: github.com/fatih/color
-  version: 87d4004f2ab62d0d255e0a38f1680aa534549fe3
+  version: dea9d3a26a087187530244679c1cfb3a42937794
 - name: github.com/fsnotify/fsnotify
-  version: c07fd863aee264025aa0ef438bf9d2046c803493
+  version: bd2828f9f176e52d7222e565abb2d338d3f3c103
 - name: github.com/hashicorp/hcl
-  version: ef8133da8cda503718a74741312bf50821e6de79
+  version: 99ce73d4fe576449f7a689d4fc2b2ad09a86bdaa
   subpackages:
   - hcl/ast
   - hcl/parser
@@ -29,7 +29,7 @@ imports:
 - name: github.com/mattn/go-isatty
   version: 66b8e73f3f5cda9f96b69efd03dd3d7fc4a5cdb8
 - name: github.com/mitchellh/mapstructure
-  version: ca63d7c062ee3c9f34db231e352b60012b4fd0c1
+  version: f3009df150dadf309fdee4a54ed65c124afad715
 - name: github.com/pelletier/go-buffruneio
   version: df1e16fde7fc330a0ca68167c23bf7ed6ac31d6d
 - name: github.com/pelletier/go-toml
@@ -46,30 +46,30 @@ imports:
 - name: github.com/spf13/cast
   version: 2580bc98dc0e62908119e4737030cc2fdfc45e4c
 - name: github.com/spf13/cobra
-  version: 9c28e4bbd74e5c3ed7aacbc552b2cab7cfdfe744
+  version: 856b96dcb49d6427babe192998a35190a12c2230
 - name: github.com/spf13/jwalterweatherman
   version: 33c24e77fb80341fe7130ee7c594256ff08ccc46
 - name: github.com/spf13/pflag
-  version: c7e63cf4530bcd3ba943729cee0efeff2ebea63f
+  version: dabebe21bf790f782ea4c7bbd2efc430de182afd
 - name: github.com/spf13/viper
-  version: 382f87b929b84ce13e9c8a375a4b217f224e6c65
+  version: 50515b700e02658272117a72bd641b6b7f1222e5
 - name: github.com/VojtechVitek/go-trello
   version: 8ba36ee210a13c25879fed64dd6b2ed9a43c101e
   repo: https://github.com/klauern/go-trello.git
   vcs: git
 - name: golang.org/x/crypto
-  version: 84e98f45760e87786b7f24603b8166a6fa09811d
+  version: 3c0d69f1777220f1a1d2ec373cb94a282f03eb42
   subpackages:
   - curve25519
   - ed25519
   - ed25519/internal/edwards25519
   - ssh
 - name: golang.org/x/sys
-  version: 8f0908ab3b2457e2e15403d3697c9ef5cb4b57a9
+  version: c200b10b5d5e122be351b67af224adc6128af5bf
   subpackages:
   - unix
 - name: golang.org/x/text
-  version: a7c023693a94aedd6b6df43ae7526bfe9d2b7d22
+  version: 5a42fa2464759cbb7ee0af9de00b54d69f09a29c
   subpackages:
   - transform
   - unicode/norm
