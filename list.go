@@ -72,6 +72,10 @@ func NewList(l *trello.List) *List {
 
 // MapActions will map all of the Actions that occurred on a List.
 func (l *List) MapActions() error {
+	// This is ugly.  I admit it.  It was a messy hack to get parallelism working for mapping
+	// Trello card actions, and now I need to tease this apart, much like you would if you found
+	// that a rat had been chewing through your pantry.  Separate out the stuff the rat's been in
+	// with the good stuff that it didn't chew through. Ugh.
 	args := rest.CreateArgsForBoardActions()
 	actions, err := l.list.Actions(args...)
 	if err != nil {
