@@ -5,6 +5,29 @@
 
 Tracking your work in Trello from the command-line
 
+# Setup
+
+## Pre-configured Go environment
+
+If you are proficient in developing and building Go applications, you can simply install with the following command:
+
+```sh
+go get github.com/klauern/trackello/cmd/trackello
+```
+
+## Make file
+
+An alternative setup is to use the Makefile:
+
+```sh
+make setup
+make
+make trackello
+./bin/trackello # For running
+```
+
+# Motivation
+
 There's a decent set of blog posts that I have been working on to explain the rationale:
 
 * [Trackello](http://blog.nickklauer.info/2016/trackello/)
