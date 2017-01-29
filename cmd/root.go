@@ -25,8 +25,8 @@ import (
 var RootCmd = &cobra.Command{
 	Use:   "trackello",
 	Short: "Track your Trello Boards",
-	Long: `Trackello is a command-line tool to allow you to retrieve and get
-information on your Trello boards.  This tool provides a list
+	Long: `Trackello is a command-line tool to allow you to get
+information from your Trello boards.  This tool provides a list
 of the previous 14 days of information on a board defined in
 your 'config' file (see '--config' flag for info`,
 }
