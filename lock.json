@@ -11,16 +11,16 @@
         },
         {
             "name": "github.com/fatih/color",
-            "branch": "master",
-            "revision": "7824417a424b65227be8ac9b14d545a7f3e6c3f0",
+            "version": "v1.4.1",
+            "revision": "9131ab34cf20d2f6d83fdc67168a5430d1c7dc23",
             "packages": [
                 "."
             ]
         },
         {
             "name": "github.com/fsnotify/fsnotify",
-            "branch": "master",
-            "revision": "7d7316ed6e1ed2de075aab8dfc76de5d158d66e1",
+            "version": "v1.4.2",
+            "revision": "629574ca2a5df945712d3079857300b5e4da0236",
             "packages": [
                 "."
             ]
@@ -59,24 +59,24 @@
         },
         {
             "name": "github.com/magiconair/properties",
-            "branch": "master",
-            "revision": "b3b15ef068fd0b17ddf408a23669f20811d194d2",
+            "version": "v1.7.0",
+            "revision": "c265cfa48dda6474e208715ca93e987829f572f8",
             "packages": [
                 "."
             ]
         },
         {
             "name": "github.com/mattn/go-colorable",
-            "branch": "master",
-            "revision": "acb9493f2794fd0f820de7a27a217dafbb1b65ea",
+            "version": "v0.0.7",
+            "revision": "d228849504861217f796da67fae4f6e347643f15",
             "packages": [
                 "."
             ]
         },
         {
             "name": "github.com/mattn/go-isatty",
-            "branch": "master",
-            "revision": "9622e0cc9d8f9be434ca605520ff9a16808fee47",
+            "version": "v0.0.1",
+            "revision": "3a115632dcd687f9c8cd01679c83a06a0e21c1f3",
             "packages": [
                 "."
             ]
@@ -84,7 +84,7 @@
         {
             "name": "github.com/mitchellh/mapstructure",
             "branch": "master",
-            "revision": "db1efb556f84b25a0a13a04aad883943538ad2e0",
+            "revision": "53818660ed4955e899c0bcafa97299a388bd7c8e",
             "packages": [
                 "."
             ]
@@ -99,8 +99,8 @@
         },
         {
             "name": "github.com/pelletier/go-toml",
-            "branch": "master",
-            "revision": "13d49d4606eb801b8f01ae542b4afc4c6ee3d84a",
+            "version": "v0.4.0",
+            "revision": "d464759235b8fd59f8ab4c44807d7c36e1678add",
             "packages": [
                 "."
             ]
@@ -124,7 +124,7 @@
         },
         {
             "name": "github.com/spf13/cast",
-            "branch": "master",
+            "version": "v1.0.0",
             "revision": "ce135a4ebeee6cfe9a26c93ee0d37825f26113c7",
             "packages": [
                 "."
