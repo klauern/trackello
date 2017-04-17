@@ -1,0 +1,24 @@
+
+[[dependencies]]
+  branch = "master"
+  name = "github.com/VojtechVitek/go-trello"
+
+[[dependencies]]
+  branch = "master"
+  name = "github.com/fatih/color"
+
+[[dependencies]]
+  branch = "master"
+  name = "github.com/kardianos/osext"
+
+[[dependencies]]
+  branch = "master"
+  name = "github.com/pkg/errors"
+
+[[dependencies]]
+  branch = "master"
+  name = "github.com/spf13/cobra"
+
+[[dependencies]]
+  branch = "master"
+  name = "github.com/spf13/viper"
