@@ -52,15 +52,15 @@
         {
             "name": "github.com/kardianos/osext",
             "branch": "master",
-            "revision": "9b883c5eb462dd5cb1b0a7a104fe86bc6b9bd391",
+            "revision": "9d302b58e975387d0b4d9be876622c86cefe64be",
             "packages": [
                 "."
             ]
         },
         {
             "name": "github.com/magiconair/properties",
-            "version": "v1.7.0",
-            "revision": "c265cfa48dda6474e208715ca93e987829f572f8",
+            "version": "v1.7.2",
+            "revision": "f917359f079a3759162704eaa8caeec3d01d9f91",
             "packages": [
                 "."
             ]
@@ -75,8 +75,8 @@
         },
         {
             "name": "github.com/mattn/go-isatty",
-            "version": "v0.0.1",
-            "revision": "3a115632dcd687f9c8cd01679c83a06a0e21c1f3",
+            "version": "v0.0.2",
+            "revision": "fc9e8d8ef48496124e79ae0df75490096eccf6fe",
             "packages": [
                 "."
             ]
@@ -91,7 +91,7 @@
         },
         {
             "name": "github.com/pelletier/go-buffruneio",
-            "branch": "master",
+            "version": "v0.2.0",
             "revision": "c37440a7cf42ac63b919c752ca73a85067e05992",
             "packages": [
                 "."
@@ -99,8 +99,8 @@
         },
         {
             "name": "github.com/pelletier/go-toml",
-            "version": "v0.4.0",
-            "revision": "d464759235b8fd59f8ab4c44807d7c36e1678add",
+            "version": "v0.5.0",
+            "revision": "13d49d4606eb801b8f01ae542b4afc4c6ee3d84a",
             "packages": [
                 "."
             ]
@@ -108,7 +108,7 @@
         {
             "name": "github.com/pkg/errors",
             "branch": "master",
-            "revision": "bfd5150e4e41705ded2129ec33379de1cb90b513",
+            "revision": "ff09b135c25aae272398c51a07235b90a75aa4f0",
             "packages": [
                 "."
             ]
@@ -133,7 +133,7 @@
         {
             "name": "github.com/spf13/cobra",
             "branch": "master",
-            "revision": "fcd0c5a1df88f5d6784cb4feead962c3f3d0b66c",
+            "revision": "7be4beda01ec05d0b93d80b3facd2b6f44080d94",
             "packages": [
                 "."
             ]
@@ -149,7 +149,7 @@
         {
             "name": "github.com/spf13/pflag",
             "branch": "master",
-            "revision": "9ff6c6923cfffbcd502984b8e0c80539a94968b7",
+            "revision": "d16db1e50e33dff1b6cdf37596cef36742128670",
             "packages": [
                 "."
             ]
@@ -157,7 +157,7 @@
         {
             "name": "github.com/spf13/viper",
             "branch": "master",
-            "revision": "7538d73b4eb9511d85a9f1dfef202eeb8ac260f4",
+            "revision": "84f94806c67f59dd7ae87bc5351f7a9c94a4558d",
             "packages": [
                 "."
             ]
@@ -165,7 +165,7 @@
         {
             "name": "golang.org/x/sys",
             "branch": "master",
-            "revision": "e48874b42435b4347fc52bdee0424a52abc974d7",
+            "revision": "9a7256cb28ed514b4e1e5f68959914c4c28a92e0",
             "packages": [
                 "unix"
             ]
@@ -173,7 +173,7 @@
         {
             "name": "golang.org/x/text",
             "branch": "master",
-            "revision": "f28f36722d5ef2f9655ad3de1f248e3e52ad5ebd",
+            "revision": "fc7fa097411d30e6708badff276c4c164425590c",
             "packages": [
                 "internal/gen",
                 "internal/triegen",
