@@ -29,22 +29,23 @@ build:
 
     # Gets the dependencies
     - script:
-        name: setup Glide / install deps
+        name: setup Godep
         code: |
-            go get -u github.com/Masterminds/glide
-            glide install
+            go get -u github.com/golang/dep/cmd/dep
+            dep ensure
+
 
     # Build the project
     - script:
         name: go build
         code: |
-          go build $(glide novendor)
+          go build ./...
 
     # Test the project
     - script:
         name: go test
         code: |
-          go test -v -race $(glide novendor)
+          go test -v -race . ./cmd ./cmd/trackello ./rest
 
 
 # create a coverage report of the tests using 'go cover'
@@ -54,25 +55,25 @@ coverage-report:
         package-dir: github.com/klauern/trackello
 
     - script:
-        name: download glide
+        name: download dep
         code: |
-          go get -u github.com/Masterminds/glide
+            go get -u github.com/golang/dep/cmd/dep
 
     - script:
         name: install dependencies
         code: |
-          glide install
+            dep ensure
 
     - script:
         name: add gocoverage
         code: |
-          go get -u github.com/philwinder/gocoverage
+            go get -u github.com/philwinder/gocoverage
 
     # Build the project
     - script:
         name: go build
         code: |
-          go build $(glide novendor)
+            go build . ./cmd/... ./rest
 
     - script:
         name: run coverage report
@@ -110,19 +111,19 @@ dev:
 
     # Gets the dependencies
     - script:
-        name: setup Glide / install deps
+        name: setup Godep
         code: |
-            go get -u github.com/Masterminds/glide
-            glide install
+            go get -u github.com/golang/dep/cmd/dep
+            dep ensure
 
     # Build the project
     - script:
         name: go build
         code: |
-          go build $(glide novendor)
+            go build ./...
 
     # Test the project
     - script:
         name: go test
         code: |
-          go test -v -race $(glide novendor)
+            go test -v -race . ./cmd ./cmd/trackello ./rest
