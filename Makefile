@@ -3,18 +3,19 @@
 # If you change this, run `make clean`. Read more: https://git.io/vM7zV
 IMPORT_PATH := github.com/klauern/trackello
 
-V := 1 # When V is set, print commands and build progress.
+# V := 1 # When V is set, print commands and build progress.
 
 # Space separated patterns of packages to skip in list, test, format.
 IGNORED_PACKAGES := /vendor/
 
 .PHONY: all
-all: clean format test build trackello
+all: build
 
 .PHONY: build
 build: .GOPATH/.ok
 	$Q go install $(if $V,-v) $(VERSION_FLAGS) $(IMPORT_PATH)
 
+### Code not in the repository root? Another binary? Add to the path like this.
 .PHONY: trackello
 trackello: .GOPATH/.ok
 	$Q go install $(if $V,-v) $(VERSION_FLAGS) $(IMPORT_PATH)/cmd/trackello
@@ -26,7 +27,7 @@ trackello: .GOPATH/.ok
 .PHONY: clean test list cover format
 
 clean:
-	$Q rm -rf bin .GOPATH
+	$Q rm -rf bin .GOPATH vendor
 
 test: .GOPATH/.ok
 	$Q go test $(if $V,-v) -i -race $(allpackages) # install -race libs to speed up next run
@@ -75,8 +76,10 @@ setup: clean .GOPATH/.ok
 	    echo "/.GOPATH" >> .gitignore; \
 	    echo "/bin" >> .gitignore; \
 	fi
-	curl https://glide.sh/get | sh
-	- ./bin/glide install
+	go get -u golang.org/x/tools/cmd/goimports
+	go get -u github.com/FiloSottile/gvt
+	go get -u github.com/wadey/gocovmerge
+	go get -u github.com/golang/dep/cmd/dep
 
 VERSION          := $(shell git describe --tags --always --dirty="-dev")
 DATE             := $(shell date -u '+%Y-%m-%d-%H%M UTC')
