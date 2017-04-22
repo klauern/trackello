@@ -5,11 +5,16 @@ import (
 	"testing"
 )
 
-func SetupTest(t *testing.T, id string) *Board {
+func SetupClient(t *testing.T) *Trackello {
 	c, err := NewTrackello(os.Getenv(TRACKELLO_TOKEN), os.Getenv(TRACKELLO_APPKEY))
 	if err != nil {
 		t.Fatal(err)
 	}
+	return c
+}
+
+func SetupTest(t *testing.T, id string) *Board {
+	c := SetupClient(t)
 	b, err := c.Board(id)
 	if err != nil {
 		t.Fatal(err)
@@ -40,5 +45,13 @@ func TestPrintActions(t *testing.T) {
 	for _, id := range boardIDs {
 		board := SetupTest(t, id)
 		board.PrintActions()
+	}
+}
+
+func TestBadBoard(t *testing.T){
+	client := SetupClient(t)
+	b, err := client.Board("BADID")
+	if err == nil{
+		t.Errorf("Expected Error, Got %v", b)
 	}
 }
