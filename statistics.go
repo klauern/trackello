@@ -43,7 +43,7 @@ func (c *Card) AddCalculation(a trello.Action) error {
 		c.stats.checkListItemUpdates++
 	default:
 		c.stats.updates++
-		return fmt.Errorf("Unmapped action type: %s.  Defaulting to update\n", a.Type)
+		return fmt.Errorf("unmapped action type: %s.  Defaulting to update", a.Type)
 	}
 	return nil
 }

@@ -16,8 +16,10 @@ package cmd
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/klauern/trackello"
+	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -41,10 +43,20 @@ func ListActivity(cmd *cobra.Command, args []string) {
 	switch {
 	case len(args) > 0:
 		fmt.Printf("Printing Board activity for Board ID %s\n", args[0])
-		PrintParallelBoardActivity(args[0])
+		activity, err := PrintParallelBoardActivity(args[0])
+		if err != nil {
+			fmt.Println(errors.Wrapf(err, "Not able to get activity for Board ID %v", args[0]))
+			os.Exit(1)
+		}
+		fmt.Printf("%v", activity)
 	case len(viper.GetString("board")) > 0:
 		fmt.Printf("Printing Board activity for Board ID %s\n", viper.GetString("board"))
-		PrintParallelBoardActivity(viper.GetString("board"))
+		activity, err := PrintParallelBoardActivity(viper.GetString("board"))
+		if err != nil {
+			fmt.Println(errors.Wrapf(err, "Not able to get activity for Board ID %v", args[0]))
+			os.Exit(1)
+		}
+		fmt.Printf("%v", activity)
 	default:
 		panic("No board id specified in either .trackello.yaml or on command-line.")
 	}
@@ -52,7 +64,7 @@ func ListActivity(cmd *cobra.Command, args []string) {
 
 // PrintParallelBoardActivity will take a Board ID and print all of the activity that the board has, by parallelizing
 // requests by List.
-func PrintParallelBoardActivity(id string) {
+func PrintParallelBoardActivity(id string) (string, error) {
 	token := viper.GetString("token")
 	appKey := viper.GetString("appkey")
 
@@ -62,18 +74,17 @@ func PrintParallelBoardActivity(id string) {
 	}
 	b, err := t.Board(id)
 	if err != nil {
-		fmt.Printf("Error retrieving information from Board ID %s: %v", id, err)
-		return
+		return "", err
 	}
 	board := trackello.NewBoard(b)
 	err = board.PopulateLists()
 	if err != nil {
-		panic(err)
+		return "", err
 	}
 	err = board.MapActions()
 	if err != nil {
-		panic(err)
+		return "", err
 	}
 
-	board.PrintActions()
+	return board.PrintActions(), nil
 }

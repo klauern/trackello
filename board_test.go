@@ -26,16 +26,21 @@ func TestPopulateList(t *testing.T) {
 	boardIDs := []string{"550ce6ae4285507e2c51f661", "56f5588daa643d38a1c7f111", "57269197fc77edb4599f2383"}
 	for _, id := range boardIDs {
 		board := SetupTest(t, id)
-		board.PopulateLists()
+		err := board.PopulateLists()
+		if err != nil {
+			t.Error(err)
+		}
 	}
-
 }
 
 func TestMapActions(t *testing.T) {
 	boardIDs := []string{"550ce6ae4285507e2c51f661", "56f5588daa643d38a1c7f111", "57269197fc77edb4599f2383"}
 	for _, id := range boardIDs {
 		board := SetupTest(t, id)
-		board.MapActions()
+		err := board.MapActions()
+		if err != nil {
+			t.Error(err)
+		}
 
 	}
 }

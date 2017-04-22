@@ -15,6 +15,7 @@
 package trackello
 
 import (
+	"bytes"
 	"fmt"
 	"sort"
 	"sync"
@@ -87,7 +88,7 @@ func (b *Board) MapActions() error {
 }
 
 // PrintActions will print the board actions out.
-func (b *Board) PrintActions() {
+func (b *Board) PrintActions() string {
 	lists := make([]List, len(b.lists))
 	for _, list := range b.lists {
 		lists = append(lists, list)
@@ -95,9 +96,11 @@ func (b *Board) PrintActions() {
 	b.listMux.Lock()
 	sort.Sort(ByListName(lists))
 	b.listMux.Unlock()
+	var buf bytes.Buffer
 	for _, list := range lists {
 		b.listMux.RLock()
-		fmt.Printf("%s", list.PrintNonZeroActions())
+		buf.WriteString(fmt.Sprintf("%s", list.PrintNonZeroActions()))
 		b.listMux.RUnlock()
 	}
+	return buf.String()
 }
