@@ -43,11 +43,12 @@ _testmain.go
 
 # Vendored dir
 vendor/
+builds
 
+# Wercker configuration
 .wercker/
 set_env.sh
 set-env.sh
 wercker.env
 /.GOPATH
 /bin
-/builds
