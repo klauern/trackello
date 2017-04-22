@@ -4,7 +4,7 @@ memo = "fe91eba09f037720b14b67b59b8742538c1aace583ced77ed96aa96f73afb55d"
   branch = "master"
   name = "github.com/VojtechVitek/go-trello"
   packages = ["."]
-  revision = "28ebf2756ecc6c69262fba5d5c2f80c0e6dce5e8"
+  revision = "5be0ded82a5883fa9972bfa9d118ce852b5c6259"
   source = "github.com/klauern/go-trello"
 
 [[projects]]
