@@ -27,7 +27,7 @@ trackello: .GOPATH/.ok
 .PHONY: clean test list cover format
 
 clean:
-	$Q rm -rf bin .GOPATH vendor
+	$Q rm -rf bin .GOPATH vendor builds
 
 test: .GOPATH/.ok
 	$Q go test $(if $V,-v) -i -race $(allpackages) # install -race libs to speed up next run
