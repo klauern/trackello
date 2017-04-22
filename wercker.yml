@@ -31,21 +31,21 @@ build:
     - script:
         name: setup dep
         code: |
+            make setup
             go get -u github.com/golang/dep/cmd/dep
             dep ensure
-
 
     # Build the project
     - script:
         name: go build
         code: |
-          go build . ./cmd/... ./rest/...
+            make build
 
     # Test the project
     - script:
         name: go test
         code: |
-          go test -v -race . ./cmd ./cmd/trackello ./rest
+          go test -v -race $(make list)
 
 
 # create a coverage report of the tests using 'go cover'
@@ -115,15 +115,16 @@ dev:
         code: |
             go get -u github.com/golang/dep/cmd/dep
             dep ensure
+            make setup
 
     # Build the project
     - script:
         name: go build
         code: |
-            go build . ./cmd/... ./rest/...
+            make build
 
     # Test the project
     - script:
         name: go test
         code: |
-            go test -v -race . ./cmd ./cmd/trackello ./rest
+            go test -v -race $(make list)
