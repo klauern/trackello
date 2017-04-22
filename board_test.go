@@ -53,10 +53,10 @@ func TestPrintActions(t *testing.T) {
 	}
 }
 
-func TestBadBoard(t *testing.T){
+func TestBadBoard(t *testing.T) {
 	client := SetupClient(t)
 	b, err := client.Board("BADID")
-	if err == nil{
+	if err == nil {
 		t.Errorf("Expected Error, Got %v", b)
 	}
 }

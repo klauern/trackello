@@ -9,7 +9,7 @@ V := 1 # When V is set, print commands and build progress.
 IGNORED_PACKAGES := /vendor/
 
 .PHONY: all
-all: build
+all: clean format test build trackello
 
 .PHONY: build
 build: .GOPATH/.ok
