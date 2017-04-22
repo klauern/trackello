@@ -50,3 +50,4 @@ set-env.sh
 wercker.env
 /.GOPATH
 /bin
+/builds
