@@ -29,7 +29,7 @@ build:
 
     # Gets the dependencies
     - script:
-        name: setup Godep
+        name: setup dep
         code: |
             go get -u github.com/golang/dep/cmd/dep
             dep ensure
@@ -39,7 +39,7 @@ build:
     - script:
         name: go build
         code: |
-          go build ./...
+          go build . ./cmd/... ./rest/...
 
     # Test the project
     - script:
@@ -111,7 +111,7 @@ dev:
 
     # Gets the dependencies
     - script:
-        name: setup Godep
+        name: setup dep
         code: |
             go get -u github.com/golang/dep/cmd/dep
             dep ensure
@@ -120,7 +120,7 @@ dev:
     - script:
         name: go build
         code: |
-            go build ./...
+            go build . ./cmd/... ./rest/...
 
     # Test the project
     - script:
