@@ -8,14 +8,18 @@ V := 1 # When V is set, print commands and build progress.
 # Space separated patterns of packages to skip in list, test, format.
 IGNORED_PACKAGES := /vendor/
 
+# Perform all operations, including setup and build
 .PHONY: all
 all: setup build
 
+# Build the project files
 .PHONY: build
 build: .GOPATH/.ok
 	$Q go install $(if $V,-v) $(VERSION_FLAGS) $(IMPORT_PATH)
 
 ### Code not in the repository root? Another binary? Add to the path like this.
+
+# Create the Trackello binary
 .PHONY: trackello
 trackello: .GOPATH/.ok
 	$Q go install $(if $V,-v) $(VERSION_FLAGS) $(IMPORT_PATH)/cmd/trackello
@@ -26,9 +30,11 @@ trackello: .GOPATH/.ok
 
 .PHONY: clean test list cover format
 
+# Clean all build artifacts
 clean:
 	$Q rm -rf bin .GOPATH vendor builds
 
+# Test (with race conditions) all Trackello packages
 test: .GOPATH/.ok
 	$Q go test $(if $V,-v) -i -race $(allpackages) # install -race libs to speed up next run
 ifndef CI
@@ -41,6 +47,7 @@ else
 	    tee .GOPATH/test/output.txt | sed '$$ d'; exit $$(tail -1 .GOPATH/test/output.txt)
 endif
 
+# List all import paths (useful for one-)
 list: .GOPATH/.ok
 	@echo $(allpackages)
 
@@ -64,6 +71,7 @@ endif
 	@echo ""
 	$Q go tool cover -func .GOPATH/cover/all.merged
 
+# 'gofmt' all files
 format: bin/goimports .GOPATH/.ok
 	$Q find .GOPATH/src/$(IMPORT_PATH)/ -iname \*.go | grep -v \
 	    -e "^$$" $(addprefix -e ,$(IGNORED_PACKAGES)) | xargs ./bin/goimports -w
