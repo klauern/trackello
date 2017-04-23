@@ -3,13 +3,13 @@
 # If you change this, run `make clean`. Read more: https://git.io/vM7zV
 IMPORT_PATH := github.com/klauern/trackello
 
-# V := 1 # When V is set, print commands and build progress.
+V := 1 # When V is set, print commands and build progress.
 
 # Space separated patterns of packages to skip in list, test, format.
 IGNORED_PACKAGES := /vendor/
 
 .PHONY: all
-all: build
+all: setup build
 
 .PHONY: build
 build: .GOPATH/.ok
