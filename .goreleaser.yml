@@ -61,12 +61,13 @@ dist: dist
 sign:
   cmd: keybase
   args:
-  - --output
+  - --outfile
   - $signature
-  - --detach-sig
+  - --detached
+  - -i
   - $artifact
   signature: ${artifact}.sig
-  artifacts: none
+  artifacts: checksum
 env_files:
   github_token: ~/.config/goreleaser/github_token
 github_urls:
