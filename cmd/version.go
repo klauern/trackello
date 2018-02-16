@@ -25,7 +25,7 @@ import (
 )
 
 // TrackelloVersion is the statically defined version of this project.
-var TrackelloVersion = "master"
+var TrackelloVersion = "0.2.3"
 
 var buildDate string
 
