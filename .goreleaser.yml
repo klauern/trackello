@@ -35,7 +35,7 @@ builds:
   - darwin_386
   - windows_amd64
   main: cmd/trackello/main.go
-  ldflags: -s -w -X github.com/klauern/trackello/cmd.TrackelloVersion={{.Version}} -X main.commit={{.Commit}} -X main.date={{.Date}}
+  ldflags: -s -w -X github.com/klauern/trackello/cmd.TrackelloVersion={{.Version}} -X github.com/klauern/trackello/cmd.Commit={{.Commit}} -X github.com/klauern/trackello/cmd.BuildDate={{.Date}}
   binary: trackello
   lang: go
 archive:

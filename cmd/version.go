@@ -27,16 +27,15 @@ import (
 // TrackelloVersion is the statically defined version of this project.
 var TrackelloVersion string
 
-var buildDate string
+var Commit string
+var BuildDate string
 
 var versionCmd = &cobra.Command{
 	Use:   "version",
 	Short: "Print Trackello's Version",
 	Long:  ``,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		setBuildDate()
-		formatBuildDate()
-		fmt.Printf("Trackello v%s BuildDate: %s\n", TrackelloVersion, buildDate)
+		fmt.Printf("Trackello v%s BuildDate: %s Commit: %s\n", TrackelloVersion, BuildDate, Commit)
 		return nil
 	},
 }
@@ -61,13 +60,13 @@ func setBuildDate() {
 		return
 	}
 	t := fi.ModTime()
-	buildDate = t.Format(time.RFC3339)
+	BuildDate = t.Format(time.RFC3339)
 }
 
 func formatBuildDate() {
-	t, err := time.Parse("2006-01-02T15:04:05-0700", buildDate)
+	t, err := time.Parse("2006-01-02T15:04:05-0700", BuildDate)
 	if err != nil {
 		t = time.Now()
 	}
-	buildDate = t.Format(time.RFC3339)
+	BuildDate = t.Format(time.RFC3339)
 }
