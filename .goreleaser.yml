@@ -6,17 +6,24 @@ release:
   name_template: '{{.Tag}}'
 brew:
   commit_author:
-    name: goreleaserbot
-    email: goreleaser@carlosbecker.com
+    name: Nick Klauer
+    email: klauer@gmail.com
   install: bin.install "trackello"
 scoop:
   commit_author:
-    name: goreleaserbot
-    email: goreleaser@carlosbecker.com
+    name: Nick Klauer
+    email: klauer@gmail.com
+  bucket:
+    owner: klauern
+    name: trackello-bucket
+  homepage: https://github.com/klauern/trackello
+  description: Tracking your work in Trello from the command-line
+  license: Apache
 builds:
 - goos:
   - linux
   - darwin
+  - windows
   goarch:
   - amd64
   - "386"
@@ -27,6 +34,7 @@ builds:
   - linux_386
   - darwin_amd64
   - darwin_386
+  - windows_amd64
   main: cmd/trackello/main.go
   ldflags: -s -w -X main.version={{.Version}} -X main.commit={{.Commit}} -X main.date={{.Date}}
   binary: trackello
@@ -36,13 +44,8 @@ archive:
     }}v{{ .Arm }}{{ end }}'
   format: tar.gz
   files:
-  - licence*
-  - LICENCE*
-  - license*
   - LICENSE*
-  - readme*
   - README*
-  - changelog*
   - CHANGELOG*
 fpm:
   name_template: '{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}{{ if .Arm
@@ -57,7 +60,7 @@ checksum:
   name_template: '{{ .ProjectName }}_{{ .Version }}_checksums.txt'
 dist: dist
 sign:
-  cmd: gpg
+  cmd: keybase
   args:
   - --output
   - $signature

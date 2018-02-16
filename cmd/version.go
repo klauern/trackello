@@ -25,7 +25,7 @@ import (
 )
 
 // TrackelloVersion is the statically defined version of this project.
-const TrackelloVersion = "0.1-DEV"
+var TrackelloVersion = "master"
 
 var buildDate string
 
