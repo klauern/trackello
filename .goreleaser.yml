@@ -18,7 +18,6 @@ scoop:
     name: trackello-bucket
   homepage: https://github.com/klauern/trackello
   description: Tracking your work in Trello from the command-line
-  license: Apache
 builds:
 - goos:
   - linux
@@ -36,7 +35,7 @@ builds:
   - darwin_386
   - windows_amd64
   main: cmd/trackello/main.go
-  ldflags: -s -w -X main.version={{.Version}} -X main.commit={{.Commit}} -X main.date={{.Date}}
+  ldflags: -s -w -X github.com/klauern/trackello/cmd.TrackelloVersion={{.Version}} -X main.commit={{.Commit}} -X main.date={{.Date}}
   binary: trackello
   lang: go
 archive:
