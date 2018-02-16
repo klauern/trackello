@@ -35,7 +35,7 @@ var versionCmd = &cobra.Command{
 	Short: "Print Trackello's Version",
 	Long:  ``,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		fmt.Printf("Trackello v%s BuildDate: %s Commit: %s\n", TrackelloVersion, BuildDate, Commit)
+		fmt.Printf("Trackello v%s\nBuildDate: %s\nCommit: %s\n", TrackelloVersion, BuildDate, Commit)
 		return nil
 	},
 }
