@@ -1,4 +1,4 @@
-// Copyright © 2017 Nick Klauer <klauer@gmail.com>
+// Copyright © 2018 Nick Klauer <klauer@gmail.com>
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ import (
 )
 
 // TrackelloVersion is the statically defined version of this project.
-var TrackelloVersion = "0.2.3"
+var TrackelloVersion string
 
 var buildDate string
 
