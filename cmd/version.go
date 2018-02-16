@@ -16,18 +16,17 @@ package cmd
 
 import (
 	"fmt"
-	"os"
-	"path/filepath"
-	"time"
 
-	"github.com/kardianos/osext"
 	"github.com/spf13/cobra"
 )
 
 // TrackelloVersion is the statically defined version of this project.
 var TrackelloVersion string
 
+// Commit is the commit hash for the given version of the binary.
 var Commit string
+
+// BuildDate is the build date for the trackello binary.
 var BuildDate string
 
 var versionCmd = &cobra.Command{
@@ -42,31 +41,4 @@ var versionCmd = &cobra.Command{
 
 func init() {
 	RootCmd.AddCommand(versionCmd)
-}
-
-func setBuildDate() {
-	fname, err := osext.Executable()
-	if err != nil {
-		fname = "trackello"
-	}
-	dir, err := filepath.Abs(filepath.Dir(fname))
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	fi, err := os.Lstat(filepath.Join(dir, filepath.Base(fname)))
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	t := fi.ModTime()
-	BuildDate = t.Format(time.RFC3339)
-}
-
-func formatBuildDate() {
-	t, err := time.Parse("2006-01-02T15:04:05-0700", BuildDate)
-	if err != nil {
-		t = time.Now()
-	}
-	BuildDate = t.Format(time.RFC3339)
 }
