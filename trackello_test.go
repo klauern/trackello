@@ -6,7 +6,7 @@ import (
 )
 
 func setupTrackello(t *testing.T) *Trackello {
-	client, err := NewTrackello(os.Getenv(TRACKELLO_TOKEN), os.Getenv(TRACKELLO_APPKEY))
+	client, err := NewTrackello(os.Getenv(TrackelloToken), os.Getenv(TrackelloAppKey))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -52,8 +52,8 @@ func TestListBoardsWithBadIds(t *testing.T) {
 		//	{"", ""},
 		//{"", os.Getenv(TRACKELLO_APPKEY)},
 		//{os.Getenv(TRACKELLO_TOKEN), ""},
-		{os.Getenv(TRACKELLO_TOKEN), "JUNKID"},
-		{"JUNKID", os.Getenv(TRACKELLO_APPKEY)},
+		{os.Getenv(TrackelloToken), "JUNKID"},
+		{"JUNKID", os.Getenv(TrackelloAppKey)},
 	}
 	for _, tt := range tokenKeyTests {
 		track, _ := NewTrackello(tt.token, tt.appkey)
@@ -75,8 +75,8 @@ func TestNoTokenOrAppKey(t *testing.T) {
 		appkey string
 	}{
 		{"", ""},
-		{"", os.Getenv(TRACKELLO_APPKEY)},
-		{os.Getenv(TRACKELLO_TOKEN), ""},
+		{"", os.Getenv(TrackelloAppKey)},
+		{os.Getenv(TrackelloToken), ""},
 		//{os.Getenv(TRACKELLO_TOKEN), "JUNKID"},
 		//{"JUNKID", os.Getenv(TRACKELLO_APPKEY)},
 	}

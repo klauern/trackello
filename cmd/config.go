@@ -60,13 +60,13 @@ func init() {
 	// Set Environment Variables
 	viper.SetEnvPrefix("trackello")
 	viper.SetEnvKeyReplacer(strings.NewReplacer("-", "_")) // replace environment variables to underscore (_) from hyphen (-)
-	if err := viper.BindEnv("appkey", trackello.TRACKELLO_APPKEY); err != nil {
+	if err := viper.BindEnv("appkey", trackello.TrackelloAppKey); err != nil {
 		panic(err)
 	}
-	if err := viper.BindEnv("token", trackello.TRACKELLO_TOKEN); err != nil {
+	if err := viper.BindEnv("token", trackello.TrackelloToken); err != nil {
 		panic(err)
 	}
-	if err := viper.BindEnv("board", trackello.TRACKELLO_PREFERRED_BOARD); err != nil {
+	if err := viper.BindEnv("board", trackello.TrackelloPreferredBoard); err != nil {
 		panic(err)
 	}
 	viper.AutomaticEnv() // read in environment variables that match every time Get() is called

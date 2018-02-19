@@ -6,7 +6,7 @@ import (
 )
 
 func SetupClient(t *testing.T) *Trackello {
-	c, err := NewTrackello(os.Getenv(TRACKELLO_TOKEN), os.Getenv(TRACKELLO_APPKEY))
+	c, err := NewTrackello(os.Getenv(TrackelloToken), os.Getenv(TrackelloAppKey))
 	if err != nil {
 		t.Fatal(err)
 	}
