@@ -16,7 +16,6 @@ package trackello
 
 import (
 	"bytes"
-	"fmt"
 	"sort"
 	"sync"
 
@@ -99,7 +98,7 @@ func (b *Board) PrintActions() string {
 	var buf bytes.Buffer
 	for _, list := range lists {
 		b.listMux.RLock()
-		buf.WriteString(fmt.Sprintf("%s", list.PrintNonZeroActions()))
+		buf.WriteString(list.PrintNonZeroActions())
 		b.listMux.RUnlock()
 	}
 	return buf.String()
