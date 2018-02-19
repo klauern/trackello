@@ -9,14 +9,14 @@ machine:
 
 dependencies:
   pre:
-    - go get -u github.com/Masterminds/glide
-    - glide i
+    - go get github.com/golang/dep/cmd/dep
+    - dep ensure
   cache_directories:
     - ~/download
 
 test:
   override:
-    - go test -v -race $(go list ./... | grep -v /vendor/)
+    - go test -v -race ./...
 
 deployment:
   staging:
