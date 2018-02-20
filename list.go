@@ -37,26 +37,29 @@ type List struct {
 // PrintNonZeroActions will print out a list and all of the cards to the command-line that have
 // more than 0 actions associated with them.
 func (l *List) PrintNonZeroActions() string {
-	hasActions := false
+	cards := l.NonZeroActions()
 	output := ""
-	if len(l.name) > 0 {
+	if len(cards) > 0 {
 		output += fmt.Sprintf("%s\n", l.name)
-		cardSlice := make([]Card, 0, len(l.cards))
-		for _, card := range l.cards {
-			cardSlice = append(cardSlice, card)
+		for _, card := range cards {
+			output += fmt.Sprintf("  * %s\n", card.String())
 		}
-		sort.Sort(ByStatisticsCountRev(cardSlice))
-		for _, card := range cardSlice {
+	}
+	return output
+}
+
+// NonZeroActions returns a list of Card entries that have activity in them.
+func (l *List) NonZeroActions() []Card {
+	var cards []Card
+	if len(l.name) > 0 {
+		for _, card := range l.cards {
 			if card.stats.Total() > 0 {
-				hasActions = true
-				output += fmt.Sprintf("  * %s\n", card.String())
+				cards = append(cards, card)
 			}
 		}
+		sort.Sort(ByStatisticsCountRev(cards))
 	}
-	if hasActions {
-		return output
-	}
-	return ""
+	return cards
 }
 
 // NewList constructs a new *List based off of a go-trello *List.
