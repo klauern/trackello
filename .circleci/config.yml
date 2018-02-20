@@ -28,12 +28,12 @@ jobs:
           name: gometalinter install
           command: |
             go get -u github.com/alecthomas/gometalinter
-            gometalinter --install --update
+            # gometalinter --install --update
 
       - run:
           name: gometalinter run
           command: |
-            gometalinter --enable-all --checkstyle --deadline=5m --vendor --line-length=120 ./... > ${TEST_RESULTS}/gometalinter.xml | true
+            gometalinter --enable-all --checkstyle --deadline=5m --vendor --line-length=120 ./... > ${TEST_RESULTS}/gometalinter.xml || true
 
             # trap "go-junit-report <${TEST_RESULTS}/gometalinter.xml > ${TEST_RESULTS}/gometalinter.xml" EXIT
       - run:
