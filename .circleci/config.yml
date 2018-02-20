@@ -30,8 +30,6 @@ jobs:
             trap "go-junit-report <${TEST_RESULTS}/go-test.out > ${TEST_RESULTS}/go-test-report.xml" EXIT
             go test -v ./... | tee ${TEST_RESULTS}/go-test.out
 
-      - run: make
-
       - save_cache:
           key: v1-pkg-cache
           paths:
