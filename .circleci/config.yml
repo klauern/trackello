@@ -21,6 +21,8 @@ jobs:
       # Normally, this step would be in a custom primary image;
       # we've added it here for the sake of explanation.
       - run: go get github.com/jstemmer/go-junit-report
+      - run: go get github.com/golang/dep/cmd/dep
+      - run: dep ensure
 
       - run:
           name: Run unit tests
