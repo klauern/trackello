@@ -25,6 +25,14 @@ jobs:
       - run: dep ensure
 
       - run:
+          name: gometalinter
+          command: |
+            go get -u github.com/alecthomas/gometalinter
+            gometalinter --install
+            trap "go-junit-report <${TEST_RESULTS}/gometalinter.out > ${TEST_RESULTS}/gometalinter-report.xml" EXIT
+            gometalinter --enable-all --checkstyle --line-length=120 ./... | tee ${TEST_RESULTS}/gometalinter.out
+
+      - run:
           name: Run unit tests
           command: |
             trap "go-junit-report <${TEST_RESULTS}/go-test.out > ${TEST_RESULTS}/go-test-report.xml" EXIT
