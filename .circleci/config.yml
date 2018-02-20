@@ -28,8 +28,8 @@ jobs:
           name: gometalinter
           command: |
             go get -u github.com/alecthomas/gometalinter
-            gometalinter --install
-            gometalinter --enable-all --checkstyle --vendor --line-length=120 ./... > ${TEST_RESULTS}/gometalinter.xml
+            gometalinter --install --update
+            gometalinter --enable-all --checkstyle --deadline=1m --vendor --line-length=120 ./... > ${TEST_RESULTS}/gometalinter.xml
 
       - run:
           name: Run unit tests
