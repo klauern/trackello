@@ -33,9 +33,9 @@ jobs:
       - run:
           name: gometalinter run
           command: |
-            trap "go-junit-report <${TEST_RESULTS}/gometalinter.xml > ${TEST_RESULTS}/gometalinter.xml" EXIT
-            gometalinter --enable-all --checkstyle --deadline=5m --vendor --line-length=120 ./... > ${TEST_RESULTS}/gometalinter.xml
+            gometalinter --enable-all --checkstyle --deadline=5m --vendor --line-length=120 ./... > ${TEST_RESULTS}/gometalinter.xml | true
 
+            # trap "go-junit-report <${TEST_RESULTS}/gometalinter.xml > ${TEST_RESULTS}/gometalinter.xml" EXIT
       - run:
           name: Run unit tests
           command: |
