@@ -31,7 +31,8 @@ jobs:
 
         - run:
             name: run gometalinter
-            command: gometalinter --enable-all --checkstyle --deadline=5m --vendor --line-length=120 ./... > ${TEST_RESULTS}/gometalinter.xml
+            command: |
+              gometalinter --enable-all --checkstyle --deadline=5m --vendor --line-length=120 ./... > ${TEST_RESULTS}/gometalinter.xml
 
       - run:
           name: Run unit tests
