@@ -23,13 +23,15 @@ jobs:
       - run: go get github.com/jstemmer/go-junit-report
       - run: go get github.com/golang/dep/cmd/dep
       - run: dep ensure
-
       - run:
-          name: gometalinter
+          name: gometalinter install
           command: |
             go get -u github.com/alecthomas/gometalinter
             gometalinter --install --update
-            gometalinter --enable-all --checkstyle --deadline=1m --vendor --line-length=120 ./... > ${TEST_RESULTS}/gometalinter.xml
+
+        - run:
+            name: run gometalinter
+            command: gometalinter --enable-all --checkstyle --deadline=5m --vendor --line-length=120 ./... > ${TEST_RESULTS}/gometalinter.xml
 
       - run:
           name: Run unit tests
