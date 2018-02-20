@@ -98,16 +98,15 @@ func (l *List) MapActions() error {
 					continue
 				}
 			}
-		}
-		l.mux.Lock()
-		if card, ok = l.cards[cardID(action.Data.Card.Id)]; ok {
+		} else {
 			if err := card.AddCalculation(action); err != nil {
 				// If there's an error, it's probably because it's unmapped.  We may want to output that.
 				fmt.Printf("%s\n", err)
 			}
+			l.mux.Lock()
 			l.cards[cardID(action.Data.Card.Id)] = card
+			l.mux.Unlock()
 		}
-		l.mux.Unlock()
 	}
 	return nil
 }
