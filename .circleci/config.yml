@@ -29,8 +29,7 @@ jobs:
           command: |
             go get -u github.com/alecthomas/gometalinter
             gometalinter --install
-            trap "go-junit-report <${TEST_RESULTS}/gometalinter.out > ${TEST_RESULTS}/gometalinter-report.xml" EXIT
-            gometalinter --enable-all --checkstyle --line-length=120 ./... | tee ${TEST_RESULTS}/gometalinter.out
+            gometalinter --enable-all --checkstyle --vendor --line-length=120 ./... > ${TEST_RESULTS}/gometalinter.xml
 
       - run:
           name: Run unit tests
