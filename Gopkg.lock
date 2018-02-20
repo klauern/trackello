@@ -44,12 +44,6 @@
   version = "v1.0"
 
 [[projects]]
-  branch = "master"
-  name = "github.com/kardianos/osext"
-  packages = ["."]
-  revision = "ae77be60afb1dcacde03767a8c37337fad28ac14"
-
-[[projects]]
   name = "github.com/magiconair/properties"
   packages = ["."]
   revision = "c3beff4c2358b44d0493c7dda585e7db7ff28ae6"
@@ -152,6 +146,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "fff18d35d499d23ceefebdeeee1d9bb6073bf0fdf6c09c4fe038633dac6580fd"
+  inputs-digest = "4a0b5f6fa2f9d870715018a6105a158c029a807247273b6f2d1030c2805467ec"
   solver-name = "gps-cdcl"
   solver-version = 1
