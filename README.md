@@ -2,6 +2,7 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/klauern/trackello)](https://goreportcard.com/report/github.com/klauern/trackello)
 [![codecov](https://codecov.io/gh/klauern/trackello/branch/master/graph/badge.svg)](https://codecov.io/gh/klauern/trackello)
 [![wercker status](https://app.wercker.com/status/0d8fcf888b7cf0be0f4e0678b179c341/m "wercker status")](https://app.wercker.com/project/bykey/0d8fcf888b7cf0be0f4e0678b179c341)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fklauern%2Ftrackello.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fklauern%2Ftrackello?ref=badge_shield)
 
 Tracking your work in Trello from the command-line
 
@@ -39,3 +40,6 @@ There's a decent set of blog posts that I have been working on to explain the ra
 - [ ] Add color-coding for labels
 - [ ] lots more tests
 - [ ] create helper to configure the Trello API/Token/Board settings on first run
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fklauern%2Ftrackello.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fklauern%2Ftrackello?ref=badge_large)
